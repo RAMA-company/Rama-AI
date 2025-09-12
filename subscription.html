@@ -33,14 +33,14 @@
             --bg-color: #000000;
             --card-color: #000000;
             --text-color: #FFFFFF;
-            --muted-text-color: #FFFFFF;
+            --muted-text-color: #888888;
         }
 
         [data-theme="light"] {
             --bg-color: #FFFFFF;
             --card-color: #FFFFFF;
             --text-color: #000000;
-            --muted-text-color: #000000;
+            --muted-text-color: #555555;
         }
 
         body {
@@ -55,6 +55,10 @@
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
             border: 1px solid var(--text-color);
+        }
+        
+        .card.active {
+            border: 2px solid var(--text-color);
         }
 
         .muted {
@@ -94,6 +98,22 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--text-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body class="font-roboto flex flex-col min-h-screen">
@@ -108,19 +128,14 @@
     </div>
 
     <!-- Header -->
-    <header class="p-4 sm:p-6 flex justify-between items-center sticky top-0 bg-[var(--bg-color)] z-50 shadow-sm rounded-b-lg border-b border-gray-200/50 dark:border-white/50">
+    <header class="p-4 sm:p-6 flex justify-between items-center sticky top-0 bg-[var(--bg-color)] z-50 shadow-sm rounded-b-lg border-b border-black/50 dark:border-white/50">
         <div class="flex items-center space-x-2">
             <h1 class="text-2xl font-bold">Rama AI</h1>
         </div>
         <div class="flex items-center space-x-4">
             <button id="theme-toggle" class="p-2 rounded-full transition-colors">
                 <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 0 0 9.8 12.5A6 6 0 0 1 12 18a6 6 0 0 1-9.8-3.5A10 10 0 0 0 12 2zm0 16a8 8 0 0 1-5.7-2.3 8 8 0 0 1 11.4 0A8 8 0 0 1 12 18z" fill="currentColor"></path>
-                </svg>
-            </button>
-            <button id="hamburger-menu" class="lg:hidden p-2 rounded-full transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" fill="currentColor"></path>
+                    <path d="M12 2a10 10 0 0 0-9.8 12.5A6 6 0 0 1 12 18a6 6 0 0 1 9.8-3.5A10 10 0 0 0 12 2zm0 16a8 8 0 0 1-5.7-2.3 8 8 0 0 1 11.4 0A8 8 0 0 1 12 18z" fill="currentColor"></path>
                 </svg>
             </button>
         </div>
@@ -128,7 +143,18 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 flex-grow">
-        <section id="subscription-plans" class="mb-12">
+        <section id="user-info" class="text-center mb-8">
+            <h2 class="text-xl font-bold">User ID:</h2>
+            <p id="userIdDisplay" class="text-sm muted break-all"></p>
+        </section>
+
+        <!-- Loading state -->
+        <div id="loading-state" class="flex flex-col items-center justify-center p-8 text-center" style="display: none;">
+            <div class="spinner border-black dark:border-white border-t-black dark:border-t-white"></div>
+            <p class="mt-4">Loading...</p>
+        </div>
+
+        <section id="subscription-plans" class="mb-12" style="display: none;">
             <div class="text-center mb-10">
                 <h2 class="text-4xl sm:text-5xl font-bold mb-4">Choose Your Plan</h2>
                 <p class="muted max-w-2xl mx-auto">Get more from Rama AI with our premium plans. Unlock advanced features and limitless potential.</p>
@@ -136,11 +162,11 @@
 
             <div class="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
                 <!-- Free Plan Card -->
-                <div class="card p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col justify-between transition-transform transform hover:-translate-y-2 hover:shadow-xl">
+                <div id="free-plan-card" class="card p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col justify-between transition-transform transform hover:-translate-y-2 hover:shadow-xl">
                     <div>
                         <h3 class="text-2xl font-bold mb-2 flex items-center">
                             Free
-                            <span class="ml-2 bg-black text-white dark:bg-white dark:text-black text-xs font-semibold px-2.5 py-0.5 rounded-full">Current Plan</span>
+                            <span id="free-status" class="ml-2 bg-black text-white dark:bg-white dark:text-black text-xs font-semibold px-2.5 py-0.5 rounded-full"></span>
                         </h3>
                         <p class="text-3xl font-bold mt-4 mb-2">$0<span class="text-base font-normal muted">/month</span></p>
                         <p class="muted mb-6">Explore the basics of Rama AI.</p>
@@ -152,16 +178,14 @@
                             <li class="flex items-center line-through">Access to premium features</li>
                         </ul>
                     </div>
-                    <button class="mt-8 w-full bg-black/10 text-black dark:bg-white/10 dark:text-white font-bold py-3 rounded-lg hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-300">
-                        Current Plan
-                    </button>
                 </div>
 
                 <!-- Premium Plan Card -->
-                <div class="card p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col justify-between relative transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
+                <div id="premium-plan-card" class="card p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col justify-between relative transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
                     <div>
-                        <h3 class="text-2xl font-bold mb-2">
+                        <h3 class="text-2xl font-bold mb-2 flex items-center">
                             Premium
+                            <span id="premium-status" class="ml-2 bg-black text-white dark:bg-white dark:text-black text-xs font-semibold px-2.5 py-0.5 rounded-full"></span>
                         </h3>
                         <div class="flex items-center justify-center my-4 space-x-2">
                             <button id="monthly-toggle" class="px-4 py-2 rounded-lg font-bold bg-black text-white dark:bg-white dark:text-black transition-colors duration-300">1 Month</button>
@@ -178,13 +202,24 @@
                             <li class="flex items-center">Early access to new features</li>
                         </ul>
                     </div>
-                    <a id="premium-link" href="https://nowpayments.io/payment/?iid=4491664720" target="_blank" class="mt-8 w-full text-center bg-black text-white dark:bg-white dark:text-black font-bold py-3 rounded-lg shadow-md transition-colors duration-300">
+                    <a id="premium-link" href="#" target="_blank" class="mt-8 w-full text-center bg-black text-white dark:bg-white dark:text-black font-bold py-3 rounded-lg shadow-md transition-colors duration-300">
                         Pay Now
                     </a>
                 </div>
             </div>
         </section>
 
+        <!-- Subscription Management Section -->
+        <section id="subscription-management" class="hidden card p-6 sm:p-8 rounded-2xl shadow-lg max-w-xl mx-auto mt-12">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold mb-2">Manage Subscription</h3>
+                <p class="muted">You are a premium subscriber. Manage your plan below.</p>
+            </div>
+            <button id="cancel-subscription-btn" class="w-full text-center bg-black/10 text-black dark:bg-white/10 dark:text-white font-bold py-3 rounded-lg hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-300">
+                Cancel Subscription
+            </button>
+        </section>
+        
         <!-- Contact Section -->
         <section id="contact-info" class="card p-6 sm:p-8 rounded-2xl shadow-lg max-w-xl mx-auto mt-12">
             <div class="text-center mb-6">
@@ -208,7 +243,22 @@
     </footer>
 
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        const supabaseUrl = 'https://lbvesyhvxegzjxmmsign.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhbmFzZSIsInJlZiI6ImxidmVzeWh2eGVnemp4bW1zaWduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzUwMTksImV4cCI6MjA3MzI1MTAxOX0.Bw4STD_2LtI9rLfk_nHVLYa2g_G1MK3kHeGJwOoQEq4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        const freeStatusEl = document.getElementById('free-status');
+        const premiumStatusEl = document.getElementById('premium-status');
+        const freePlanCard = document.getElementById('free-plan-card');
+        const premiumPlanCard = document.getElementById('premium-plan-card');
+        const subscriptionManagement = document.getElementById('subscription-management');
+        const userIdDisplay = document.getElementById('userIdDisplay');
+        const cancelBtn = document.getElementById('cancel-subscription-btn');
+        const loadingState = document.getElementById('loading-state');
+        const subscriptionPlansSection = document.getElementById('subscription-plans');
+
         const planData = {
             'monthly': { price: '$9.99', duration: 'month', link: 'https://nowpayments.io/payment/?iid=4491664720' },
             '3month': { price: '$29.00', duration: '3 months', link: 'https://nowpayments.io/payment/?iid=4616169927' },
@@ -216,6 +266,126 @@
         };
 
         let selectedPlan = 'monthly';
+        let currentUserId;
+
+        // Custom modal functions
+        function showModal(title, message) {
+            const modal = document.getElementById('messageModal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            modal.style.display = 'flex';
+        }
+
+        function hideModal() {
+            const modal = document.getElementById('messageModal');
+            modal.style.display = 'none';
+        }
+
+        // Initialize Supabase and handle auth
+        async function initSupabase() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    currentUserId = user.id;
+                    userIdDisplay.textContent = currentUserId;
+                    subscribeToPlanChanges();
+                } else {
+                    // For unauthenticated users, we'll assign a random ID.
+                    // NOTE: This user ID is not persistent across sessions without sign-in.
+                    currentUserId = crypto.randomUUID();
+                    userIdDisplay.textContent = currentUserId;
+                    checkSubscriptionStatus('free');
+                }
+            } catch (error) {
+                console.error("Supabase Initialization Error:", error);
+                showModal('Connection Error', 'Failed to connect to the database. Please try again.');
+            } finally {
+                loadingState.style.display = 'none';
+                subscriptionPlansSection.style.display = 'block';
+            }
+        }
+        
+        function subscribeToPlanChanges() {
+            const channel = supabase.channel('user_status_changes').on(
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'user_status', filter: `user_id=eq.${currentUserId}` },
+                (payload) => {
+                    checkSubscriptionStatus(payload.new.plan);
+                }
+            ).subscribe((status, err) => {
+                if (status === 'SUBSCRIBED') {
+                    getInitialPlan();
+                }
+                if (err) {
+                    console.error('Subscription error:', err);
+                }
+            });
+        }
+
+        async function getInitialPlan() {
+            const { data, error } = await supabase
+                .from('user_status')
+                .select('plan')
+                .eq('user_id', currentUserId)
+                .single();
+            
+            if (error && error.code === 'PGRST116') {
+                // No user found, create a new record for free plan
+                const { error: insertError } = await supabase
+                    .from('user_status')
+                    .insert({ user_id: currentUserId, plan: 'free' });
+
+                if (insertError) {
+                    console.error('Error inserting new user:', insertError);
+                    showModal('Error', 'Failed to create user record.');
+                }
+                checkSubscriptionStatus('free');
+            } else if (error) {
+                console.error('Error fetching initial plan:', error);
+                showModal('Error', 'Failed to fetch subscription data.');
+                checkSubscriptionStatus('free');
+            } else {
+                checkSubscriptionStatus(data.plan);
+            }
+        }
+
+        // Function to check and update UI based on subscription status
+        function checkSubscriptionStatus(plan) {
+            const isPremium = plan === 'premium';
+            
+            // Update plan status badges
+            freeStatusEl.textContent = isPremium ? '' : 'Current Plan';
+            premiumStatusEl.textContent = isPremium ? 'Current Plan' : '';
+            
+            // Toggle visibility of subscription management section and card borders
+            if (isPremium) {
+                subscriptionManagement.classList.remove('hidden');
+                freePlanCard.classList.remove('active');
+                premiumPlanCard.classList.add('active');
+            } else {
+                subscriptionManagement.classList.add('hidden');
+                freePlanCard.classList.add('active');
+                premiumPlanCard.classList.remove('active');
+            }
+        }
+
+        // Cancel subscription
+        async function cancelSubscription() {
+            try {
+                const { error } = await supabase
+                    .from('user_status')
+                    .update({ plan: 'free' })
+                    .eq('user_id', currentUserId);
+
+                if (error) {
+                    throw error;
+                }
+                showModal('Subscription Canceled', 'Your subscription has been canceled successfully.');
+            } catch (error) {
+                console.error('Error canceling subscription:', error);
+                showModal('Error', 'Failed to cancel subscription. Please try again.');
+            }
+        }
 
         function updatePlanSelection(plan) {
             selectedPlan = plan;
@@ -275,11 +445,16 @@
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
             updatePlanSelection(selectedPlan);
+            loadingState.style.display = 'flex';
+            subscriptionPlansSection.style.display = 'none';
+            initSupabase();
             document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
             document.getElementById('monthly-toggle').addEventListener('click', () => updatePlanSelection('monthly'));
             document.getElementById('3month-toggle').addEventListener('click', () => updatePlanSelection('3month'));
             document.getElementById('12month-toggle').addEventListener('click', () => updatePlanSelection('12month'));
+            cancelBtn.addEventListener('click', cancelSubscription);
         });
     </script>
 </body>
 </html>
+
