@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompthub Tools Logo Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text-color: #202124;
+            --border-color: #dadce0;
+            --accent-color: #1a73e8;
+            --shadow-color: rgba(60, 64, 67, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+            border-radius: 1rem;
+            border-color: var(--border-color);
+            border-width: 1px;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-secondary);
+            color: var(--text-color);
+            border-color: var(--border-color);
+            transition: all 0.2s ease-in-out;
+            border-width: 1px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 1px var(--accent-color);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+        
+        .btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-press {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+
+        .output-box {
+            background-color: #f1f3f4;
+            border: 1px solid var(--border-color);
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.5s ease-in-out;
+            color: var(--text-color);
+        }
+
+        /* Responsive grid adjustments */
+        @media (min-width: 768px) {
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex flex-col items-center justify-center">
+
+    <div class="container mx-auto max-w-4xl">
+        <div class="card p-6 sm:p-8 rounded-xl border border-gray-300">
+            <h1 class="text-3xl sm:text-4xl font-normal text-center mb-2 text-gray-800">Logo Design Generator</h1>
+            <p class="text-center text-sm mb-8 text-gray-500">Fill in the variables to create a high-quality, copyable AI prompt.</p>
+
+            <!-- Main Form -->
+            <form id="logoForm" class="space-y-6">
+                <!-- Business Info -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Business Information</h2>
+                    <div>
+                        <label for="businessName" class="block text-sm font-medium mb-1">Business Name</label>
+                        <input type="text" id="businessName" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., NovaTech Solutions" required>
+                    </div>
+                    <div>
+                        <label for="tagline" class="block text-sm font-medium mb-1">Tagline</label>
+                        <input type="text" id="tagline" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., The Future of Everything" required>
+                    </div>
+                    <div>
+                        <label for="industry" class="block text-sm font-medium mb-1">Industry / Niche</label>
+                        <select id="industry" class="w-full px-4 py-2 rounded-lg border" required>
+                            <option value="">Select an industry</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Food & Beverage">Food & Beverage</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Education">Education</option>
+                            <option value="Luxury">Luxury</option>
+                            <option value="Health & Fitness">Health & Fitness</option>
+                            <option value="Art">Art</option>
+                            <option value="E-commerce">E-commerce</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Consulting">Consulting</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="targetAudience" class="block text-sm font-medium mb-1">Target Audience</label>
+                        <select id="targetAudience" class="w-full px-4 py-2 rounded-lg border" required>
+                            <option value="">Select an audience</option>
+                            <option value="Gen Z">Gen Z</option>
+                            <option value="Millennials">Millennials</option>
+                            <option value="Corporate Professionals">Corporate Professionals</option>
+                            <option value="Luxury Consumers">Luxury Consumers</option>
+                            <option value="Startups">Startups</option>
+                            <option value="Families">Families</option>
+                            <option value="Global Market">Global Market</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Conceptual Inspiration -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Conceptual Inspiration</h2>
+                    <div>
+                        <label for="brandValues" class="block text-sm font-medium mb-1">Brand Values (optional)</label>
+                        <input type="text" id="brandValues" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Trust, Innovation, Community">
+                    </div>
+                    <div>
+                        <label for="coreMessage" class="block text-sm font-medium mb-1">Core Message (optional)</label>
+                        <input type="text" id="coreMessage" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., A symbol of sustainable living">
+                    </div>
+                    <div>
+                        <label for="keySymbols" class="block text-sm font-medium mb-1">Key Symbols/Icons (optional)</label>
+                        <input type="text" id="keySymbols" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., A soaring eagle, a cogwheel">
+                    </div>
+                    <div>
+                        <label for="visualMetaphors" class="block text-sm font-medium mb-1">Visual Metaphors (optional)</label>
+                        <input type="text" id="visualMetaphors" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Growth, Connection, Speed">
+                    </div>
+                </div>
+
+                <!-- Logo Style Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Logo Style Variables</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="style" class="block text-sm font-medium mb-1">Style</label>
+                            <select id="style" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a style</option>
+                                <option value="Minimalist">Minimalist</option>
+                                <option value="Flat">Flat</option>
+                                <option value="Geometric">Geometric</option>
+                                <option value="Abstract">Abstract</option>
+                                <option value="3D Modern">3D Modern</option>
+                                <option value="Hand-drawn">Hand-drawn</option>
+                                <option value="Vintage">Vintage</option>
+                                <option value="Futuristic">Futuristic</option>
+                                <option value="Cyberpunk">Cyberpunk</option>
+                                <option value="Luxury Gold Foil">Luxury Gold Foil</option>
+                                <option value="Gradient Neon">Gradient Neon</option>
+                                <option value="Monogram">Monogram</option>
+                                <option value="Mascot">Mascot</option>
+                                <option value="Emblem">Emblem</option>
+                                <option value="Badge">Badge</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="format" class="block text-sm font-medium mb-1">Format</label>
+                            <select id="format" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a format</option>
+                                <option value="Icon-based">Icon-based</option>
+                                <option value="Wordmark">Wordmark</option>
+                                <option value="Lettermark">Lettermark</option>
+                                <option value="Combination Mark">Combination Mark</option>
+                                <option value="Symbol + Typography">Symbol + Typography</option>
+                                <option value="Dynamic">Dynamic</option>
+                                <option value="Responsive Logo System">Responsive Logo System</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="balance" class="block text-sm font-medium mb-1">Balance</label>
+                            <select id="balance" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a balance</option>
+                                <option value="Symmetrical">Symmetrical</option>
+                                <option value="Asymmetrical">Asymmetrical</option>
+                                <option value="Dynamic Flow">Dynamic Flow</option>
+                                <option value="Grid-based Geometry">Grid-based Geometry</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color & Visual Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Color & Visual Variables</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="palette" class="block text-sm font-medium mb-1">Palette</label>
+                            <select id="palette" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a palette</option>
+                                <option value="Black & White">Black & White</option>
+                                <option value="Monochrome">Monochrome</option>
+                                <option value="Corporate Blues">Corporate Blues</option>
+                                <option value="Luxury Gold & Black">Luxury Gold & Black</option>
+                                <option value="Neon Purple + Electric Blue">Neon Purple + Electric Blue</option>
+                                <option value="Earth Tones">Earth Tones</option>
+                                <option value="Pastels">Pastels</option>
+                                <option value="Vibrant Gradient">Vibrant Gradient</option>
+                                <option value="High Contrast Minimalist">High Contrast Minimalist</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="effects" class="block text-sm font-medium mb-1">Effects</label>
+                            <select id="effects" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select an effect</option>
+                                <option value="Matte Flat">Matte Flat</option>
+                                <option value="Metallic Finish">Metallic Finish</option>
+                                <option value="Glassmorphism">Glassmorphism</option>
+                                <option value="Gradient Glow">Gradient Glow</option>
+                                <option value="Holographic">Holographic</option>
+                                <option value="Embossed">Embossed</option>
+                                <option value="Shadow Depth">Shadow Depth</option>
+                                <option value="Chrome Finish">Chrome Finish</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="contrast" class="block text-sm font-medium mb-1">Contrast Level</label>
+                            <select id="contrast" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a contrast level</option>
+                                <option value="High-contrast">High-contrast</option>
+                                <option value="Soft muted tones">Soft muted tones</option>
+                                <option value="Subtle gradient blend">Subtle gradient blend</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typography Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Typography Variables</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="fontType" class="block text-sm font-medium mb-1">Font Type</label>
+                            <select id="fontType" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a font type</option>
+                                <option value="Sans-serif">Sans-serif</option>
+                                <option value="Serif">Serif</option>
+                                <option value="Script">Script</option>
+                                <option value="Modern Futuristic">Modern Futuristic</option>
+                                <option value="Handwritten">Handwritten</option>
+                                <option value="Calligraphic">Calligraphic</option>
+                                <option value="Stencil">Stencil</option>
+                                <option value="Rounded Tech">Rounded Tech</option>
+                                <option value="Elegant Serif">Elegant Serif</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="fontWeight" class="block text-sm font-medium mb-1">Font Weight</label>
+                            <select id="fontWeight" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a font weight</option>
+                                <option value="Thin">Thin</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Bold">Bold</option>
+                                <option value="Ultra Bold">Ultra Bold</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="alignment" class="block text-sm font-medium mb-1">Alignment</label>
+                            <select id="alignment" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select an alignment</option>
+                                <option value="Horizontal Layout">Horizontal Layout</option>
+                                <option value="Vertical Stacked">Vertical Stacked</option>
+                                <option value="Dynamic Diagonal">Dynamic Diagonal</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="customization" class="block text-sm font-medium mb-1">Customization (optional)</label>
+                            <input type="text" id="customization" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Custom Lettering, etc.">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage & Context -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Usage & Context</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="primaryUsage" class="block text-sm font-medium mb-1">Primary Usage (optional)</label>
+                            <input type="text" id="primaryUsage" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Website header, App icon, T-shirts">
+                        </div>
+                        <div>
+                            <label for="dimensions" class="block text-sm font-medium mb-1">Dimensions / Ratio (optional)</label>
+                            <input type="text" id="dimensions" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Square (1:1), Landscape (2:1)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood / Brand Personality Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Mood / Brand Personality Variables</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="emotionalTone" class="block text-sm font-medium mb-1">Emotional Tone</label>
+                            <input type="text" id="emotionalTone" class="w-full px-4 py-2 rounded-lg border">
+                        </div>
+                        <div>
+                            <label for="perception" class="block text-sm font-medium mb-1">Audience Perception</label>
+                            <input type="text" id="perception" class="w-full px-4 py-2 rounded-lg border">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Requirements -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Additional Requirements</h2>
+                    <textarea id="additional" class="w-full px-4 py-2 rounded-lg border min-h-[100px]" placeholder="e.g., Must be scalable for website, print, etc."></textarea>
+                </div>
+
+                <!-- Button -->
+                <div class="flex flex-col sm:flex-row justify-center">
+                    <button type="button" id="copyBtn" class="btn w-full py-3 rounded-lg font-semibold text-white transition-all duration-300">Copy to Clipboard</button>
+                </div>
+            </form>
+
+            <!-- Output Area -->
+            <div id="outputContainer" class="mt-8">
+                <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Generated AI Prompt</h2>
+                <textarea id="output" class="output-box w-full px-4 py-4 rounded-lg text-sm" rows="15" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('logoForm');
+            const copyBtn = document.getElementById('copyBtn');
+            const outputArea = document.getElementById('output');
+            const body = document.body;
+
+            // Tone.js setup
+            let soundEffectSynth = null;
+
+            const playSoundEffect = (note, duration) => {
+                if (!soundEffectSynth) {
+                    soundEffectSynth = new Tone.Synth({
+                        oscillator: { type: "sine" },
+                        envelope: {
+                            attack: 0.005,
+                            decay: 0.1,
+                            sustain: 0,
+                            release: 0.1
+                        }
+                    }).toDestination();
+                }
+                soundEffectSynth.triggerAttackRelease(note, duration);
+            };
+
+            // Event Listeners
+            copyBtn.addEventListener('click', () => {
+                if (checkFormValidity()) {
+                    generatePrompt();
+                    outputArea.select();
+                    document.execCommand('copy');
+                    playSoundEffect('D6', '8n');
+                } else {
+                    form.reportValidity();
+                }
+            });
+
+            // Button animation logic
+            const addPressEffect = (event) => {
+                event.target.classList.add('btn-press');
+                playSoundEffect('G4', '16n');
+            };
+            const removePressEffect = (event) => {
+                event.target.classList.remove('btn-press');
+            };
+
+            const allButtons = document.querySelectorAll('button, select, input');
+            allButtons.forEach(el => {
+                el.addEventListener('mousedown', addPressEffect);
+                el.addEventListener('mouseup', removePressEffect);
+                el.addEventListener('mouseleave', removePressEffect);
+            });
+
+            const escapeHtml = (text) => {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+            };
+
+            const generatePrompt = () => {
+                const data = {
+                    businessName: document.getElementById('businessName').value.trim(),
+                    tagline: document.getElementById('tagline').value.trim(),
+                    industry: document.getElementById('industry').value.trim(),
+                    targetAudience: document.getElementById('targetAudience').value.trim(),
+                    brandValues: document.getElementById('brandValues').value.trim(),
+                    coreMessage: document.getElementById('coreMessage').value.trim(),
+                    keySymbols: document.getElementById('keySymbols').value.trim(),
+                    visualMetaphors: document.getElementById('visualMetaphors').value.trim(),
+                    style: document.getElementById('style').value.trim(),
+                    format: document.getElementById('format').value.trim(),
+                    balance: document.getElementById('balance').value.trim(),
+                    palette: document.getElementById('palette').value.trim(),
+                    effects: document.getElementById('effects').value.trim(),
+                    contrast: document.getElementById('contrast').value.trim(),
+                    fontType: document.getElementById('fontType').value.trim(),
+                    fontWeight: document.getElementById('fontWeight').value.trim(),
+                    alignment: document.getElementById('alignment').value.trim(),
+                    customization: document.getElementById('customization').value.trim(),
+                    primaryUsage: document.getElementById('primaryUsage').value.trim(),
+                    dimensions: document.getElementById('dimensions').value.trim(),
+                    emotionalTone: document.getElementById('emotionalTone').value.trim(),
+                    perception: document.getElementById('perception').value.trim(),
+                    additional: document.getElementById('additional').value.trim(),
+                };
+
+                const promptParts = [];
+
+                let mainLine = 'Design a high-resolution, professional, vector-style logo';
+                if (data.businessName) {
+                    mainLine += ` for the business named "${escapeHtml(data.businessName)}"`;
+                }
+                if (data.tagline) {
+                    mainLine += ` with the tagline "${escapeHtml(data.tagline)}"`;
+                }
+                mainLine += '.';
+                promptParts.push(mainLine);
+
+                if (data.industry || data.targetAudience) {
+                    let contextLine = '';
+                    if (data.industry) {
+                        contextLine += `Industry: ${escapeHtml(data.industry)}`;
+                    }
+                    if (data.industry && data.targetAudience) {
+                        contextLine += '; ';
+                    }
+                    if (data.targetAudience) {
+                        contextLine += `Target Audience: ${escapeHtml(data.targetAudience)}`;
+                    }
+                    promptParts.push(contextLine + '.');
+                }
+
+                const brandParts = [];
+                if (data.brandValues) brandParts.push(`Brand Values: ${escapeHtml(data.brandValues)}`);
+                if (data.coreMessage) brandParts.push(`Core Message: ${escapeHtml(data.coreMessage)}`);
+                if (data.keySymbols) brandParts.push(`Key Symbols: ${escapeHtml(data.keySymbols)}`);
+                if (data.visualMetaphors) brandParts.push(`Visual Metaphors: ${escapeHtml(data.visualMetaphors)}`);
+                if (brandParts.length > 0) promptParts.push(brandParts.join(', ') + '.');
+
+                const styleParts = [];
+                if (data.style) styleParts.push(`Style: ${escapeHtml(data.style)}`);
+                if (data.format) styleParts.push(`Format: ${escapeHtml(data.format)}`);
+                if (data.balance) styleParts.push(`Balance: ${escapeHtml(data.balance)}`);
+                if (styleParts.length > 0) promptParts.push(styleParts.join(', ') + '.');
+
+                const visualParts = [];
+                if (data.palette) visualParts.push(`Palette: ${escapeHtml(data.palette)}`);
+                if (data.effects) visualParts.push(`Effects: ${escapeHtml(data.effects)}`);
+                if (data.contrast) visualParts.push(`Contrast: ${escapeHtml(data.contrast)}`);
+                if (visualParts.length > 0) promptParts.push(visualParts.join(', ') + '.');
+
+                const fontParts = [];
+                if (data.fontType) fontParts.push(`Font Type: ${escapeHtml(data.fontType)}`);
+                if (data.fontWeight) fontParts.push(`Font Weight: ${escapeHtml(data.fontWeight)}`);
+                if (data.alignment) fontParts.push(`Alignment: ${escapeHtml(data.alignment)}`);
+                if (data.customization) fontParts.push(`Customization: ${escapeHtml(data.customization)}`);
+                if (fontParts.length > 0) promptParts.push(fontParts.join(', ') + '.');
+
+                const usageParts = [];
+                if (data.primaryUsage) usageParts.push(`Primary Usage: ${escapeHtml(data.primaryUsage)}`);
+                if (data.dimensions) usageParts.push(`Dimensions/Ratio: ${escapeHtml(data.dimensions)}`);
+                if (usageParts.length > 0) promptParts.push(usageParts.join(', ') + '.');
+
+                const moodParts = [];
+                if (data.emotionalTone) moodParts.push(`Emotional Tone: ${escapeHtml(data.emotionalTone)}`);
+                if (data.perception) moodParts.push(`Audience Perception: ${escapeHtml(data.perception)}`);
+                if (moodParts.length > 0) promptParts.push(moodParts.join(', ') + '.');
+
+                if (data.additional) {
+                    promptParts.push(`Additional requirements: ${escapeHtml(data.additional)}`);
+                }
+
+                promptParts.push('Final output must be a high-resolution, sharp vector-style logo with clean lines, polished design, and scalable for branding across digital and print.');
+
+                outputArea.value = promptParts.join('\n\n');
+            };
+
+            const checkFormValidity = () => {
+                return form.checkValidity();
+            };
+
+            form.addEventListener('input', () => {
+                if (checkFormValidity()) {
+                    generatePrompt();
+                } else {
+                    outputArea.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

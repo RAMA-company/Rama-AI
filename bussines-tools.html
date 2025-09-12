@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompthub Tools Business Plan Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text-color: #202124;
+            --border-color: #dadce0;
+            --accent-color: #1a73e8;
+            --shadow-color: rgba(60, 64, 67, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+            border-radius: 1rem;
+            border-color: var(--border-color);
+            border-width: 1px;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-secondary);
+            color: var(--text-color);
+            border-color: var(--border-color);
+            transition: all 0.2s ease-in-out;
+            border-width: 1px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 1px var(--accent-color);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+        
+        .btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-press {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+
+        .output-box {
+            background-color: #f1f3f4;
+            border: 1px solid var(--border-color);
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.5s ease-in-out;
+            color: var(--text-color);
+        }
+
+        /* Responsive grid adjustments */
+        @media (min-width: 768px) {
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 24px;
+            border-radius: 12px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex flex-col items-center justify-center">
+
+    <div class="container mx-auto max-w-4xl">
+        <div class="card p-6 sm:p-8 rounded-xl border border-gray-300">
+            <h1 class="text-3xl sm:text-4xl font-normal text-center mb-2 text-gray-800">Business Plan Prompt Generator</h1>
+            <p class="text-center text-sm mb-8 text-gray-500">Fill in the variables to create a comprehensive, investor-ready AI prompt for a business plan.</p>
+
+            <!-- Main Form -->
+            <form id="businessPlanForm" class="space-y-6">
+                <!-- Business Identity -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Business Identity</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="businessName" class="block text-sm font-medium mb-1">Business Name</label>
+                            <input type="text" id="businessName" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Stellar Innovations" required>
+                        </div>
+                        <div>
+                            <label for="tagline" class="block text-sm font-medium mb-1">Tagline / Mission Statement</label>
+                            <input type="text" id="tagline" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Revolutionizing sustainable energy solutions">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="industry" class="block text-sm font-medium mb-1">Industry / Niche</label>
+                            <select id="industry" class="w-full px-4 py-2 rounded-lg border" required>
+                                <option value="">Select an industry</option>
+                                <option value="Tech">Tech</option>
+                                <option value="SaaS">SaaS</option>
+                                <option value="E-commerce">E-commerce</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Food & Beverage">Food & Beverage</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Health & Wellness">Health & Wellness</option>
+                                <option value="Gaming">Gaming</option>
+                                <option value="Education">Education</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Creative Agency">Creative Agency</option>
+                                <option value="Marketplace">Marketplace</option>
+                                <option value="Consulting">Consulting</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="stage" class="block text-sm font-medium mb-1">Business Stage</label>
+                            <select id="stage" class="w-full px-4 py-2 rounded-lg border" required>
+                                <option value="">Select a stage</option>
+                                <option value="Idea">Idea</option>
+                                <option value="Pre-launch">Pre-launch</option>
+                                <option value="Early Startup">Early Startup</option>
+                                <option value="Growth Stage">Growth Stage</option>
+                                <option value="Established Company">Established Company</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="targetAudience" class="block text-sm font-medium mb-1">Target Audience</label>
+                            <select id="targetAudience" class="w-full px-4 py-2 rounded-lg border" required>
+                                <option value="">Select an audience</option>
+                                <option value="B2B">B2B</option>
+                                <option value="B2C">B2C</option>
+                                <option value="Luxury Clients">Luxury Clients</option>
+                                <option value="Mass Market">Mass Market</option>
+                                <option value="Gen Z">Gen Z</option>
+                                <option value="High-income Professionals">High-income Professionals</option>
+                                <option value="Global Enterprises">Global Enterprises</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Executive Summary & Market Analysis -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Executive Summary & Market Analysis</h2>
+                    <div>
+                        <label for="elevatorPitch" class="block text-sm font-medium mb-1">Elevator Pitch (2-3 sentences)</label>
+                        <textarea id="elevatorPitch" class="w-full px-4 py-2 rounded-lg border" rows="2" placeholder="e.g., A new mobile app that connects local farmers directly with consumers..."></textarea>
+                    </div>
+                    <div>
+                        <label for="problem" class="block text-sm font-medium mb-1">Problem Being Solved</label>
+                        <input type="text" id="problem" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Lack of transparency in the food supply chain.">
+                    </div>
+                    <div>
+                        <label for="uvp" class="block text-sm font-medium mb-1">Unique Value Proposition (UVP)</label>
+                        <input type="text" id="uvp" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Our blockchain-based platform ensures farm-to-table traceability.">
+                    </div>
+                    <div>
+                        <label for="competitors" class="block text-sm font-medium mb-1">Top 3 Competitors</label>
+                        <input type="text" id="competitors" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Instacart, Farmer's Market Online, FreshDirect">
+                    </div>
+                    <div>
+                        <label for="marketOpportunity" class="block text-sm font-medium mb-1">Market Gap & Opportunity</label>
+                        <textarea id="marketOpportunity" class="w-full px-4 py-2 rounded-lg border" rows="2" placeholder="e.g., The current market lacks a solution that prioritizes traceability and direct-to-consumer relationships."></textarea>
+                    </div>
+                </div>
+
+                <!-- Business Model & Product Details -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Business Model & Product Details</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="coreOffering" class="block text-sm font-medium mb-1">Core Offering</label>
+                            <select id="coreOffering" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select an offering</option>
+                                <option value="Product">Product</option>
+                                <option value="Service">Service</option>
+                                <option value="Platform">Platform</option>
+                                <option value="Subscription">Subscription</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="revenueModel" class="block text-sm font-medium mb-1">Revenue Model</label>
+                            <select id="revenueModel" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a model</option>
+                                <option value="Direct Sales">Direct Sales</option>
+                                <option value="Subscription">Subscription</option>
+                                <option value="Freemium">Freemium</option>
+                                <option value="Commission">Commission</option>
+                                <option value="Licensing">Licensing</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="pricingStrategy" class="block text-sm font-medium mb-1">Pricing Strategy</label>
+                        <select id="pricingStrategy" class="w-full px-4 py-2 rounded-lg border">
+                            <option value="">Select a strategy</option>
+                            <option value="Premium">Premium</option>
+                            <option value="Competitive">Competitive</option>
+                            <option value="Penetration">Penetration</option>
+                            <option value="Freemium">Freemium</option>
+                            <option value="Tiered Plans">Tiered Plans</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="productDescription" class="block text-sm font-medium mb-1">Description of Product/Service</label>
+                        <textarea id="productDescription" class="w-full px-4 py-2 rounded-lg border" rows="3" placeholder="e.g., The 'FarmLink' app is a mobile marketplace where consumers can browse and buy..."></textarea>
+                    </div>
+                    <div>
+                        <label for="keyFeatures" class="block text-sm font-medium mb-1">Key Features & Benefits</label>
+                        <textarea id="keyFeatures" class="w-full px-4 py-2 rounded-lg border" rows="3" placeholder="e.g., - Real-time traceability of produce. - Direct chat with farmers. - Weekly subscription boxes."></textarea>
+                    </div>
+                    <div>
+                        <label for="productRoadmap" class="block text-sm font-medium mb-1">Product Roadmap</label>
+                        <textarea id="productRoadmap" class="w-full px-4 py-2 rounded-lg border" rows="2" placeholder="e.g., Q1: App launch. Q2: Add delivery service. Q3: Expand to new regions."></textarea>
+                    </div>
+                </div>
+
+                <!-- Marketing & Sales Strategy -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Marketing & Sales</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="brandPositioning" class="block text-sm font-medium mb-1">Brand Positioning</label>
+                            <select id="brandPositioning" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a positioning</option>
+                                <option value="Luxury">Luxury</option>
+                                <option value="Affordable">Affordable</option>
+                                <option value="Innovative">Innovative</option>
+                                <option value="Disruptive">Disruptive</option>
+                                <option value="Community-driven">Community-driven</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="marketingChannels" class="block text-sm font-medium mb-1">Marketing Channels</label>
+                            <input type="text" id="marketingChannels" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Social Media, Influencers, Paid Ads">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="customerAcquisition" class="block text-sm font-medium mb-1">Customer Acquisition Strategy</label>
+                        <input type="text" id="customerAcquisition" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Free trials, Referrals">
+                    </div>
+                </div>
+
+                <!-- Financial Plan & Risk Analysis -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Financials & Risks</h2>
+                    <div>
+                        <label for="investmentNeeded" class="block text-sm font-medium mb-1">Startup Costs / Investment Needed</label>
+                        <input type="text" id="investmentNeeded" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., $150,000 to cover development, marketing, and salaries for 6 months">
+                    </div>
+                    <div>
+                        <label for="revenueProjections" class="block text-sm font-medium mb-1">Projected Revenue (1, 3, 5 years)</label>
+                        <input type="text" id="revenueProjections" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Year 1: $200k, Year 3: $1M, Year 5: $5M">
+                    </div>
+                    <div>
+                        <label for="fundingRequirements" class="block text-sm font-medium mb-1">Funding Requirements & Use of Funds</label>
+                        <textarea id="fundingRequirements" class="w-full px-4 py-2 rounded-lg border" rows="2" placeholder="e.g., Seeking $150k in seed funding to be used for app development and initial marketing campaigns."></textarea>
+                    </div>
+                    <div>
+                        <label for="risks" class="block text-sm font-medium mb-1">Key Risks & Mitigation Strategies</label>
+                        <textarea id="risks" class="w-full px-4 py-2 rounded-lg border" rows="3" placeholder="e.g., Risk: Competitors enter the market. Mitigation: Focus on a strong brand identity and community building."></textarea>
+                    </div>
+                </div>
+
+                <!-- Legal & Disclaimers -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Legal & Disclaimers</h2>
+                    <div>
+                        <label for="legalDisclaimer" class="block text-sm font-medium mb-1">Legal Disclaimer Text</label>
+                        <textarea id="legalDisclaimer" class="w-full px-4 py-2 rounded-lg border" rows="3" placeholder="e.g., This document is for informational purposes only and does not constitute an offer to sell or the solicitation of an offer to buy any security."></textarea>
+                    </div>
+                </div>
+
+                <!-- Privacy Policy and Button -->
+                <div class="flex items-start mt-6 space-x-2">
+                    <input type="checkbox" id="privacyPolicyAccepted" class="mt-1 rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                    <label for="privacyPolicyAccepted" class="text-sm">
+                        I have read and agree to the <a href="#" id="viewPrivacyPolicyBtn" class="text-blue-600 hover:underline">Privacy Policy</a>.
+                    </label>
+                </div>
+
+                <!-- Button -->
+                <div class="flex flex-col sm:flex-row justify-center">
+                    <button type="button" id="copyBtn" class="btn w-full py-3 rounded-lg font-semibold text-white transition-all duration-300">Copy to Clipboard</button>
+                </div>
+            </form>
+
+            <!-- Custom Message Box for Errors -->
+            <div id="messageBox" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50">
+                Please accept the Privacy Policy to continue.
+            </div>
+
+            <!-- Output Area -->
+            <div id="outputContainer" class="mt-8">
+                <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Generated AI Prompt</h2>
+                <textarea id="output" class="output-box w-full px-4 py-4 rounded-lg text-sm" rows="15" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="privacyPolicyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Privacy Policy</h2>
+            <p class="text-sm text-gray-700">Effective Date: October 26, 2023</p>
+            <br>
+            <p>This Privacy Policy describes how we handle the information you provide when using our Business Plan Prompt Generator tool. Our primary goal is to empower you to create effective AI prompts while ensuring your data is handled with care and transparency. By using this tool, you consent to the data practices described in this policy.</p>
+            <br>
+            <h3 class="text-lg font-semibold">1. Information We Collect</h3>
+            <p>We only collect the information you voluntarily enter into the form fields of the Business Plan Prompt Generator. This includes business name, industry, financial figures, and any other details you provide. This information is processed locally in your browser to generate the AI prompt.</p>
+            <br>
+            <h3 class="text-lg font-semibold">2. Use of Your Information</h3>
+            <p>The information you provide is used exclusively to:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>Generate a structured text prompt tailored to your business details.</li>
+                <li>Display the generated prompt in the output text area for you to review and copy.</li>
+            </ul>
+            <p>We do not store, transmit, or share your data with any external servers or third parties. The entire process of prompt generation occurs within your web browser. Once you close the browser tab, all entered data is erased.</p>
+            <br>
+            <h3 class="text-lg font-semibold">3. Disclaimer of Financial Responsibility</h3>
+            <p class="font-bold text-red-600">WE DO NOT HAVE ANY RESPONSIBILITY FOR YOUR MONEY, INCOME, OR LOSSES. This tool is for informational and creative purposes only. The prompts and the resulting business plans generated by an AI model are not financial advice, legal advice, or a guarantee of future performance. All business and investment decisions are your sole responsibility.</p>
+            <br>
+            <h3 class="text-lg font-semibold">4. Data Security</h3>
+            <p>Since your information is not stored or transmitted by us, the risk of data breach is minimized. Your security is maintained by the local environment of your web browser.</p>
+            <br>
+            <h3 class="text-lg font-semibold">5. Changes to This Policy</h3>
+            <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the "Effective Date" at the top will be updated. We encourage you to review this policy periodically.</p>
+            <br>
+            <h3 class="text-lg font-semibold">6. Contact Us</h3>
+            <p>If you have any questions about this Privacy Policy, please contact us.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('businessPlanForm');
+            const copyBtn = document.getElementById('copyBtn');
+            const outputArea = document.getElementById('output');
+            const privacyCheckbox = document.getElementById('privacyPolicyAccepted');
+            const viewPolicyBtn = document.getElementById('viewPrivacyPolicyBtn');
+            const modal = document.getElementById('privacyPolicyModal');
+            const closeModalBtn = document.querySelector('.close-btn');
+            const messageBox = document.getElementById('messageBox');
+            
+            // Tone.js setup
+            let soundEffectSynth = null;
+
+            const playSoundEffect = (note, duration) => {
+                if (!soundEffectSynth) {
+                    soundEffectSynth = new Tone.Synth({
+                        oscillator: { type: "sine" },
+                        envelope: {
+                            attack: 0.005,
+                            decay: 0.1,
+                            sustain: 0,
+                            release: 0.1
+                        }
+                    }).toDestination();
+                }
+                soundEffectSynth.triggerAttackRelease(note, duration);
+            };
+
+            // Event Listeners
+            copyBtn.addEventListener('click', () => {
+                if (checkFormValidity() && privacyCheckbox.checked) {
+                    generatePrompt();
+                    outputArea.select();
+                    try {
+                        document.execCommand('copy');
+                        playSoundEffect('D6', '8n');
+                    } catch (err) {
+                        console.error('Could not copy text: ', err);
+                    }
+                } else if (!privacyCheckbox.checked) {
+                    // Show custom message box if privacy policy is not accepted
+                    messageBox.classList.remove('hidden');
+                    setTimeout(() => {
+                        messageBox.classList.add('hidden');
+                    }, 3000); // Hide after 3 seconds
+                    playSoundEffect('C3', '8n');
+                } else {
+                    form.reportValidity();
+                }
+            });
+
+            // Button animation logic
+            const addPressEffect = (event) => {
+                event.target.classList.add('btn-press');
+                playSoundEffect('G4', '16n');
+            };
+            const removePressEffect = (event) => {
+                event.target.classList.remove('btn-press');
+            };
+
+            const allButtons = document.querySelectorAll('button, select, input, textarea');
+            allButtons.forEach(el => {
+                el.addEventListener('mousedown', addPressEffect);
+                el.addEventListener('mouseup', removePressEffect);
+                el.addEventListener('mouseleave', removePressEffect);
+            });
+
+            // Modal functionality
+            viewPolicyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.style.display = 'flex';
+                playSoundEffect('E5', '8n');
+            });
+            
+            closeModalBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            /**
+             * Escapes HTML characters in a string to prevent Cross-Site Scripting (XSS) attacks.
+             * This function replaces characters like <, >, and & with their HTML entity equivalents.
+             * @param {string} text The string to be escaped.
+             * @returns {string} The HTML-safe string.
+             */
+            const escapeHtml = (text) => {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+            };
+
+            const generatePrompt = () => {
+                const data = {
+                    businessName: document.getElementById('businessName').value.trim(),
+                    tagline: document.getElementById('tagline').value.trim(),
+                    industry: document.getElementById('industry').value.trim(),
+                    stage: document.getElementById('stage').value.trim(),
+                    targetAudience: document.getElementById('targetAudience').value.trim(),
+                    elevatorPitch: document.getElementById('elevatorPitch').value.trim(),
+                    problem: document.getElementById('problem').value.trim(),
+                    uvp: document.getElementById('uvp').value.trim(),
+                    competitors: document.getElementById('competitors').value.trim(),
+                    marketOpportunity: document.getElementById('marketOpportunity').value.trim(),
+                    coreOffering: document.getElementById('coreOffering').value.trim(),
+                    revenueModel: document.getElementById('revenueModel').value.trim(),
+                    pricingStrategy: document.getElementById('pricingStrategy').value.trim(),
+                    productDescription: document.getElementById('productDescription').value.trim(),
+                    keyFeatures: document.getElementById('keyFeatures').value.trim(),
+                    productRoadmap: document.getElementById('productRoadmap').value.trim(),
+                    brandPositioning: document.getElementById('brandPositioning').value.trim(),
+                    marketingChannels: document.getElementById('marketingChannels').value.trim(),
+                    customerAcquisition: document.getElementById('customerAcquisition').value.trim(),
+                    investmentNeeded: document.getElementById('investmentNeeded').value.trim(),
+                    revenueProjections: document.getElementById('revenueProjections').value.trim(),
+                    fundingRequirements: document.getElementById('fundingRequirements').value.trim(),
+                    risks: document.getElementById('risks').value.trim(),
+                    legalDisclaimer: document.getElementById('legalDisclaimer').value.trim()
+                };
+
+                const promptParts = [];
+
+                promptParts.push(`Create a **comprehensive, investor-ready business plan** for ${escapeHtml(data.businessName)}.`);
+                
+                // Business Identity
+                const identityParts = [];
+                if (data.businessName) identityParts.push(`– Business Name: ${escapeHtml(data.businessName)}`);
+                if (data.tagline) identityParts.push(`– Tagline / Mission Statement: ${escapeHtml(data.tagline)}`);
+                if (data.industry) identityParts.push(`– Industry / Niche: [${escapeHtml(data.industry)}]`);
+                if (data.stage) identityParts.push(`– Stage: [${escapeHtml(data.stage)}]`);
+                if (data.targetAudience) identityParts.push(`– Target Audience / Customer Segment: [${escapeHtml(data.targetAudience)}]`);
+                if (identityParts.length > 0) promptParts.push(`📌 Business Identity:\n${identityParts.join('\n')}`);
+                
+                // Executive Summary
+                const summaryParts = [];
+                if (data.elevatorPitch) summaryParts.push(`– Elevator Pitch (2–3 sentences): ${escapeHtml(data.elevatorPitch)}`);
+                if (data.problem) summaryParts.push(`– Problem being solved: ${escapeHtml(data.problem)}`);
+                if (data.uvp) summaryParts.push(`– Unique Value Proposition (UVP): ${escapeHtml(data.uvp)}`);
+                // Financial Highlights and Investment Ask are not collected as separate fields in the form, so we'll leave them out of the generated prompt for now.
+                if (summaryParts.length > 0) promptParts.push(`📌 Executive Summary Variables:\n${summaryParts.join('\n')}`);
+
+                // Market Analysis
+                const marketParts = [];
+                // Industry Overview is a bit complex to prompt for without more user input.
+                if (data.targetAudience) marketParts.push(`– Target Market: [Demographics, Psychographics, Location, Online/Offline Behavior] for ${escapeHtml(data.targetAudience)}.`);
+                if (data.competitors) marketParts.push(`– Competitor Analysis: Top 3 Competitors, Strengths, Weaknesses, for: ${escapeHtml(data.competitors)}.`);
+                if (data.marketOpportunity) marketParts.push(`– Market Gap & Opportunity: ${escapeHtml(data.marketOpportunity)}`);
+                if (marketParts.length > 0) promptParts.push(`📌 Market Analysis Variables:\n${marketParts.join('\n')}`);
+                
+                // Business Model
+                const businessModelParts = [];
+                if (data.coreOffering) businessModelParts.push(`– Core Offering: [${escapeHtml(data.coreOffering)}]`);
+                if (data.revenueModel) businessModelParts.push(`– Revenue Model: [${escapeHtml(data.revenueModel)}]`);
+                if (data.pricingStrategy) businessModelParts.push(`– Pricing Strategy: [${escapeHtml(data.pricingStrategy)}]`);
+                // Key Partnerships are not collected.
+                if (businessModelParts.length > 0) promptParts.push(`📌 Business Model Variables:\n${businessModelParts.join('\n')}`);
+                
+                // Product / Service Details
+                const productDetailsParts = [];
+                if (data.productDescription) productDetailsParts.push(`– Description of offering: ${escapeHtml(data.productDescription)}`);
+                if (data.keyFeatures) productDetailsParts.push(`– Key Features & Benefits: ${escapeHtml(data.keyFeatures)}`);
+                // Differentiation is implicitly covered by UVP.
+                if (data.productRoadmap) productDetailsParts.push(`– Roadmap of improvements or new releases: ${escapeHtml(data.productRoadmap)}`);
+                if (productDetailsParts.length > 0) promptParts.push(`📌 Product / Service Details:\n${productDetailsParts.join('\n')}`);
+                
+                // Marketing & Sales
+                const marketingParts = [];
+                if (data.brandPositioning) marketingParts.push(`– Brand Positioning: [${escapeHtml(data.brandPositioning)}]`);
+                if (data.marketingChannels) marketingParts.push(`– Marketing Channels: [${escapeHtml(data.marketingChannels)}]`);
+                if (data.customerAcquisition) marketingParts.push(`– Customer Acquisition Strategy: [${escapeHtml(data.customerAcquisition)}]`);
+                // Sales Funnel and Retention Strategy are not collected.
+                if (marketingParts.length > 0) promptParts.push(`📌 Marketing & Sales Strategy Variables:\n${marketingParts.join('\n')}`);
+
+                // Operations & Management
+                // We'll leave this section out as there are no inputs to populate it.
+                
+                // Financial Plan
+                const financialParts = [];
+                if (data.investmentNeeded) financialParts.push(`– Startup Costs / Initial Investment Needed: ${escapeHtml(data.investmentNeeded)}`);
+                // Revenue Streams, Projected Expenses, and Break-even Analysis are not collected.
+                if (data.revenueProjections) financialParts.push(`– Projected Revenue (1 year, 3 years, 5 years): ${escapeHtml(data.revenueProjections)}`);
+                if (data.fundingRequirements) financialParts.push(`– Funding Requirements & Use of Funds: ${escapeHtml(data.fundingRequirements)}`);
+                // Exit Strategy is not collected.
+                if (financialParts.length > 0) promptParts.push(`📌 Financial Plan Variables:\n${financialParts.join('\n')}`);
+
+                // Risk Analysis
+                const riskParts = [];
+                if (data.risks) riskParts.push(`– Mitigation Strategies for: ${escapeHtml(data.risks)}`);
+                if (riskParts.length > 0) promptParts.push(`📌 Risk Analysis Variables:\n${riskParts.join('\n')}`);
+
+                // Legal & Disclaimers
+                const legalParts = [];
+                if (data.legalDisclaimer) legalParts.push(`– Legal Disclaimer: ${escapeHtml(data.legalDisclaimer)}`);
+                if (legalParts.length > 0) promptParts.push(`📌 Legal & Disclaimers:\n${legalParts.join('\n')}`);
+                
+                // Growth & Expansion Roadmap
+                // We'll leave this section out as there are no inputs to populate it.
+
+                // Appendices
+                // We'll leave this section out as there are no inputs to populate it.
+
+                // Final Output
+                const finalOutput = `📌 Final Output:\nA **highly structured, professional business plan** ready for:\n– Investor Presentations\n– Bank Loan Applications\n– Internal Strategy Meetings\n– Pitch Deck Summaries\n– Long-term Execution Roadmaps\n\nEnsure the plan is written in **clear, persuasive, and professional language**, backed with **credible data, charts, and financial projections**.`;
+                promptParts.push(finalOutput);
+
+                outputArea.value = promptParts.join('\n\n');
+            };
+
+            const checkFormValidity = () => {
+                return form.checkValidity();
+            };
+
+            form.addEventListener('input', () => {
+                if (checkFormValidity() && privacyCheckbox.checked) {
+                    generatePrompt();
+                } else if (!privacyCheckbox.checked) {
+                    outputArea.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompthub Tools Story Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f1f5f9;
+            --bg-secondary: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e2e8f0;
+            --accent-color: #2563eb;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        input, select, textarea {
+            background-color: var(--bg-secondary);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease-in-out;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 1px var(--accent-color);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        
+        .btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-press {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .output-box {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.5s ease-in-out;
+            color: var(--text-color);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+        }
+        .close-btn {
+            color: #9ca3af;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #1f2937;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex flex-col items-center justify-center">
+
+    <div class="container mx-auto max-w-4xl space-y-8">
+        <div class="card p-6 sm:p-8">
+            <h1 class="text-3xl sm:text-4xl font-semibold text-center mb-2 text-gray-800">The Story Alchemist</h1>
+            <p class="text-center text-sm mb-8 text-gray-500">Fill in the variables below to craft a comprehensive, publish-ready AI prompt for your next creative masterpiece.</p>
+
+            <form id="storyForm" class="space-y-6">
+                <!-- Core Variables Section -->
+                <div class="card p-6 sm:p-8 space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">1. Core Narrative Pillars</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="genre" class="block text-sm font-medium mb-1">Genre & Subgenre</label>
+                            <input type="text" id="genre" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., Sci-Fi, Cyberpunk" required>
+                        </div>
+                        <div>
+                            <label for="timePeriod" class="block text-sm font-medium mb-1">Time Period/Era</label>
+                            <input type="text" id="timePeriod" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., Victorian, post-apocalyptic" required>
+                        </div>
+                        <div>
+                            <label for="setting" class="block text-sm font-medium mb-1">Setting</label>
+                            <input type="text" id="setting" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., A dystopian mega-city" required>
+                        </div>
+                        <div>
+                            <label for="pacing" class="block text-sm font-medium mb-1">Pacing</label>
+                            <input type="text" id="pacing" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., Slow burn, fast-paced thriller" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="protagonist" class="block text-sm font-medium mb-1">Protagonist</label>
+                        <textarea id="protagonist" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" rows="2" placeholder="e.g., Kael, a weary data-courier haunted by his past." required></textarea>
+                    </div>
+                    <div>
+                        <label for="supportingCast" class="block text-sm font-medium mb-1">Supporting Cast</label>
+                        <textarea id="supportingCast" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" rows="2" placeholder="e.g., A cynical mentor, a rival bounty hunter." required></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="conflict" class="block text-sm font-medium mb-1">Core Conflict</label>
+                            <input type="text" id="conflict" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., A rebellion against a tyrannical AI." required>
+                        </div>
+                        <div>
+                            <label for="conflictType" class="block text-sm font-medium mb-1">Conflict Type</label>
+                            <input type="text" id="conflictType" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., Man vs. Society, Man vs. Self" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="theme" class="block text-sm font-medium mb-1">Central Theme</label>
+                            <input type="text" id="theme" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., Redemption, identity." required>
+                        </div>
+                        <div>
+                            <label for="coreSymbol" class="block text-sm font-medium mb-1">Core Symbol/Motif</label>
+                            <input type="text" id="coreSymbol" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., A broken clock, a caged bird" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="tone" class="block text-sm font-medium mb-1">Tone & Style</label>
+                            <input type="text" id="tone" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., Gritty realism, poetic." required>
+                        </div>
+                        <div>
+                            <label for="mood" class="block text-sm font-medium mb-1">Mood & Atmosphere</label>
+                            <input type="text" id="mood" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., Tense, melancholic, wondrous" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="pov" class="block text-sm font-medium mb-1">Narrative POV</label>
+                            <select id="pov" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" required>
+                                <option value="">Select POV</option>
+                                <option value="First-person">First-person</option>
+                                <option value="Third-person limited">Third-person limited</option>
+                                <option value="Third-person omniscient">Third-person omniscient</option>
+                                <option value="Fragmented">Fragmented</option>
+                                <option value="Stream-of-consciousness">Stream-of-consciousness</option>
+                                <option value="Epistolary">Epistolary</option>
+                                <option value="Unreliable narrator">Unreliable narrator</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="plotDevice" class="block text-sm font-medium mb-1">Key Plot Device(s)</label>
+                            <input type="text" id="plotDevice" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" placeholder="e.g., A forgotten artifact, time travel.">
+                        </div>
+                        <div>
+                            <label for="endingType" class="block text-sm font-medium mb-1">Intended Ending</label>
+                            <select id="endingType" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" required>
+                                <option value="">Select ending</option>
+                                <option value="Triumphant">Triumphant</option>
+                                <option value="Tragic">Tragic</option>
+                                <option value="Bittersweet">Bittersweet</option>
+                                <option value="Twist">Twist</option>
+                                <option value="Cliffhanger">Cliffhanger</option>
+                                <option value="Poetic justice">Poetic justice</option>
+                                <option value="Cyclical/full-circle">Cyclical/full-circle</option>
+                                <option value="Ambiguous">Ambiguous</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="card p-6 sm:p-8 space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">2. Creative Brief & Format</h2>
+                    <div>
+                        <label for="outputType" class="block text-sm font-medium mb-1">Output Type</label>
+                        <select id="outputType" class="w-full px-4 py-2 rounded-lg border focus:ring-1 focus:ring-blue-500" required>
+                            <option value="">Select output type</option>
+                            <option value="Short Story (1-3k words)">Short Story (1–3k words) → tightly woven, single powerful arc.</option>
+                            <option value="Novel Excerpt (5-10k words)">Novel Excerpt (5–10k words) → expanded, multiple layers, deeper world.</option>
+                            <option value="Screenplay Scene">Screenplay Scene → formatted for cinema, visual and dialogue-driven.</option>
+                            <option value="Poetic Retelling">Poetic Retelling → lyrical or experimental version.</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-start mt-6 space-x-2">
+                        <input type="checkbox" id="privacyPolicyAccepted" class="mt-1 rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                        <label for="privacyPolicyAccepted" class="text-sm text-gray-700">
+                            I have read and agree to the <a href="#" id="viewPrivacyPolicyBtn" class="text-blue-600 hover:underline">Privacy Policy</a>.
+                        </label>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row justify-center">
+                        <button type="button" id="copyBtn" class="btn w-full py-3 rounded-lg font-semibold text-white transition-all duration-300">Copy to Clipboard</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Custom Message Box for Errors -->
+            <div id="messageBox" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 bg-red-500 text-white p-4 rounded-lg shadow-lg z-50">
+                Please accept the Privacy Policy to continue.
+            </div>
+
+            <!-- Output Area -->
+            <div id="outputContainer" class="card p-6 sm:p-8 mt-8">
+                <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Generated Prompt</h2>
+                <textarea id="output" class="output-box w-full px-4 py-4 rounded-lg text-sm" rows="15" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="privacyPolicyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Privacy Policy</h2>
+            <p class="text-sm text-gray-700">Effective Date: October 26, 2023</p>
+            <br>
+            <p>This Privacy Policy describes how we handle the information you provide when using our Story Generator tool. Our primary goal is to empower you to create effective AI prompts while ensuring your data is handled with care and transparency. By using this tool, you consent to the data practices described in this policy.</p>
+            <br>
+            <h3 class="text-lg font-semibold">1. Information We Collect</h3>
+            <p>We only collect the information you voluntarily enter into the form fields of the Story Generator. This includes character details, genre, setting, and any other creative details you provide. This information is processed locally in your browser to generate the AI prompt.</p>
+            <br>
+            <h3 class="text-lg font-semibold">2. Use of Your Information</h3>
+            <p>The information you provide is used exclusively to:</p>
+            <ul class="list-disc list-inside ml-4">
+                <li>Generate a structured text prompt tailored to your story details.</li>
+                <li>Display the generated prompt in the output text area for you to review and copy.</li>
+            </ul>
+            <p>We do not store, transmit, or share your data with any external servers or third parties. The entire process of prompt generation occurs within your web browser. Once you close the browser tab, all entered data is erased.</p>
+            <br>
+            <h3 class="text-lg font-semibold">3. Disclaimer of Creative Responsibility</h3>
+            <p class="font-bold text-red-600">THIS TOOL IS FOR CREATIVE PURPOSES ONLY. The prompts and the resulting stories generated by an AI model are not guaranteed to be original, accurate, or free from creative flaws. The final quality of the story and any associated intellectual property are your sole responsibility. This tool is a creative aid, not a substitute for human ingenuity.</p>
+            <br>
+            <h3 class="text-lg font-semibold">4. Data Security</h3>
+            <p>Since your information is not stored or transmitted by us, the risk of data breach is minimized. Your security is maintained by the local environment of your web browser.</p>
+            <br>
+            <h3 class="text-lg font-semibold">5. Changes to This Policy</h3>
+            <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page, and the "Effective Date" at the top will be updated. We encourage you to review this policy periodically.</p>
+            <br>
+            <h3 class="text-lg font-semibold">6. Contact Us</h3>
+            <p>If you have any questions about this Privacy Policy, please contact us.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('storyForm');
+            const copyBtn = document.getElementById('copyBtn');
+            const outputArea = document.getElementById('output');
+            const privacyCheckbox = document.getElementById('privacyPolicyAccepted');
+            const viewPolicyBtn = document.getElementById('viewPrivacyPolicyBtn');
+            const modal = document.getElementById('privacyPolicyModal');
+            const closeModalBtn = document.querySelector('.close-btn');
+            const messageBox = document.getElementById('messageBox');
+            
+            let soundEffectSynth = null;
+
+            const playSoundEffect = (note, duration) => {
+                if (!soundEffectSynth) {
+                    soundEffectSynth = new Tone.Synth({
+                        oscillator: { type: "sine" },
+                        envelope: {
+                            attack: 0.005,
+                            decay: 0.1,
+                            sustain: 0,
+                            release: 0.1
+                        }
+                    }).toDestination();
+                }
+                soundEffectSynth.triggerAttackRelease(note, duration);
+            };
+
+            copyBtn.addEventListener('click', () => {
+                if (checkFormValidity() && privacyCheckbox.checked) {
+                    generatePrompt();
+                    outputArea.select();
+                    try {
+                        document.execCommand('copy');
+                        playSoundEffect('D6', '8n');
+                    } catch (err) {
+                        console.error('Could not copy text: ', err);
+                    }
+                } else if (!privacyCheckbox.checked) {
+                    messageBox.classList.remove('hidden');
+                    setTimeout(() => {
+                        messageBox.classList.add('hidden');
+                    }, 3000);
+                    playSoundEffect('C3', '8n');
+                } else {
+                    form.reportValidity();
+                }
+            });
+
+            const addPressEffect = (event) => {
+                event.target.classList.add('btn-press');
+                playSoundEffect('G4', '16n');
+            };
+            const removePressEffect = (event) => {
+                event.target.classList.remove('btn-press');
+            };
+
+            const allButtons = document.querySelectorAll('button, select, input, textarea');
+            allButtons.forEach(el => {
+                el.addEventListener('mousedown', addPressEffect);
+                el.addEventListener('mouseup', removePressEffect);
+                el.addEventListener('mouseleave', removePressEffect);
+            });
+
+            viewPolicyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.style.display = 'flex';
+                playSoundEffect('E5', '8n');
+            });
+            
+            closeModalBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            const generatePrompt = () => {
+                const data = {
+                    genre: document.getElementById('genre').value.trim(),
+                    timePeriod: document.getElementById('timePeriod').value.trim(),
+                    setting: document.getElementById('setting').value.trim(),
+                    pacing: document.getElementById('pacing').value.trim(),
+                    protagonist: document.getElementById('protagonist').value.trim(),
+                    supportingCast: document.getElementById('supportingCast').value.trim(),
+                    conflict: document.getElementById('conflict').value.trim(),
+                    conflictType: document.getElementById('conflictType').value.trim(),
+                    theme: document.getElementById('theme').value.trim(),
+                    coreSymbol: document.getElementById('coreSymbol').value.trim(),
+                    tone: document.getElementById('tone').value.trim(),
+                    mood: document.getElementById('mood').value.trim(),
+                    pov: document.getElementById('pov').value.trim(),
+                    plotDevice: document.getElementById('plotDevice').value.trim(),
+                    endingType: document.getElementById('endingType').value.trim(),
+                    outputType: document.getElementById('outputType').value.trim()
+                };
+
+                const promptParts = [];
+
+                promptParts.push("Generate a publish-ready story based on the following creative brief and literary principles.");
+                promptParts.push("---");
+                
+                // Core Variables
+                promptParts.push("### 1. Core Narrative Pillars");
+                promptParts.push(`- **Genre & Subgenre:** ${data.genre}`);
+                promptParts.push(`- **Time Period/Era:** ${data.timePeriod}`);
+                promptParts.push(`- **Setting:** ${data.setting}`);
+                promptParts.push(`- **Pacing:** ${data.pacing}`);
+                promptParts.push(`- **Protagonist:** ${data.protagonist}`);
+                promptParts.push(`- **Supporting Cast:** ${data.supportingCast}`);
+                promptParts.push(`- **Core Conflict:** ${data.conflict}`);
+                promptParts.push(`- **Conflict Type:** ${data.conflictType}`);
+                promptParts.push(`- **Central Theme:** ${data.theme}`);
+                promptParts.push(`- **Core Symbol/Motif:** ${data.coreSymbol}`);
+                promptParts.push(`- **Tone & Style:** ${data.tone}`);
+                promptParts.push(`- **Mood & Atmosphere:** ${data.mood}`);
+                promptParts.push(`- **Narrative POV:** ${data.pov}`);
+                if (data.plotDevice) {
+                    promptParts.push(`- **Key Plot Device(s):** ${data.plotDevice}`);
+                }
+                promptParts.push(`- **Intended Ending:** ${data.endingType}`);
+
+                // World-Building Standards
+                promptParts.push("---");
+                promptParts.push("### 2. World-Building Standards");
+                promptParts.push("Construct a rich, sensory environment (geography, architecture, climate, flora/fauna, culture, rituals, language, economy, mythology). Infuse the world with politics, hierarchies, and belief systems that affect daily life. Create rules of reality (magic system, technology, laws of physics, time, morality). Add small but powerful sensory details (sounds, scents, tastes, textures, weather patterns) that immerse the reader.");
+
+                // Characterization Blueprint
+                promptParts.push("---");
+                promptParts.push("### 3. Characterization Blueprint");
+                promptParts.push("Protagonist Development should include motivations, internal struggles, desires vs. duties, a character flaw to overcome, and a hidden strength. The Antagonist/Villain must have depth, justification, and nuance. The narrative should feature authentic dialogue and meaningful relationships, with character arcs that show transformation through conflict.");
+
+                // Narrative Structure
+                promptParts.push("---");
+                promptParts.push("### 4. Narrative Structure");
+                promptParts.push("Utilize a clear narrative structure (e.g., The Hero’s Journey, Three-Act Structure, or Nonlinear Storytelling) that includes a compelling hook, escalating rising action, a powerful climax, and a satisfying resolution. Layer subplots that reinforce or contrast the main theme.");
+
+                // Literary Excellence
+                promptParts.push("---");
+                promptParts.push("### 5. Literary Excellence");
+                promptParts.push("Weave in symbolism and metaphor. Plant narrative seeds with foreshadowing and irony. Use cinematic description and sensory writing to engage the reader's senses. The prose should have a strong rhythm and flow, and the story should evoke a powerful emotional impact.");
+
+                // Flexibility of Output
+                promptParts.push("---");
+                promptParts.push("### 6. Creative Brief & Format");
+                promptParts.push(`- **Produce a story of the following type:** ${data.outputType}`);
+
+                // Instruction to AI
+                promptParts.push("---");
+                promptParts.push("### 7. Creative Directives");
+                promptParts.push("Produce a piece of writing that feels publish-ready, emotionally resonant, culturally meaningful, and uniquely original. Avoid clichés and strive to create an unforgettable experience for the reader.");
+                
+                outputArea.value = promptParts.join('\n\n');
+            };
+
+            const checkFormValidity = () => {
+                return form.checkValidity();
+            };
+
+            form.addEventListener('input', () => {
+                if (checkFormValidity() && privacyCheckbox.checked) {
+                    generatePrompt();
+                } else {
+                    outputArea.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

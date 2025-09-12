@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompthub Tools Website Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text-color: #202124;
+            --border-color: #dadce0;
+            --accent-color: #1a73e8;
+            --shadow-color: rgba(60, 64, 67, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+            border-radius: 1rem;
+            border-color: var(--border-color);
+            border-width: 1px;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-secondary);
+            color: var(--text-color);
+            border-color: var(--border-color);
+            transition: all 0.2s ease-in-out;
+            border-width: 1px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 1px var(--accent-color);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+        
+        .btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-press {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+
+        .output-box {
+            background-color: #f1f3f4;
+            border: 1px solid var(--border-color);
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.5s ease-in-out;
+            color: var(--text-color);
+        }
+
+        /* Responsive grid adjustments */
+        @media (min-width: 768px) {
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex flex-col items-center justify-center">
+
+    <div class="container mx-auto max-w-4xl">
+        <div class="card p-6 sm:p-8 rounded-xl border border-gray-300">
+            <h1 class="text-3xl sm:text-4xl font-normal text-center mb-2 text-gray-800">Website Design Generator</h1>
+            <p class="text-center text-sm mb-8 text-gray-500">Fill in the variables to create a high-quality, copyable AI prompt.</p>
+
+            <!-- Main Form -->
+            <form id="websiteForm" class="space-y-6">
+                <!-- Business Information -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Business Information</h2>
+                    <div>
+                        <label for="businessName" class="block text-sm font-medium mb-1">Business Name</label>
+                        <input type="text" id="businessName" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., NovaTech Solutions" required>
+                    </div>
+                    <div>
+                        <label for="tagline" class="block text-sm font-medium mb-1">Tagline</label>
+                        <input type="text" id="tagline" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., The Future of Everything">
+                    </div>
+                    <div>
+                        <label for="industry" class="block text-sm font-medium mb-1">Industry / Niche</label>
+                        <select id="industry" class="w-full px-4 py-2 rounded-lg border" required>
+                            <option value="">Select an industry</option>
+                            <option value="Technology">Technology</option>
+                            <option value="E-commerce">E-commerce</option>
+                            <option value="Portfolio">Portfolio</option>
+                            <option value="SaaS">SaaS</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Restaurant">Restaurant</option>
+                            <option value="Fitness">Fitness</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Consulting">Consulting</option>
+                            <option value="Nonprofit">Nonprofit</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="targetAudience" class="block text-sm font-medium mb-1">Target Audience</label>
+                        <select id="targetAudience" class="w-full px-4 py-2 rounded-lg border" required>
+                            <option value="">Select an audience</option>
+                            <option value="Gen Z Creators">Gen Z Creators</option>
+                            <option value="B2B Corporates">B2B Corporates</option>
+                            <option value="Startups">Startups</option>
+                            <option value="Luxury Clients">Luxury Clients</option>
+                            <option value="Families">Families</option>
+                            <option value="Global Audience">Global Audience</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="mainGoal" class="block text-sm font-medium mb-1">Main Goal of Website</label>
+                        <select id="mainGoal" class="w-full px-4 py-2 rounded-lg border" required>
+                            <option value="">Select a goal</option>
+                            <option value="Lead Generation">Lead Generation</option>
+                            <option value="Online Sales">Online Sales</option>
+                            <option value="Brand Awareness">Brand Awareness</option>
+                            <option value="Portfolio Showcase">Portfolio Showcase</option>
+                            <option value="Booking Services">Booking Services</option>
+                            <option value="Community Engagement">Community Engagement</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="location" class="block text-sm font-medium mb-1">Location (Optional)</label>
+                            <input type="text" id="location" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., New York, NY">
+                        </div>
+                        <div>
+                            <label for="phoneNumber" class="block text-sm font-medium mb-1">Phone Number (Optional)</label>
+                            <input type="tel" id="phoneNumber" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., +1-555-123-4567">
+                        </div>
+                        <div>
+                            <label for="emailAddress" class="block text-sm font-medium mb-1">Email Address (Optional)</label>
+                            <input type="email" id="emailAddress" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., info@business.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design Style Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Design Style Variables</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="visualStyle" class="block text-sm font-medium mb-1">Visual Style</label>
+                            <select id="visualStyle" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a visual style</option>
+                                <option value="Minimalist">Minimalist</option>
+                                <option value="Futuristic">Futuristic</option>
+                                <option value="Corporate">Corporate</option>
+                                <option value="Playful">Playful</option>
+                                <option value="Bold">Bold</option>
+                                <option value="Luxury">Luxury</option>
+                                <option value="Cyberpunk">Cyberpunk</option>
+                                <option value="Earthy Organic">Earthy Organic</option>
+                                <option value="Tech Modern">Tech Modern</option>
+                                <option value="Editorial Magazine-style">Editorial Magazine-style</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="colorPalette" class="block text-sm font-medium mb-1">Color Palette</label>
+                            <select id="colorPalette" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a color palette</option>
+                                <option value="Neutral + Accent">Neutral + Accent</option>
+                                <option value="Gradient Neon">Gradient Neon</option>
+                                <option value="Dark Mode">Dark Mode</option>
+                                <option value="Pastel & Soft">Pastel & Soft</option>
+                                <option value="Monochrome">Monochrome</option>
+                                <option value="Vibrant High-contrast">Vibrant High-contrast</option>
+                                <option value="Luxury Gold & Black">Luxury Gold & Black</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="typography" class="block text-sm font-medium mb-1">Typography</label>
+                            <select id="typography" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select typography</option>
+                                <option value="Sans-serif Futuristic">Sans-serif Futuristic</option>
+                                <option value="Serif Elegant">Serif Elegant</option>
+                                <option value="Modern Geometric">Modern Geometric</option>
+                                <option value="Handwritten Creative">Handwritten Creative</option>
+                                <option value="Rounded Friendly">Rounded Friendly</option>
+                                <option value="Editorial Serif">Editorial Serif</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="imagery" class="block text-sm font-medium mb-1">Imagery</label>
+                            <select id="imagery" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select imagery style</option>
+                                <option value="Photography-heavy">Photography-heavy</option>
+                                <option value="Illustration-based">Illustration-based</option>
+                                <option value="3D Graphics">3D Graphics</option>
+                                <option value="Abstract Shapes">Abstract Shapes</option>
+                                <option value="Icon-driven">Icon-driven</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layout & Structure Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Layout & Structure Variables</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="layoutStyle" class="block text-sm font-medium mb-1">Layout Style</label>
+                            <select id="layoutStyle" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a layout style</option>
+                                <option value="Single-page Scrolling">Single-page Scrolling</option>
+                                <option value="Multi-page Navigation">Multi-page Navigation</option>
+                                <option value="Modular Grid">Modular Grid</option>
+                                <option value="Dynamic Sections">Dynamic Sections</option>
+                                <option value="App-like Dashboard">App-like Dashboard</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="navigation" class="block text-sm font-medium mb-1">Navigation</label>
+                            <select id="navigation" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a navigation style</option>
+                                <option value="Sticky Header">Sticky Header</option>
+                                <option value="Mega Menu">Mega Menu</option>
+                                <option value="Hamburger Menu">Hamburger Menu</option>
+                                <option value="Floating Quick Links">Floating Quick Links</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="animations" class="block text-sm font-medium mb-1">Animations</label>
+                            <input type="text" id="animations" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Subtle Fade, Parallax">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="sections" class="block text-sm font-medium mb-1">Sections to Include</label>
+                            <textarea id="sections" class="w-full px-4 py-2 rounded-lg border min-h-[100px]" placeholder="e.g., Hero Section, About Section, Services/Products, etc."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Functionality Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Functionality Variables</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="forms" class="block text-sm font-medium mb-1">Forms</label>
+                            <input type="text" id="forms" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Simple Contact Form">
+                        </div>
+                        <div>
+                            <label for="ecommerce" class="block text-sm font-medium mb-1">E-commerce</label>
+                            <input type="text" id="ecommerce" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Product Catalog, Shopping Cart">
+                        </div>
+                        <div>
+                            <label for="integrations" class="block text-sm font-medium mb-1">Integrations</label>
+                            <input type="text" id="integrations" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Social Media Feeds, Chatbot">
+                        </div>
+                        <div>
+                            <label for="seo" class="block text-sm font-medium mb-1">SEO Features</label>
+                            <input type="text" id="seo" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Fast Load Speed, Meta Tags">
+                        </div>
+                        <div>
+                            <label for="accessibility" class="block text-sm font-medium mb-1">Accessibility</label>
+                            <input type="text" id="accessibility" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., WCAG 2.1 Compliance">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Products & Data -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">E-commerce & Product Variables</h2>
+                    <div>
+                        <label for="products" class="block text-sm font-medium mb-1">Products to Add (Optional)</label>
+                        <textarea id="products" class="w-full px-4 py-2 rounded-lg border min-h-[100px]" placeholder="e.g., Black T-Shirt, Blue Jeans, Sneakers"></textarea>
+                    </div>
+                    <div>
+                        <label for="productData" class="block text-sm font-medium mb-1">Product Data (Optional)</label>
+                        <textarea id="productData" class="w-full px-4 py-2 rounded-lg border min-h-[100px]" placeholder="e.g., Black T-Shirt: SKU: T1001, Price: $25.00, Sizes: S, M, L"></textarea>
+                    </div>
+                </div>
+
+                <!-- Additional Requirements -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Additional Requirements</h2>
+                    <textarea id="additional" class="w-full px-4 py-2 rounded-lg border min-h-[100px]" placeholder="e.g., Deliver multiple homepage variations"></textarea>
+                </div>
+
+                <!-- Button -->
+                <div class="flex flex-col sm:flex-row justify-center">
+                    <button type="button" id="copyBtn" class="btn w-full py-3 rounded-lg font-semibold text-white transition-all duration-300">Copy to Clipboard</button>
+                </div>
+            </form>
+
+            <!-- Output Area -->
+            <div id="outputContainer" class="mt-8">
+                <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Generated AI Prompt</h2>
+                <textarea id="output" class="output-box w-full px-4 py-4 rounded-lg text-sm" rows="15" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('websiteForm');
+            const copyBtn = document.getElementById('copyBtn');
+            const outputArea = document.getElementById('output');
+            const body = document.body;
+
+            // Tone.js setup
+            let soundEffectSynth = null;
+
+            const playSoundEffect = (note, duration) => {
+                if (!soundEffectSynth) {
+                    soundEffectSynth = new Tone.Synth({
+                        oscillator: { type: "sine" },
+                        envelope: {
+                            attack: 0.005,
+                            decay: 0.1,
+                            sustain: 0,
+                            release: 0.1
+                        }
+                    }).toDestination();
+                }
+                soundEffectSynth.triggerAttackRelease(note, duration);
+            };
+
+            // Event Listeners
+            copyBtn.addEventListener('click', () => {
+                if (checkFormValidity()) {
+                    generatePrompt();
+                    outputArea.select();
+                    // Use a fallback for copying text to clipboard due to potential iframe restrictions
+                    try {
+                        document.execCommand('copy');
+                        playSoundEffect('D6', '8n');
+                    } catch (err) {
+                        console.error('Could not copy text: ', err);
+                    }
+                } else {
+                    form.reportValidity();
+                }
+            });
+
+            // Button animation logic
+            const addPressEffect = (event) => {
+                event.target.classList.add('btn-press');
+                playSoundEffect('G4', '16n');
+            };
+            const removePressEffect = (event) => {
+                event.target.classList.remove('btn-press');
+            };
+
+            const allButtons = document.querySelectorAll('button, select, input, textarea');
+            allButtons.forEach(el => {
+                el.addEventListener('mousedown', addPressEffect);
+                el.addEventListener('mouseup', removePressEffect);
+                el.addEventListener('mouseleave', removePressEffect);
+            });
+
+            /**
+             * Escapes HTML characters in a string to prevent Cross-Site Scripting (XSS) attacks.
+             * This function replaces characters like <, >, and & with their HTML entity equivalents.
+             * @param {string} text The string to be escaped.
+             * @returns {string} The HTML-safe string.
+             */
+            const escapeHtml = (text) => {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+            };
+
+            const generatePrompt = () => {
+                const data = {
+                    businessName: document.getElementById('businessName').value.trim(),
+                    tagline: document.getElementById('tagline').value.trim(),
+                    industry: document.getElementById('industry').value.trim(),
+                    targetAudience: document.getElementById('targetAudience').value.trim(),
+                    mainGoal: document.getElementById('mainGoal').value.trim(),
+                    location: document.getElementById('location').value.trim(),
+                    phoneNumber: document.getElementById('phoneNumber').value.trim(),
+                    emailAddress: document.getElementById('emailAddress').value.trim(),
+                    visualStyle: document.getElementById('visualStyle').value.trim(),
+                    colorPalette: document.getElementById('colorPalette').value.trim(),
+                    typography: document.getElementById('typography').value.trim(),
+                    imagery: document.getElementById('imagery').value.trim(),
+                    layoutStyle: document.getElementById('layoutStyle').value.trim(),
+                    navigation: document.getElementById('navigation').value.trim(),
+                    animations: document.getElementById('animations').value.trim(),
+                    sections: document.getElementById('sections').value.trim(),
+                    forms: document.getElementById('forms').value.trim(),
+                    ecommerce: document.getElementById('ecommerce').value.trim(),
+                    integrations: document.getElementById('integrations').value.trim(),
+                    seo: document.getElementById('seo').value.trim(),
+                    accessibility: document.getElementById('accessibility').value.trim(),
+                    products: document.getElementById('products').value.trim(),
+                    productData: document.getElementById('productData').value.trim(),
+                    additional: document.getElementById('additional').value.trim(),
+                };
+
+                const promptParts = [];
+
+                let mainLine = 'Design and generate a high-quality, fully responsive, professional website optimized for modern branding, user experience, and conversions.';
+                promptParts.push(mainLine);
+                
+                // Business Information
+                const businessInfoParts = [];
+                if (data.businessName) businessInfoParts.push(`Business Name: ${escapeHtml(data.businessName)}`);
+                if (data.tagline) businessInfoParts.push(`Tagline: ${escapeHtml(data.tagline)}`);
+                if (data.industry) businessInfoParts.push(`Industry: ${escapeHtml(data.industry)}`);
+                if (data.targetAudience) businessInfoParts.push(`Target Audience: ${escapeHtml(data.targetAudience)}`);
+                if (data.mainGoal) businessInfoParts.push(`Main Goal of Website: ${escapeHtml(data.mainGoal)}`);
+                if (data.location) businessInfoParts.push(`Location: ${escapeHtml(data.location)}`);
+                if (data.phoneNumber) businessInfoParts.push(`Phone Number: ${escapeHtml(data.phoneNumber)}`);
+                if (data.emailAddress) businessInfoParts.push(`Email Address: ${escapeHtml(data.emailAddress)}`);
+                if (businessInfoParts.length > 0) promptParts.push('📌 Business Information:\n' + businessInfoParts.join('\n'));
+
+                // Design Style Variables
+                const designStyleParts = [];
+                if (data.visualStyle) designStyleParts.push(`Visual Style: ${escapeHtml(data.visualStyle)}`);
+                if (data.colorPalette) designStyleParts.push(`Color Palette: ${escapeHtml(data.colorPalette)}`);
+                if (data.typography) designStyleParts.push(`Typography: ${escapeHtml(data.typography)}`);
+                if (data.imagery) designStyleParts.push(`Imagery: ${escapeHtml(data.imagery)}`);
+                if (designStyleParts.length > 0) promptParts.push('🎨 Design Style Variables:\n' + designStyleParts.join('\n'));
+
+                // Layout & Structure Variables
+                const layoutStructureParts = [];
+                if (data.layoutStyle) layoutStructureParts.push(`Layout Style: ${escapeHtml(data.layoutStyle)}`);
+                if (data.navigation) layoutStructureParts.push(`Navigation: ${escapeHtml(data.navigation)}`);
+                if (data.animations) layoutStructureParts.push(`Animations: ${escapeHtml(data.animations)}`);
+                if (data.sections) layoutStructureParts.push(`Sections to Include:\n${escapeHtml(data.sections).split(',').map(s => `  - ${s.trim()}`).join('\n')}`);
+                if (layoutStructureParts.length > 0) promptParts.push('🖥️ Layout & Structure Variables:\n' + layoutStructureParts.join('\n'));
+
+                // Functionality Variables
+                const functionalityParts = [];
+                if (data.forms) functionalityParts.push(`Forms: ${escapeHtml(data.forms)}`);
+                if (data.ecommerce) functionalityParts.push(`E-commerce: ${escapeHtml(data.ecommerce)}`);
+                if (data.integrations) functionalityParts.push(`Integrations: ${escapeHtml(data.integrations)}`);
+                if (data.seo) functionalityParts.push(`SEO Features: ${escapeHtml(data.seo)}`);
+                if (data.accessibility) functionalityParts.push(`Accessibility: ${escapeHtml(data.accessibility)}`);
+                if (functionalityParts.length > 0) promptParts.push('⚡ Functionality Variables:\n' + functionalityParts.join('\n'));
+
+                // Products & Data
+                const productParts = [];
+                if (data.products) productParts.push(`Products to Add: ${escapeHtml(data.products)}`);
+                if (data.productData) productParts.push(`Product Data: ${escapeHtml(data.productData)}`);
+                if (productParts.length > 0) promptParts.push('📦 E-commerce & Product Variables:\n' + productParts.join('\n'));
+                
+                // Responsive Design
+                promptParts.push('📱 Responsive Design Variables:\n- Mobile-first approach with adaptive layouts.\n- Tablet + Desktop optimized breakpoints.\n- Scalable typography and flexible image grids.\n- Ensure interactive elements remain functional across all devices.');
+
+                // Final Output
+                if (data.additional) {
+                    promptParts.push(`Additional Requirements: ${escapeHtml(data.additional)}`);
+                }
+                promptParts.push('Final output must be a studio-quality, modern, fully responsive website design with a clear structure, polished visuals, professional typography, consistent branding, and optimized UX. Deliver multiple homepage variations (dark mode + light mode). Ensure the design is scalable for future updates and adaptable for apps, web platforms, and marketing campaigns.');
+
+                outputArea.value = promptParts.join('\n\n');
+            };
+
+            const checkFormValidity = () => {
+                return form.checkValidity();
+            };
+
+            form.addEventListener('input', () => {
+                if (checkFormValidity()) {
+                    generatePrompt();
+                } else {
+                    outputArea.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

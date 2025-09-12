@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Hub | Prompts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #202124;
+            --subtle-text-color: #5f6368;
+            --border-color: #dadce0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --primary-blue: #4285f4;
+            --primary-green: #34a853;
+            --primary-yellow: #fbbc05;
+            --primary-red: #ea4335;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #171717;
+            --surface-color: #212121;
+            --text-color: #e8eaed;
+            --subtle-text-color: #bdc1c6;
+            --border-color: #3c4043;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --primary-blue: #8ab4f8;
+            --primary-green: #81c995;
+            --primary-yellow: #fdd663;
+            --primary-red: #f28b82;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Particle Background */
+        .particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            padding: 2rem 0;
+            z-index: 1;
+            position: relative;
+        }
+
+        header {
+            background-color: var(--surface-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            position: relative;
+            text-shadow: 0 1px 2px var(--shadow-color);
+        }
+        
+        .logo span {
+            color: var(--primary-blue);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--subtle-text-color);
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        .main-heading {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: capitalize;
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(66, 133, 244, 0.2);
+        }
+        
+        .search-bar svg {
+            position: absolute;
+            left: 1.5rem;
+            color: var(--subtle-text-color);
+            pointer-events: none;
+        }
+        
+        /* Remove built-in search icon for better control */
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+        }
+
+        .prompts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .prompt-title {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+            user-select: none;
+        }
+
+        .prompt-title:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 12px -2px var(--shadow-color), 0 4px 6px -1px var(--shadow-color);
+        }
+
+        .prompt-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px -1px var(--shadow-color);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .prompt-card.expanded {
+            opacity: 1;
+            max-height: 500px; /* A value larger than the card content */
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .prompt-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .copy-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            border: 1px solid var(--primary-blue);
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #3b7ad8;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .copy-button svg {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        footer {
+            background-color: var(--surface-color);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            color: var(--subtle-text-color);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .theme-toggle {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas class="particles-canvas"></canvas>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                Prompt<span>Hub</span>
+            </a>
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="main-heading" id="category-heading"></h1>
+
+        <div class="search-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="search" id="prompt-search" placeholder="Search prompts...">
+        </div>
+
+        <div class="prompts-list" id="prompts-list">
+            <!-- Prompts will be dynamically generated here -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Prompt Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="TEST.js"></script>
+    <script>
+        const categoryHeading = document.getElementById('category-heading');
+        const promptsList = document.getElementById('prompts-list');
+        const searchInput = document.getElementById('prompt-search');
+        const themeToggleBtn = document.querySelector('.theme-toggle');
+        let selectedCategory = localStorage.getItem('selectedCategory');
+
+        // Initial theme setup
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        // Function to render prompts
+        function renderPrompts(filterText = '') {
+            if (!selectedCategory || !allData[selectedCategory]) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            categoryHeading.textContent = selectedCategory.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            promptsList.innerHTML = '';
+            
+            const filteredPrompts = allData[selectedCategory].filter(prompt =>
+                prompt.title.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            if (filteredPrompts.length === 0) {
+                promptsList.innerHTML = '<p style="text-align: center; color: var(--subtle-text-color);">No prompts found in this category.</p>';
+                return;
+            }
+
+            filteredPrompts.forEach(prompt => {
+                const promptContainer = document.createElement('div');
+                
+                const titleElement = document.createElement('div');
+                titleElement.className = 'prompt-title';
+                titleElement.textContent = prompt.title;
+
+                const cardElement = document.createElement('div');
+                cardElement.className = 'prompt-card';
+                cardElement.innerHTML = `
+                    <p>${prompt.text}</p>
+                    <button class="copy-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        Copy Prompt
+                    </button>
+                `;
+
+                // Toggle visibility of card
+                titleElement.addEventListener('click', () => {
+                    const expandedCard = document.querySelector('.prompt-card.expanded');
+                    if (expandedCard && expandedCard !== cardElement) {
+                        expandedCard.classList.remove('expanded');
+                    }
+                    cardElement.classList.toggle('expanded');
+                });
+
+                // Copy to clipboard functionality
+                const copyButton = cardElement.querySelector('.copy-button');
+                copyButton.addEventListener('click', () => {
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(prompt.text).then(() => {
+                            const originalText = copyButton.innerHTML;
+                            copyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-8.5"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Copied!`;
+                            setTimeout(() => {
+                                copyButton.innerHTML = originalText;
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Could not copy text: ', err);
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        const tempInput = document.createElement('textarea');
+                        tempInput.value = prompt.text;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        console.log('Text copied via fallback.');
+                    }
+                });
+                
+                promptContainer.appendChild(titleElement);
+                promptContainer.appendChild(cardElement);
+                promptsList.appendChild(promptContainer);
+            });
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', (event) => {
+            renderPrompts(event.target.value);
+        });
+
+        // Theme toggle functionality
+        themeToggleBtn.addEventListener('click', () => {
+            let newTheme = 'dark';
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                newTheme = 'light';
+            }
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Particle background animation
+        const canvas = document.querySelector('.particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', setCanvasSize);
+        setCanvasSize();
+
+        // Particle class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.01;
+            }
+            draw() {
+                const color = getComputedStyle(document.documentElement).getPropertyValue('--subtle-text-color');
+                ctx.fillStyle = color;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function handleParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            if (particles.length < 150) {
+                for (let i = 0; i < 5; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            // Remove old particles
+            particles = particles.filter(particle => particle.size > 0.2);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = () => {
+            renderPrompts();
+            animate();
+        };
+
+    </script>
+</body>
+</html>

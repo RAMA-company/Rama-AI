@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Hub | Categories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #202124;
+            --subtle-text-color: #5f6368;
+            --border-color: #dadce0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --primary-blue: #4285f4;
+            --primary-green: #34a853;
+            --primary-yellow: #fbbc05;
+            --primary-red: #ea4335;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #171717;
+            --surface-color: #212121;
+            --text-color: #e8eaed;
+            --subtle-text-color: #bdc1c6;
+            --border-color: #3c4043;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --primary-blue: #8ab4f8;
+            --primary-green: #81c995;
+            --primary-yellow: #fdd663;
+            --primary-red: #f28b82;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Particle Background */
+        .particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            padding: 2rem 0;
+            z-index: 1;
+            position: relative;
+        }
+
+        header {
+            background-color: var(--surface-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            position: relative;
+            text-shadow: 0 1px 2px var(--shadow-color);
+        }
+
+        .logo span {
+            color: var(--primary-blue);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--subtle-text-color);
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 3rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(66, 133, 244, 0.2);
+        }
+
+        .search-bar svg {
+            position: absolute;
+            left: 1.5rem;
+            color: var(--subtle-text-color);
+            pointer-events: none;
+        }
+        
+        /* Remove built-in search icon for better control */
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+            user-select: none;
+            position: relative;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
+        }
+
+        .category-card:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px -1px var(--shadow-color);
+        }
+
+        .category-card.premium {
+            border-left: 4px solid var(--primary-yellow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card.premium::after {
+            content: "Premium";
+            position: absolute;
+            top: 10px;
+            right: -25px;
+            background-color: var(--primary-yellow);
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 3px 30px;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .category-card:nth-child(4n + 1):not(.premium) { border-left: 4px solid var(--primary-blue); }
+        .category-card:nth-child(4n + 2):not(.premium) { border-left: 4px solid var(--primary-green); }
+        .category-card:nth-child(4n + 3):not(.premium) { border-left: 4px solid var(--primary-red); }
+        .category-card:nth-child(4n):not(.premium) { border-left: 4px solid var(--primary-blue); }
+
+        footer {
+            background-color: var(--surface-color);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            color: var(--subtle-text-color);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Auth buttons styling */
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .auth-buttons button {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--primary-blue);
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            background-color: #3b7ad8;
+        }
+
+        #userProfile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-status {
+            font-size: 0.7rem;
+            color: var(--subtle-text-color);
+        }
+
+        .subscription-badge {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 2rem;
+            color: var(--subtle-text-color);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid rgba(66, 133, 244, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-blue);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .upgrade-prompt {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border-left: 4px solid var(--primary-yellow);
+            box-shadow: 0 4px 6px -1px var(--shadow-color);
+        }
+
+        .category-count {
+            font-size: 0.8rem;
+            color: var(--subtle-text-color);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .auth-buttons {
+                margin-top: 1rem;
+            }
+            
+            .user-info {
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas class="particles-canvas"></canvas>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                Prompt<span>Hub</span>
+            </a>
+            
+            <div class="auth-buttons" id="authButtons">
+                <button id="loginBtnHeader" onclick="window.location.href='login.html'">Login</button>
+                <button id="registerBtnHeader" onclick="window.location.href='login.html'">Register</button>
+            </div>
+            
+            <div id="userProfile" class="hidden">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">User</div>
+                    <div class="user-status" id="userStatus">Free Account</div>
+                </div>
+                <button id="logoutBtn">Logout</button>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="upgradePrompt" class="upgrade-prompt hidden">
+            <h3>Unlock All Categories</h3>
+            <p>Upgrade to a premium subscription to access all 261 categories and 18,109 prompts!</p>
+            <button onclick="window.location.href='subscription.html'" style="padding: 0.75rem 1.5rem; background-color: var(--primary-blue); color: white; border: none; border-radius: 9999px; cursor: pointer; margin-top: 1rem;">
+                Upgrade Now
+            </button>
+        </div>
+
+        <div class="search-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="search" id="category-search" placeholder="Search between 18,109 prompts in 261 categories...">
+        </div>
+
+        <div id="loadingContainer" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading categories...</p>
+        </div>
+
+        <div class="categories-grid" id="categories-grid">
+            <!-- Category cards will be dynamically generated here -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Prompt Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Load the TEST.js file with all the categories and prompts -->
+    <script src="TEST.js"></script>
+    
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://lbvesyhvxegzjxmmsign.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxidmVzeWh2eGVnemp4bW1zaWduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzUwMTksImV4cCI6MjA3MzI1MTAxOX0.Bw4STD_2LtI9rLfk_nHVLYa2g_G1MK3kHeGJwOoQEq4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // DOM elements
+        const gridElement = document.getElementById('categories-grid');
+        const searchInput = document.getElementById('category-search');
+        const themeToggleBtn = document.querySelector('.theme-toggle');
+        const authButtons = document.getElementById('authButtons');
+        const userProfile = document.getElementById('userProfile');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userStatus = document.getElementById('userStatus');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loadingContainer = document.getElementById('loadingContainer');
+        const upgradePrompt = document.getElementById('upgradePrompt');
+
+        // Initial theme setup
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        // Check authentication state
+        async function checkAuth() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (session && session.user) {
+                // User is logged in
+                authButtons.classList.add('hidden');
+                userProfile.classList.remove('hidden');
+                
+                // Display user info
+                const user = session.user;
+                userName.textContent = user.email;
+                userAvatar.textContent = user.email.charAt(0).toUpperCase();
+                
+                // Check subscription status
+                await checkSubscriptionStatus(user.id);
+                return true;
+            } else {
+                // User is not logged in
+                authButtons.classList.remove('hidden');
+                userProfile.classList.add('hidden');
+                window.location.href = 'login.html';
+                return false;
+            }
+        }
+
+        // Check user's subscription status
+        async function checkSubscriptionStatus(userId) {
+            // This would query your subscription table in Supabase
+            // For now, we'll simulate it with localStorage
+            const subscriptionType = localStorage.getItem(`subscription_${userId}`) || 'free';
+            
+            if (subscriptionType !== 'free') {
+                userStatus.textContent = 'Premium Account';
+                userStatus.innerHTML += '<span class="subscription-badge">' + subscriptionType + '</span>';
+                upgradePrompt.classList.add('hidden');
+            } else {
+                userStatus.textContent = 'Free Account';
+                upgradePrompt.classList.remove('hidden');
+            }
+            
+            return subscriptionType;
+        }
+
+        // Logout function
+        logoutBtn.addEventListener('click', async () => {
+            const { error } = await supabase.auth.signOut();
+            if (!error) {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Function to render categories
+        async function renderCategories(filterText = '') {
+            // First check if user is authenticated
+            const isAuthenticated = await checkAuth();
+            if (!isAuthenticated) return;
+            
+            // Get user subscription status
+            const { data: { user } } = await supabase.auth.getUser();
+            const subscriptionType = await checkSubscriptionStatus(user.id);
+            const hasPremium = subscriptionType !== 'free';
+            
+            // Check if allData is available
+            if (typeof allData === 'undefined') {
+                console.error('allData is not defined. Make sure TEST.js is loaded correctly.');
+                loadingContainer.innerHTML = '<p>Error loading categories. Please refresh the page.</p>';
+                return;
+            }
+            
+            // Get all category keys
+            const categories = Object.keys(allData);
+            
+            // Clear loading state
+            loadingContainer.classList.add('hidden');
+            gridElement.innerHTML = '';
+            
+            // Filter categories based on search text
+            const filteredCategories = categories.filter(category =>
+                category.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            if (filteredCategories.length === 0) {
+                gridElement.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--subtle-text-color);">No categories found.</p>';
+                return;
+            }
+
+            filteredCategories.forEach((category, index) => {
+                const card = document.createElement('div');
+                const isPremium = index >= 5; // First 5 categories are free, rest are premium
+                
+                card.className = `category-card ${isPremium ? 'premium' : ''}`;
+                
+                // Format category name for display
+                const displayName = category.replace(/-/g, ' ')
+                    .split(' ')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+                
+                card.innerHTML = `
+                    <div>${displayName}</div>
+                    <div class="category-count">${allData[category].length} prompts</div>
+                `;
+                
+                // Add premium indicator
+                if (isPremium && !hasPremium) {
+                    const premiumText = document.createElement('div');
+                    premiumText.style.marginTop = '0.5rem';
+                    premiumText.style.color = 'var(--primary-yellow)';
+                    premiumText.style.fontSize = '0.8rem';
+                    premiumText.textContent = 'Premium';
+                    card.appendChild(premiumText);
+                }
+                
+                // Add click listener to redirect to prompts page
+                card.addEventListener('click', () => {
+                    if (isPremium && !hasPremium) {
+                        alert('You need a premium subscription to access this category.');
+                        return;
+                    }
+                    
+                    localStorage.setItem('selectedCategory', category);
+                    window.location.href = 'prompts.html';
+                });
+                
+                gridElement.appendChild(card);
+            });
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', (event) => {
+            renderCategories(event.target.value);
+        });
+
+        // Theme toggle functionality
+        themeToggleBtn.addEventListener('click', () => {
+            let newTheme = 'dark';
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                newTheme = 'light';
+            }
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Particle background animation
+        const canvas = document.querySelector('.particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', setCanvasSize);
+        setCanvasSize();
+
+        // Particle class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.01;
+            }
+            
+            draw() {
+                const color = getComputedStyle(document.documentElement).getPropertyValue('--subtle-text-color');
+                ctx.fillStyle = color;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function handleParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            
+            if (particles.length < 150) {
+                for (let i = 0; i < 5; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            // Remove old particles
+            particles = particles.filter(particle => particle.size > 0.2);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize the page
+        async function init() {
+            await checkAuth();
+            
+            // Wait for the TEST.js file to load
+            if (typeof allData !== 'undefined') {
+                await renderCategories();
+            } else {
+                // If allData isn't available yet, wait a bit and try again
+                setTimeout(() => {
+                    if (typeof allData !== 'undefined') {
+                        renderCategories();
+                    } else {
+                        loadingContainer.innerHTML = '<p>Error loading categories. Please refresh the page.</p>';
+                    }
+                }, 1000);
+            }
+            
+            animate();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

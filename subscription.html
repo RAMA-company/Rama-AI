@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Hub | Subscription Plans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #202124;
+            --subtle-text-color: #5f6368;
+            --border-color: #dadce0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --primary-blue: #4285f4;
+            --primary-green: #34a853;
+            --primary-yellow: #fbbc05;
+            --primary-red: #ea4335;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #171717;
+            --surface-color: #212121;
+            --text-color: #e8eaed;
+            --subtle-text-color: #bdc1c6;
+            --border-color: #3c4043;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --primary-blue: #8ab4f8;
+            --primary-green: #81c995;
+            --primary-yellow: #fdd663;
+            --primary-red: #f28b82;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Particle Background */
+        .particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            padding: 2rem 0;
+            z-index: 1;
+            position: relative;
+        }
+
+        header {
+            background-color: var(--surface-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            position: relative;
+            text-shadow: 0 1px 2px var(--shadow-color);
+        }
+
+        .logo span {
+            color: var(--primary-blue);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--subtle-text-color);
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        /* Auth buttons styling */
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .auth-buttons button {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--primary-blue);
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            background-color: #3b7ad8;
+        }
+
+        #userProfile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-status {
+            font-size: 0.7rem;
+            color: var(--subtle-text-color);
+        }
+
+        .subscription-badge {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Subscription page specific styles */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: var(--subtle-text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .plans-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .plan-card {
+            background-color: var(--surface-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plan-card.popular {
+            border: 2px solid var(--primary-yellow);
+            transform: scale(1.05);
+        }
+
+        .plan-card.popular:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--primary-yellow);
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-bottom-left-radius: 16px;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            font-weight: normal;
+            color: var(--subtle-text-color);
+        }
+
+        .plan-features {
+            list-style-type: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .plan-features li svg {
+            color: var(--primary-green);
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .plan-button.primary {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .plan-button.primary:hover {
+            background-color: #3b7ad8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .plan-button.secondary {
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .plan-button.secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .current-plan {
+            background-color: rgba(52, 168, 83, 0.1);
+            color: var(--primary-green);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        
+        /* Payment options styling */
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .payment-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-option:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+        
+        .payment-price {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .payment-link {
+            display: inline-block;
+        }
+        
+        .payment-link img {
+            height: 36px;
+            transition: transform 0.2s ease;
+        }
+        
+        .payment-link:hover img {
+            transform: scale(1.05);
+        }
+
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .faq-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            background-color: var(--surface-color);
+            overflow: hidden;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--subtle-text-color);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        footer {
+            background-color: var(--surface-color);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            color: var(--subtle-text-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .auth-buttons {
+                margin-top: 1rem;
+            }
+            
+            .user-info {
+                align-items: center;
+            }
+            
+            .plans-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .plan-card.popular {
+                transform: none;
+            }
+            
+            .plan-card.popular:hover {
+                transform: translateY(-5px);
+            }
+            
+            .payment-option {
+                flex-direction: column;
+                gap: 0.75rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas class="particles-canvas"></canvas>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                Prompt<span>Hub</span>
+            </a>
+            
+            <div class="auth-buttons" id="authButtons">
+                <button id="loginBtnHeader" onclick="window.location.href='login.html'">Login</button>
+                <button id="registerBtnHeader" onclick="window.location.href='login.html'">Register</button>
+            </div>
+            
+            <div id="userProfile" class="hidden">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">User</div>
+                    <div class="user-status" id="userStatus">Free Account</div>
+                </div>
+                <button id="logoutBtn">Logout</button>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Upgrade Your Prompt Hub Experience</h1>
+            <p>Unlock access to all 261 categories and 18,109 premium prompts with our affordable subscription plans</p>
+        </div>
+
+        <div class="plans-container">
+            <div class="plan-card">
+                <div class="plan-name">Free Plan</div>
+                <div class="plan-price">$0 <span>/ forever</span></div>
+                <ul class="plan-features">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Access to 5 basic categories
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Limited prompts (approximately 350)
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Basic search functionality
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Community support
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Business Idea & Guide Prompt Creator
+                    </li>
+                </ul>
+                <button class="plan-button secondary" id="freePlanButton">Current Plan</button>
+            </div>
+
+            <div class="plan-card popular">
+                <div class="popular-badge">MOST POPULAR</div>
+                <div class="plan-name">Premium Plan</div>
+                <div class="plan-price">$9.99 <span>/ month</span></div>
+                <ul class="plan-features">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Access to all 261 categories
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        All 18,109 premium prompts
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Advanced search and filters
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Priority support
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Regular new prompt additions
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <strong>All Prompt Creators:</strong> Gmail, Website, Logo, Story, Business Ideas & Guides
+                    </li>
+                </ul>
+                
+                <div class="payment-options">
+                    <div class="payment-option">
+                        <div class="payment-price">1 Month - $9.99</div>
+                        <a href="https://nowpayments.io/payment/?iid=4491664720&source=button" target="_blank" rel="noreferrer noopener" class="payment-link">
+                            <img src="https://nowpayments.io/images/embeds/payment-button-white.svg" alt="Cryptocurrency & Bitcoin payment button by NOWPayments">
+                        </a>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <div class="payment-price">3 Months - $29.99</div>
+                        <a href="https://nowpayments.io/payment/?iid=4616169927&source=button" target="_blank" rel="noreferrer noopener" class="payment-link">
+                            <img src="https://nowpayments.io/images/embeds/payment-button-white.svg" alt="Cryptocurrency & Bitcoin payment button by NOWPayments">
+                        </a>
+                    </div>
+                    
+                    <div class="payment-option">
+                        <div class="payment-price">12 Months - $49.99</div>
+                        <a href="https://nowpayments.io/payment/?iid=5757934557&source=button" target="_blank" rel="noreferrer noopener" class="payment-link">
+                            <img src="https://nowpayments.io/images/embeds/payment-button-white.svg" alt="Cryptocurrency & Bitcoin payment button by NOWPayments">
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="current-plan" id="premiumCurrentBadge" style="display: none;">Your Current Plan</div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    How does the subscription work?
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    Our subscription offers different duration options: 1 month for $9.99, 3 months for $29.99, or 12 months for $49.99. You'll have access to all premium features until your subscription period ends. You can renew at any time.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    What prompt creators do I get with each plan?
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    Free users get access to the Business Idea & Guide Prompt Creator only. Premium subscribers get access to all prompt creators including Gmail, Website, Logo, Story, and Business Ideas & Guides creators.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    Can I cancel anytime?
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    Yes, you can cancel your subscription at any time. After cancellation, you'll still have access to premium features until the end of your current billing period.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    What payment methods do you accept?
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    We accept all major credit cards, PayPal, and cryptocurrencies (Bitcoin, Ethereum, and others) through NOWPayments.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    Will I be charged immediately?
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    Yes, you'll be charged immediately upon subscribing. Your subscription will then automatically renew at the end of each period unless canceled.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Prompt Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://lbvesyhvxegzjxmmsign.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhbmFzZSIsInJlZiI6ImxidmVzeWh2eGVnemp4bW1zaWduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzUwMTksImV4cCI6MjA3MzI1MTAxOX0.Bw4STD_2LtI9rLfk_nHVLYa2g_G1MK3kHeGJwOoQEq4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // DOM elements
+        const themeToggleBtn = document.querySelector('.theme-toggle');
+        const authButtons = document.getElementById('authButtons');
+        const userProfile = document.getElementById('userProfile');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userStatus = document.getElementById('userStatus');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const freePlanButton = document.getElementById('freePlanButton');
+        const premiumCurrentBadge = document.getElementById('premiumCurrentBadge');
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        // Initial theme setup
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        // Check authentication state
+        async function checkAuth() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (session && session.user) {
+                // User is logged in
+                authButtons.classList.add('hidden');
+                userProfile.classList.remove('hidden');
+                
+                // Display user info
+                const user = session.user;
+                userName.textContent = user.email;
+                userAvatar.textContent = user.email.charAt(0).toUpperCase();
+                
+                // Check subscription status
+                await checkSubscriptionStatus(user.id);
+                return true;
+            } else {
+                // User is not logged in
+                authButtons.classList.remove('hidden');
+                userProfile.classList.add('hidden');
+                window.location.href = 'login.html';
+                return false;
+            }
+        }
+
+        // Check user's subscription status
+        async function checkSubscriptionStatus(userId) {
+            // This would query your subscription table in Supabase
+            // For now, we'll simulate it with localStorage
+            const subscriptionType = localStorage.getItem(`subscription_${userId}`) || 'free';
+            const subscriptionEnd = localStorage.getItem(`subscription_end_${userId}`);
+            
+            // Check if subscription has expired
+            if (subscriptionEnd && new Date() > new Date(subscriptionEnd)) {
+                localStorage.setItem(`subscription_${userId}`, 'free');
+                localStorage.removeItem(`subscription_end_${userId}`);
+                subscriptionType = 'free';
+            }
+            
+            if (subscriptionType !== 'free') {
+                userStatus.textContent = 'Premium Account';
+                userStatus.innerHTML += '<span class="subscription-badge">' + subscriptionType + '</span>';
+                freePlanButton.textContent = 'Free Plan';
+                premiumCurrentBadge.style.display = 'inline-block';
+            } else {
+                userStatus.textContent = 'Free Account';
+                freePlanButton.textContent = 'Current Plan';
+                premiumCurrentBadge.style.display = 'none';
+            }
+            
+            return subscriptionType;
+        }
+
+        // Function to handle subscription payment
+        async function handleSubscriptionPayment(planDuration, planPrice, paymentLink) {
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Check if already subscribed
+            const subscriptionType = await checkSubscriptionStatus(user.id);
+            
+            if (subscriptionType === 'free') {
+                // Open payment page in new tab
+                window.open(paymentLink, '_blank');
+                
+                // In a real application, you would set up webhooks to verify payment
+                // For demo purposes, we'll simulate a successful payment after a delay
+                setTimeout(() => {
+                    // Check if user completed payment (this would be done via webhook in production)
+                    const paymentCompleted = confirm(`Did you complete the ${planDuration} payment of $${planPrice}? (In production, this would be automated via webhook)`);
+                    
+                    if (paymentCompleted) {
+                        // Calculate subscription end date based on plan duration
+                        const endDate = new Date();
+                        if (planDuration === '1month') {
+                            endDate.setMonth(endDate.getMonth() + 1);
+                        } else if (planDuration === '3month') {
+                            endDate.setMonth(endDate.getMonth() + 3);
+                        } else if (planDuration === '12month') {
+                            endDate.setFullYear(endDate.getFullYear() + 1);
+                        }
+                        
+                        // Store subscription data
+                        localStorage.setItem(`subscription_${user.id}`, planDuration);
+                        localStorage.setItem(`subscription_end_${user.id}`, endDate.toISOString());
+                        
+                        // Update UI
+                        checkSubscriptionStatus(user.id);
+                        
+                        alert('Subscription successful! You now have access to all premium content and prompt creators.');
+                        
+                        // Redirect to collection page
+                        window.location.href = 'collection.html';
+                    }
+                }, 3000);
+            } else {
+                // Already subscribed
+                alert('You are already a premium subscriber!');
+            }
+        }
+
+        // Set up payment link click handlers
+        document.querySelectorAll('.payment-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const parent = this.closest('.payment-option');
+                const priceText = parent.querySelector('.payment-price').textContent;
+                
+                let planDuration, planPrice;
+                
+                if (priceText.includes('1 Month')) {
+                    planDuration = '1month';
+                    planPrice = '9.99';
+                } else if (priceText.includes('3 Months')) {
+                    planDuration = '3month';
+                    planPrice = '29.99';
+                } else if (priceText.includes('12 Months')) {
+                    planDuration = '12month';
+                    planPrice = '49.99';
+                }
+                
+                handleSubscriptionPayment(planDuration, planPrice, this.href);
+            });
+        });
+
+        // Logout function
+        logoutBtn.addEventListener('click', async () => {
+            const { error } = await supabase.auth.signOut();
+            if (!error) {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // FAQ accordion functionality
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all FAQ items
+                faqItems.forEach(faq => {
+                    faq.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't already active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Particle background animation
+        const canvas = document.querySelector('.particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', setCanvasSize);
+        setCanvasSize();
+
+        // Particle class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.01;
+            }
+            
+            draw() {
+                const color = getComputedStyle(document.documentElement).getPropertyValue('--subtle-text-color');
+                ctx.fillStyle = color;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function handleParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            
+            if (particles.length < 150) {
+                for (let i = 0; i < 5; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            // Remove old particles
+            particles = particles.filter(particle => particle.size > 0.2);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize the page
+        async function init() {
+            await checkAuth();
+            animate();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

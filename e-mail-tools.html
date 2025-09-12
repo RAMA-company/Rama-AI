@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompthub Tools Email Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text-color: #202124;
+            --border-color: #dadce0;
+            --accent-color: #1a73e8;
+            --shadow-color: rgba(60, 64, 67, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease-in-out;
+            border-radius: 1rem;
+            border-color: var(--border-color);
+            border-width: 1px;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-secondary);
+            color: var(--text-color);
+            border-color: var(--border-color);
+            transition: all 0.2s ease-in-out;
+            border-width: 1px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 1px var(--accent-color);
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+        
+        .btn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        .btn-press {
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        }
+
+        .output-box {
+            background-color: #f1f3f4;
+            border: 1px solid var(--border-color);
+            font-family: 'Courier New', Courier, monospace;
+            transition: all 0.5s ease-in-out;
+            color: var(--text-color);
+        }
+
+        /* Responsive grid adjustments */
+        @media (min-width: 768px) {
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex flex-col items-center justify-center">
+
+    <div class="container mx-auto max-w-4xl">
+        <div class="card p-6 sm:p-8 rounded-xl border border-gray-300">
+            <h1 class="text-3xl sm:text-4xl font-normal text-center mb-2 text-gray-800">Email Prompt Generator</h1>
+            <p class="text-center text-sm mb-8 text-gray-500">Fill in the variables to create a high-quality, copyable AI prompt for a professional email.</p>
+
+            <!-- Main Form -->
+            <form id="emailForm" class="space-y-6">
+                <!-- Email Purpose & Audience -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Email Purpose & Audience</h2>
+                    <div>
+                        <label for="emailPurpose" class="block text-sm font-medium mb-1">Email Purpose</label>
+                        <select id="emailPurpose" class="w-full px-4 py-2 rounded-lg border" required>
+                            <option value="">Select a purpose</option>
+                            <option value="Welcome Email">Welcome Email</option>
+                            <option value="Cold Outreach">Cold Outreach</option>
+                            <option value="Product Launch">Product Launch</option>
+                            <option value="Newsletter">Newsletter</option>
+                            <option value="Sales Offer">Sales Offer</option>
+                            <option value="Event Invitation">Event Invitation</option>
+                            <option value="Follow-up">Follow-up</option>
+                            <option value="Thank You Email">Thank You Email</option>
+                            <option value="Onboarding Sequence">Onboarding Sequence</option>
+                            <option value="Re-engagement">Re-engagement</option>
+                            <option value="Abandoned Cart">Abandoned Cart</option>
+                            <option value="Transactional Confirmation">Transactional Confirmation</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="targetGroup" class="block text-sm font-medium mb-1">Target Group</label>
+                            <select id="targetGroup" class="w-full px-4 py-2 rounded-lg border" required>
+                                <option value="">Select a group</option>
+                                <option value="New Leads">New Leads</option>
+                                <option value="Existing Customers">Existing Customers</option>
+                                <option value="B2B Executives">B2B Executives</option>
+                                <option value="Gen Z Shoppers">Gen Z Shoppers</option>
+                                <option value="Luxury Clients">Luxury Clients</option>
+                                <option value="Newsletter Subscribers">Newsletter Subscribers</option>
+                                <option value="Event Attendees">Event Attendees</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="tonePreference" class="block text-sm font-medium mb-1">Tone Preference</label>
+                            <select id="tonePreference" class="w-full px-4 py-2 rounded-lg border" required>
+                                <option value="">Select a tone</option>
+                                <option value="Friendly">Friendly</option>
+                                <option value="Professional">Professional</option>
+                                <option value="Inspirational">Inspirational</option>
+                                <option value="Persuasive">Persuasive</option>
+                                <option value="Luxury Exclusive">Luxury Exclusive</option>
+                                <option value="Fun & Playful">Fun & Playful</option>
+                                <option value="Minimalist Straightforward">Minimalist Straightforward</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="painPoints" class="block text-sm font-medium mb-1">Pain Points / Needs</label>
+                            <select id="painPoints" class="w-full px-4 py-2 rounded-lg border" required>
+                                <option value="">Select a need</option>
+                                <option value="Time-saving">Time-saving</option>
+                                <option value="Affordability">Affordability</option>
+                                <option value="Trust">Trust</option>
+                                <option value="Innovation">Innovation</option>
+                                <option value="Simplicity">Simplicity</option>
+                                <option value="Status & Prestige">Status & Prestige</option>
+                                <option value="Community Belonging">Community Belonging</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structure & Copy Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Structure & Copy</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="subjectLineStyle" class="block text-sm font-medium mb-1">Subject Line Style</label>
+                            <select id="subjectLineStyle" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a style</option>
+                                <option value="Catchy">Catchy</option>
+                                <option value="Urgent">Urgent</option>
+                                <option value="Curiosity-driven">Curiosity-driven</option>
+                                <option value="Question-based">Question-based</option>
+                                <option value="Benefit-focused">Benefit-focused</option>
+                                <option value="Luxury & Minimal">Luxury & Minimal</option>
+                                <option value="Personalized">Personalized</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="previewText" class="block text-sm font-medium mb-1">Preview Text</label>
+                            <input type="text" id="previewText" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Short supportive hook that complements subject line">
+                        </div>
+                        <div>
+                            <label for="greetingStyle" class="block text-sm font-medium mb-1">Greeting Style</label>
+                            <select id="greetingStyle" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a greeting</option>
+                                <option value="Hi [Name],">Hi [Name],</option>
+                                <option value="Dear [First Name],">Dear [First Name],</option>
+                                <option value="Hello there,">Hello there,</option>
+                                <option value="No greeting - dive right in">No greeting - dive right in</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="openingHook" class="block text-sm font-medium mb-1">Opening Hook</label>
+                            <select id="openingHook" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select an opening hook</option>
+                                <option value="Personalized Story">Personalized Story</option>
+                                <option value="Problem Statement">Problem Statement</option>
+                                <option value="Bold Statistic">Bold Statistic</option>
+                                <option value="Direct Question">Direct Question</option>
+                                <option value="Relatable Emotion">Relatable Emotion</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="bodyApproach" class="block text-sm font-medium mb-1">Body Copy Approach</label>
+                            <select id="bodyApproach" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select an approach</option>
+                                <option value="Problem → Agitation → Solution">Problem → Agitation → Solution</option>
+                                <option value="Storytelling Narrative">Storytelling Narrative</option>
+                                <option value="Straight-to-Benefits">Straight-to-Benefits</option>
+                                <option value="Case Study Evidence">Case Study Evidence</option>
+                                <option value="Step-by-step Explanation">Step-by-step Explanation</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="ctaStyle" class="block text-sm font-medium mb-1">CTA Style</label>
+                            <input type="text" id="ctaStyle" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Primary CTA (Buy Now) + Secondary (Reply)">
+                        </div>
+                        <div>
+                            <label for="closingStyle" class="block text-sm font-medium mb-1">Closing Style</label>
+                            <select id="closingStyle" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a closing style</option>
+                                <option value="Friendly & Warm">Friendly & Warm</option>
+                                <option value="Professional Signature">Professional Signature</option>
+                                <option value="Bold Statement">Bold Statement</option>
+                                <option value="Gratitude">Gratitude</option>
+                                <option value="Urgency Reminder">Urgency Reminder</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Visual & Formatting Variables -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Visual & Formatting</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="length" class="block text-sm font-medium mb-1">Length</label>
+                            <select id="length" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a length</option>
+                                <option value="Short (50–100 words)">Short (50–100 words)</option>
+                                <option value="Medium (150–250 words)">Medium (150–250 words)</option>
+                                <option value="Long-form Newsletter (400–700 words)">Long-form Newsletter (400–700 words)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="formatting" class="block text-sm font-medium mb-1">Formatting</label>
+                            <input type="text" id="formatting" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Bullet Points, Highlighted Benefits">
+                        </div>
+                        <div>
+                            <label for="branding" class="block text-sm font-medium mb-1">Branding</label>
+                            <input type="text" id="branding" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Logo Placement, Brand Colors">
+                        </div>
+                        <div>
+                            <label for="ctaButton" class="block text-sm font-medium mb-1">Call-to-Action Button</label>
+                            <select id="ctaButton" class="w-full px-4 py-2 rounded-lg border">
+                                <option value="">Select a style</option>
+                                <option value="Bold contrasting color">Bold contrasting color</option>
+                                <option value="Subtle outlined button">Subtle outlined button</option>
+                                <option value="Gradient modern design">Gradient modern design</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Enhancements -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Advanced Enhancements</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="personalization" class="block text-sm font-medium mb-1">Personalization</label>
+                            <input type="text" id="personalization" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Use recipient's first name, location, or previous behavior">
+                        </div>
+                        <div>
+                            <label for="segmentation" class="block text-sm font-medium mb-1">Segmentation Angle</label>
+                            <input type="text" id="segmentation" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Differentiate for new users, loyal customers">
+                        </div>
+                        <div>
+                            <label for="storyElement" class="block text-sm font-medium mb-1">Story Element</label>
+                            <input type="text" id="storyElement" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Include a short customer success story">
+                        </div>
+                        <div>
+                            <label for="urgencyScarcity" class="block text-sm font-medium mb-1">Urgency/Scarcity</label>
+                            <input type="text" id="urgencyScarcity" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Limited-time offer, spots filling up">
+                        </div>
+                        <div>
+                            <label for="socialProof" class="block text-sm font-medium mb-1">Social Proof</label>
+                            <input type="text" id="socialProof" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., Testimonials, star ratings, well-known client logos">
+                        </div>
+                        <div>
+                            <label for="compliance" class="block text-sm font-medium mb-1">Compliance</label>
+                            <input type="text" id="compliance" class="w-full px-4 py-2 rounded-lg border" placeholder="e.g., GDPR footer, unsubscribe link">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="flex flex-col sm:flex-row justify-center">
+                    <button type="button" id="copyBtn" class="btn w-full py-3 rounded-lg font-semibold text-white transition-all duration-300">Copy to Clipboard</button>
+                </div>
+            </form>
+
+            <!-- Output Area -->
+            <div id="outputContainer" class="mt-8">
+                <h2 class="text-xl font-semibold border-b border-gray-200 pb-2 mb-4">Generated AI Prompt</h2>
+                <textarea id="output" class="output-box w-full px-4 py-4 rounded-lg text-sm" rows="15" readonly></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('emailForm');
+            const copyBtn = document.getElementById('copyBtn');
+            const outputArea = document.getElementById('output');
+            
+            // Tone.js setup
+            let soundEffectSynth = null;
+
+            const playSoundEffect = (note, duration) => {
+                if (!soundEffectSynth) {
+                    soundEffectSynth = new Tone.Synth({
+                        oscillator: { type: "sine" },
+                        envelope: {
+                            attack: 0.005,
+                            decay: 0.1,
+                            sustain: 0,
+                            release: 0.1
+                        }
+                    }).toDestination();
+                }
+                soundEffectSynth.triggerAttackRelease(note, duration);
+            };
+
+            // Event Listeners
+            copyBtn.addEventListener('click', () => {
+                if (checkFormValidity()) {
+                    generatePrompt();
+                    outputArea.select();
+                    try {
+                        document.execCommand('copy');
+                        playSoundEffect('D6', '8n');
+                    } catch (err) {
+                        console.error('Could not copy text: ', err);
+                    }
+                } else {
+                    form.reportValidity();
+                }
+            });
+
+            // Button animation logic
+            const addPressEffect = (event) => {
+                event.target.classList.add('btn-press');
+                playSoundEffect('G4', '16n');
+            };
+            const removePressEffect = (event) => {
+                event.target.classList.remove('btn-press');
+            };
+
+            const allButtons = document.querySelectorAll('button, select, input, textarea');
+            allButtons.forEach(el => {
+                el.addEventListener('mousedown', addPressEffect);
+                el.addEventListener('mouseup', removePressEffect);
+                el.addEventListener('mouseleave', removePressEffect);
+            });
+
+            /**
+             * Escapes HTML characters in a string to prevent Cross-Site Scripting (XSS) attacks.
+             * This function replaces characters like <, >, and & with their HTML entity equivalents.
+             * @param {string} text The string to be escaped.
+             * @returns {string} The HTML-safe string.
+             */
+            const escapeHtml = (text) => {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+            };
+
+            const generatePrompt = () => {
+                const data = {
+                    emailPurpose: document.getElementById('emailPurpose').value.trim(),
+                    targetGroup: document.getElementById('targetGroup').value.trim(),
+                    tonePreference: document.getElementById('tonePreference').value.trim(),
+                    painPoints: document.getElementById('painPoints').value.trim(),
+                    subjectLineStyle: document.getElementById('subjectLineStyle').value.trim(),
+                    previewText: document.getElementById('previewText').value.trim(),
+                    greetingStyle: document.getElementById('greetingStyle').value.trim(),
+                    openingHook: document.getElementById('openingHook').value.trim(),
+                    bodyApproach: document.getElementById('bodyApproach').value.trim(),
+                    ctaStyle: document.getElementById('ctaStyle').value.trim(),
+                    closingStyle: document.getElementById('closingStyle').value.trim(),
+                    length: document.getElementById('length').value.trim(),
+                    formatting: document.getElementById('formatting').value.trim(),
+                    branding: document.getElementById('branding').value.trim(),
+                    ctaButton: document.getElementById('ctaButton').value.trim(),
+                    personalization: document.getElementById('personalization').value.trim(),
+                    segmentation: document.getElementById('segmentation').value.trim(),
+                    storyElement: document.getElementById('storyElement').value.trim(),
+                    urgencyScarcity: document.getElementById('urgencyScarcity').value.trim(),
+                    socialProof: document.getElementById('socialProof').value.trim(),
+                    compliance: document.getElementById('compliance').value.trim(),
+                };
+
+                const promptParts = [];
+
+                promptParts.push(`Write a **highly professional, persuasive, and brand-consistent email** for ${escapeHtml(data.emailPurpose)}.`);
+                
+                // Email Purpose
+                promptParts.push(`📌 Email Purpose:\n– [${escapeHtml(data.emailPurpose)}]`);
+                
+                // Audience
+                const audienceParts = [];
+                audienceParts.push(`– Target Group: [${escapeHtml(data.targetGroup)}]`);
+                audienceParts.push(`– Tone Preference: [${escapeHtml(data.tonePreference)}]`);
+                audienceParts.push(`– Pain Points / Needs: [${escapeHtml(data.painPoints)}]`);
+                promptParts.push(`📌 Audience:\n${audienceParts.join('\n')}`);
+                
+                // Structure & Copy
+                const structureParts = [];
+                if (data.subjectLineStyle) structureParts.push(`– Subject Line Style: [${escapeHtml(data.subjectLineStyle)}]`);
+                if (data.previewText) structureParts.push(`– Preview Text: [${escapeHtml(data.previewText)}]`);
+                if (data.greetingStyle) structureParts.push(`– Greeting Style: [${escapeHtml(data.greetingStyle)}]`);
+                if (data.openingHook) structureParts.push(`– Opening Hook: [${escapeHtml(data.openingHook)}]`);
+                if (data.bodyApproach) structureParts.push(`– Body Copy Approach: [${escapeHtml(data.bodyApproach)}]`);
+                if (data.ctaStyle) structureParts.push(`– CTA Style: [${escapeHtml(data.ctaStyle)}]`);
+                if (data.closingStyle) structureParts.push(`– Closing Style: [${escapeHtml(data.closingStyle)}]`);
+                if (structureParts.length > 0) promptParts.push(`📌 Structure & Copy Variables:\n${structureParts.join('\n')}`);
+
+                // Visual & Formatting
+                const visualParts = [];
+                if (data.length) visualParts.push(`– Length: [${escapeHtml(data.length)}]`);
+                if (data.formatting) visualParts.push(`– Formatting: [${escapeHtml(data.formatting)}]`);
+                if (data.branding) visualParts.push(`– Branding: [${escapeHtml(data.branding)}]`);
+                if (data.ctaButton) visualParts.push(`– Call-to-Action Button: [${escapeHtml(data.ctaButton)}]`);
+                if (visualParts.length > 0) promptParts.push(`📌 Visual & Formatting Variables:\n${visualParts.join('\n')}`);
+
+                // Advanced Enhancements
+                const advancedParts = [];
+                if (data.personalization) advancedParts.push(`– Personalization: [${escapeHtml(data.personalization)}]`);
+                if (data.segmentation) advancedParts.push(`– Segmentation Angle: [${escapeHtml(data.segmentation)}]`);
+                if (data.storyElement) advancedParts.push(`– Story Element: [${escapeHtml(data.storyElement)}]`);
+                if (data.urgencyScarcity) advancedParts.push(`– Urgency/Scarcity: [${escapeHtml(data.urgencyScarcity)}]`);
+                if (data.socialProof) advancedParts.push(`– Social Proof: [${escapeHtml(data.socialProof)}]`);
+                if (data.compliance) advancedParts.push(`– Compliance: [${escapeHtml(data.compliance)}]`);
+                if (advancedParts.length > 0) promptParts.push(`📌 Advanced Enhancements:\n${advancedParts.join('\n')}`);
+
+                // Final Output
+                const finalOutput = `📌 Final Output:\nA **studio-quality email** that is:\n– Professionally structured with clear hierarchy.\n– Persuasive, emotionally engaging, and benefit-driven.\n– Optimized for **deliverability** (avoiding spammy wording).\n– Clean formatting, ready for use in **Mailchimp, HubSpot, Klaviyo, or Gmail**.\n– Includes **subject line, preview text, body copy, CTA(s), and footer**.`;
+                promptParts.push(finalOutput);
+
+                outputArea.value = promptParts.join('\n\n');
+            };
+
+            const checkFormValidity = () => {
+                return form.checkValidity();
+            };
+
+            form.addEventListener('input', () => {
+                if (checkFormValidity()) {
+                    generatePrompt();
+                } else {
+                    outputArea.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
