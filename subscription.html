@@ -26,94 +26,156 @@
     </script>
     <style>
         :root {
-            color-scheme: light dark;
-        }
+    color-scheme: light dark;
+}
 
-        [data-theme="dark"] {
-            --bg-color: #000000;
-            --card-color: #000000;
-            --text-color: #FFFFFF;
-            --muted-text-color: #888888;
-        }
+[data-theme="dark"] {
+    --bg-color: #000000;
+    --card-color: #000000;
+    --text-color: #FFFFFF;
+    --muted-text-color: #888888;
+    --border-color: #FFFFFF;
+    --button-bg: #FFFFFF;
+    --button-text: #000000;
+    --inactive-button-bg: rgba(255, 255, 255, 0.1);
+    --inactive-button-text: #FFFFFF;
+    --spinner-border: rgba(255, 255, 255, 0.1);
+    --spinner-border-top: #FFFFFF;
+}
 
-        [data-theme="light"] {
-            --bg-color: #FFFFFF;
-            --card-color: #FFFFFF;
-            --text-color: #000000;
-            --muted-text-color: #555555;
-        }
+[data-theme="light"] {
+    --bg-color: #FFFFFF;
+    --card-color: #FFFFFF;
+    --text-color: #000000;
+    --muted-text-color: #555555;
+    --border-color: #000000;
+    --button-bg: #000000;
+    --button-text: #FFFFFF;
+    --inactive-button-bg: rgba(0, 0, 0, 0.1);
+    --inactive-button-text: #000000;
+    --spinner-border: rgba(0, 0, 0, 0.1);
+    --spinner-border-top: #000000;
+}
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-        .card {
-            background-color: var(--card-color);
-            color: var(--text-color);
-            transition: background-color 0.3s ease, color 0.3s ease;
-            border: 1px solid var(--text-color);
-        }
-        
-        .card.active {
-            border: 2px solid var(--text-color);
-        }
+.card {
+    background-color: var(--card-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 1px solid var(--border-color);
+}
 
-        .muted {
-            color: var(--muted-text-color);
-        }
+.card.active {
+    border: 2px solid var(--border-color);
+}
 
-        /* Custom alert/modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-        }
+.muted {
+    color: var(--muted-text-color);
+}
 
-        .modal-content {
-            background-color: var(--card-color);
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            animation: fadeIn 0.3s ease-out;
-            border: 1px solid var(--text-color);
-        }
+/* Header border */
+header {
+    border-bottom-color: color-mix(in srgb, var(--border-color) 50%, transparent);
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Loading Spinner */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-top: 4px solid var(--text-color);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+/* Footer border */
+footer {
+    border-top-color: color-mix(in srgb, var(--border-color) 50%, transparent);
+}
 
+/* Button styles */
+.btn-primary {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+.btn-secondary {
+    background-color: var(--inactive-button-bg);
+    color: var(--inactive-button-text);
+}
+
+/* Plan toggle buttons */
+.plan-toggle {
+    background-color: var(--inactive-button-bg);
+    color: var(--inactive-button-text);
+}
+
+.plan-toggle.active {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+/* Status badges */
+.status-badge {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+/* Custom alert/modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--card-color);
+    color: var(--text-color);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+    border: 1px solid var(--border-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 4px solid var(--spinner-border);
+    border-top: 4px solid var(--spinner-border-top);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* List items in cards */
+li {
+    color: var(--text-color);
+}
+
+/* Links */
+a {
+    color: var(--text-color);
+}
     </style>
 </head>
 <body class="font-roboto flex flex-col min-h-screen">
@@ -457,4 +519,5 @@
     </script>
 </body>
 </html>
+
 
