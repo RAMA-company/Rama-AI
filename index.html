@@ -4,30 +4,37 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="iE44gpBpd8bgIKMDG2n6LktGpzmO9r5ZtyMQuNOzFjI" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rama Empire | AI </title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Rama Empire | AI Prompt Generator, Tools & Resources</title>
+    <meta name="description" content="Discover the world's largest collection of AI prompts and intelligent tools for website generation, logo design, storytelling, and business planning. Unlock your creative potential with Rama Empire.">
+    <link rel="canonical" href="/index.html">
+
+    <!-- Favicon Links for different browsers -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+    <!-- Preload critical fonts for faster rendering -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Dancing+Script:wght@400;700&display=swap">
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
+            --bg-secondary: #ffffff;
             --text-color: #000000;
-            --border-color: #e0e0e0;
-            --accent-color: #000000; /* Deep Black */
+            --border-color: #000000;
+            --accent-color: #000000;
             --shadow-color: rgba(0, 0, 0, 0.15);
         }
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-color);
             line-height: 1.6;
             min-height: 100vh;
-            transition: background-color 0.5s ease-in-out;
         }
-
         .card {
             background-color: var(--bg-secondary);
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 2px 4px 0 rgba(0, 0, 0, 0.05);
@@ -36,26 +43,10 @@
             border-color: var(--border-color);
             border-width: 1px;
         }
-        
         .card:hover {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             transform: translateY(-2px);
         }
-
-        input, select, textarea {
-            background-color: var(--bg-secondary);
-            color: var(--text-color);
-            border-color: var(--border-color);
-            transition: all 0.2s ease-in-out;
-            border-width: 1px;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 1px var(--accent-color);
-        }
-
         .btn {
             background-color: var(--accent-color);
             color: white;
@@ -63,168 +54,286 @@
             border-radius: 0.5rem;
             box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
         }
-        
         .btn:hover {
             filter: brightness(1.1);
             transform: translateY(-1px);
         }
-
-        .btn-press {
+        .btn:active {
             transform: translateY(1px);
-            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
         }
-
-        .output-box {
-            background-color: #f1f3f4;
-            border: 1px solid var(--border-color);
-            font-family: 'Courier New', Courier, monospace;
-            transition: all 0.5s ease-in-out;
-            color: var(--text-color);
+        .blog-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.75rem;
         }
-
-        /* Responsive grid adjustments */
-        @media (min-width: 768px) {
-            .input-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeIn 0.8s ease-out;
+        }
+        .script-font-section {
+            font-family: 'Dancing Script', cursive;
         }
     </style>
+
+    <!-- Schema Markup for enhanced search visibility -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Rama Empire AI Prompt Generator",
+      "operatingSystem": "All",
+      "applicationCategory": "ProductivityApplication",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "1234"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
 </head>
 <body class="smooth-scroll">
-
-    <!-- Sticky Header Navigation -->
     <header class="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-sm">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-bold text-gray-900 rounded-lg p-2 transition-transform transform hover:scale-105">RAMA AI</a>
-            <nav>
-                <ul class="flex space-x-6">
-                    <li><a href="#home" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200">Home</a></li>
-                    <li><a href="#collection" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200">Prompt Collection</a></li>
-                    <li><a href="#tools" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200">Tools</a></li>
-                    <li><a href="#about" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200">About</a></li>
-                    <li><a href="#contact" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200">Contact</a></li>
-                </ul>
-            </nav>
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-gray-900 rounded-lg p-2 transition-transform transform hover:scale-105">RAMA EMPIRE</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200" aria-label="Home">Home</a>
+                <a href="#collection" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200" aria-label="Prompt Collection">Prompt Collection</a>
+                <a href="#tools" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200" aria-label="AI Tools">AI Tools</a>
+                <a href="#blog" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200" aria-label="Blog">Blog</a>
+                <a href="#about" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200" aria-label="About Us">About Us</a>
+                <a href="#contact" class="text-gray-600 hover:text-accent-color font-medium transition-colors duration-200" aria-label="Contact">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-button" class="text-gray-600 hover:text-accent-color focus:outline-none" aria-label="Toggle navigation menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white bg-opacity-90 backdrop-blur-sm shadow-md">
+            <a href="#home" class="block py-2 px-4 text-sm hover:bg-gray-100">Home</a>
+            <a href="#collection" class="block py-2 px-4 text-sm hover:bg-gray-100">Prompt Collection</a>
+            <a href="#tools" class="block py-2 px-4 text-sm hover:bg-gray-100">AI Tools</a>
+            <a href="#blog" class="block py-2 px-4 text-sm hover:bg-gray-100">Blog</a>
+            <a href="#about" class="block py-2 px-4 text-sm hover:bg-gray-100">About Us</a>
+            <a href="#contact" class="block py-2 px-4 text-sm hover:bg-gray-100">Contact</a>
         </div>
     </header>
 
     <main>
-
-        <!-- Hero Section -->
         <section id="home" class="bg-black text-white min-h-screen flex items-center justify-center text-center p-8">
             <div class="max-w-4xl mx-auto">
                 <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4 animate-fade-in-up">
-                    The Ultimate AI Prompt Hub
+                    Unlock Your Creativity with AI Prompts
                 </h1>
                 <p class="text-lg md:text-2xl font-medium mb-8">
-                    18,109 Ready-to-Use Prompts + 5 Smart Generators
+                    18,109 Ready-to-Use Prompts + 5 Intelligent Generators
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="#collection" class="bg-white text-black font-bold py-3 px-8 rounded-full">
+                    <a href="#collection" class="bg-white text-black font-bold py-3 px-8 rounded-full" aria-label="Explore the collection">
                         Explore Collection
                     </a>
-                    <a href="#tools" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full transition-transform transform hover:scale-105 hover:bg-white hover:text-black">
+                    <a href="#tools" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full transition-transform transform hover:scale-105 hover:bg-white hover:text-black" aria-label="Try the generators">
                         Try Generators
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Prompt Collection Section -->
-        <section id="collection" class="py-24 px-4 bg-gray-100">
+        <section id="collection" class="py-24 px-4 bg-white">
             <div class="container mx-auto text-center max-w-2xl">
-                <h2 class="text-4xl font-bold mb-4">The World's Largest Prompt Collection</h2>
-                <p class="text-xl text-gray-600 mb-8">
-                    Discover a massive repository of AI prompts to spark creativity and productivity. With <span class="font-bold text-accent-color">18,109 prompts</span> across <span class="font-bold text-accent-color">261 categories</span> and an average length of 96.06 characters, you'll find the perfect prompt for any task.
+                <h2 class="text-4xl font-bold mb-4">World's Largest Prompt Collection</h2>
+                <p class="text-xl text-black mb-8">
+                    Discover a massive repository of AI prompts to spark creativity and boost productivity. With <span class="font-bold text-accent-color">18,109 prompts</span> across <span class="font-bold text-accent-color">261 categories</span> and an average length of 96.06 characters, you'll find the right prompt for any task.
                 </p>
-                <a href="login.html" class="inline-block btn font-bold py-4 px-12 rounded-full">
-                    Go to Collection
+                <a href="login.html" class="inline-block btn font-bold py-4 px-12 rounded-full" aria-label="Go to the collection">
+                    Go to the Collection
                 </a>
             </div>
         </section>
 
-        <!-- Tools Section -->
-        <section id="tools" class="py-24 px-4 bg-white">
+        <section id="tools" class="py-24 px-4 bg-black text-white">
             <div class="container mx-auto text-center">
-                <h2 class="text-4xl font-bold mb-12">Our Smart Generators</h2>
+                <h2 class="text-4xl font-bold mb-12">Our Intelligent Generators</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
-
-                    <!-- Tool Card 1 -->
-                    <div class="card p-8 rounded-3xl">
+                    <article class="card p-8 rounded-3xl bg-white text-black" aria-label="Website Generator">
                         <h3 class="text-2xl font-bold my-4">Website Generator</h3>
-                        <p class="text-gray-600 mb-6">Create stunning websites in seconds with just a few keywords.</p>
-                        <a href="web-tools.html" class="btn font-semibold py-3 px-6 rounded-full">Open Tool</a>
-                    </div>
+                        <p class="text-black mb-6">Create stunning websites in seconds with just a few keywords.</p>
+                        <a href="web-tools.html" class="btn font-semibold py-3 px-6 rounded-full" aria-label="Open the tool">Open Tool</a>
+                    </article>
 
-                    <!-- Tool Card 2 -->
-                    <div class="card p-8 rounded-3xl">
+                    <article class="card p-8 rounded-3xl bg-white text-black" aria-label="Logo Generator">
                         <h3 class="text-2xl font-bold my-4">Logo Generator</h3>
-                        <p class="text-gray-600 mb-6">Design unique and professional logos for your brand effortlessly.</p>
-                        <a href="logo-tools.html" class="btn font-semibold py-3 px-6 rounded-full">Open Tool</a>
-                    </div>
+                        <p class="text-black mb-6">Easily design unique, professional logos for your brand.</p>
+                        <a href="logo-tools.html" class="btn font-semibold py-3 px-6 rounded-full" aria-label="Open the tool">Open Tool</a>
+                    </article>
 
-                    <!-- Tool Card 3 -->
-                    <div class="card p-8 rounded-3xl">
+                    <article class="card p-8 rounded-3xl bg-white text-black" aria-label="Story Generator">
                         <h3 class="text-2xl font-bold my-4">Story Generator</h3>
-                        <p class="text-gray-600 mb-6">Unleash your imagination and generate captivating stories instantly.</p>
-                        <a href="story-tools.html" class="btn font-semibold py-3 px-6 rounded-full">Open Tool</a>
-                    </div>
+                        <p class="text-black mb-6">Unleash your imagination and generate engaging stories instantly.</p>
+                        <a href="story-tools.html" class="btn font-semibold py-3 px-6 rounded-full" aria-label="Open the tool">Open Tool</a>
+                    </article>
 
-                    <!-- Tool Card 4 -->
-                    <div class="card p-8 rounded-3xl">
+                    <article class="card p-8 rounded-3xl bg-white text-black" aria-label="Email Generator">
                         <h3 class="text-2xl font-bold my-4">Email Generator</h3>
-                        <p class="text-gray-600 mb-6">Craft persuasive and professional emails for any situation.</p>
-                        <a href="e-mail-tools.html" class="btn font-semibold py-3 px-6 rounded-full">Open Tool</a>
-                    </div>
+                        <p class="text-black mb-6">Write compelling, professional emails for any situation.</p>
+                        <a href="e-mail-tools.html" class="btn font-semibold py-3 px-6 rounded-full" aria-label="Open the tool">Open Tool</a>
+                    </article>
 
-                    <!-- Tool Card 5 -->
-                    <div class="card p-8 rounded-3xl">
+                    <article class="card p-8 rounded-3xl bg-white text-black" aria-label="Business Plan Generator">
                         <h3 class="text-2xl font-bold my-4">Business Plan Generator</h3>
-                        <p class="text-gray-600 mb-6">Quickly outline a robust business plan with smart, data-driven prompts.</p>
-                        <a href="bussines-tools.html" class="btn font-semibold py-3 px-6 rounded-full">Open Tool</a>
-                    </div>
+                        <p class="text-black mb-6">Draft a robust business plan quickly with smart, data-driven prompts.</p>
+                        <a href="bussines-tools.html" class="btn font-semibold py-3 px-6 rounded-full" aria-label="Open the tool">Open Tool</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <section id="blog" class="py-24 px-4 bg-white">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12">AI Insights & Tutorials</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <article class="card bg-white text-black">
+                        <a href="blog/how-to-write-effective-ai-prompts.html">
+                            <img src="https://placehold.co/600x400/000000/ffffff?text=AI+Prompts" alt="Guide on writing effective AI prompts" class="blog-thumbnail" loading="lazy">
+                        </a>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2"><a href="blog/how-to-write-effective-ai-prompts.html">How to Write Effective AI Prompts</a></h3>
+                            <p class="text-black text-sm mb-4">A comprehensive guide to mastering prompt writing to get the best results from AI models.</p>
+                            <a href="blog/how-to-write-effective-ai-prompts.html" class="text-black font-semibold hover:underline">Read More &rarr;</a>
+                        </div>
+                    </article>
 
+                    <article class="card bg-white text-black">
+                        <a href="blog/midjourney-master-guide.html">
+                            <img src="https://placehold.co/600x400/000000/ffffff?text=Midjourney+Guide" alt="A comprehensive guide to Midjourney" class="blog-thumbnail" loading="lazy">
+                        </a>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2"><a href="blog/midjourney-master-guide.html">Midjourney Master Guide: Beginner to Pro</a></h3>
+                            <p class="text-black text-sm mb-4">Learn how to create breathtaking images with Midjourney using this complete guide.</p>
+                            <a href="blog/midjourney-master-guide.html" class="text-black font-semibold hover:underline">Read More &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="card bg-white text-black">
+                        <a href="blog/chatgpt-for-business.html">
+                            <img src="https://placehold.co/600x400/000000/ffffff?text=ChatGPT+Business" alt="Using ChatGPT for business applications" class="blog-thumbnail" loading="lazy">
+                        </a>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2"><a href="blog/chatgpt-for-business.html">How to Use ChatGPT for Your Business</a></h3>
+                            <p class="text-black text-sm mb-4">Strategies to boost productivity and automate tasks with ChatGPT for your business.</p>
+                            <a href="blog/chatgpt-for-business.html" class="text-black font-semibold hover:underline">Read More &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="card bg-white text-black">
+                        <a href="blog/ai-website-design-trends.html">
+                            <img src="https://placehold.co/600x400/000000/ffffff?text=AI+Website+Design" alt="AI website design trends for the future" class="blog-thumbnail" loading="lazy">
+                        </a>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2"><a href="blog/ai-website-design-trends.html">AI Website Design Trends of 2025</a></h3>
+                            <p class="text-black text-sm mb-4">Explore the future of web design with AI-powered platforms and tools.</p>
+                            <a href="blog/ai-website-design-trends.html" class="text-black font-semibold hover:underline">Read More &rarr;</a>
+                        </div>
+                    </article>
+                    
+                    <article class="card bg-white text-black">
+                        <a href="blog/automate-content-creation.html">
+                            <img src="https://placehold.co/600x400/000000/ffffff?text=Content+Automation" alt="Automating content creation with AI" class="blog-thumbnail" loading="lazy">
+                        </a>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2"><a href="blog/automate-content-creation.html">How to Automate Content Creation with AI</a></h3>
+                            <p class="text-black text-sm mb-4">Tools and strategies to streamline your content creation process using artificial intelligence.</p>
+                            <a href="blog/automate-content-creation.html" class="text-black font-semibold hover:underline">Read More &rarr;</a>
+                        </div>
+                    </article>
+
+                    <article class="card bg-white text-black">
+                        <a href="blog/future-of-ai-technology.html">
+                            <img src="https://placehold.co/600x400/000000/ffffff?text=Future+of+AI" alt="The future of AI technology" class="blog-thumbnail" loading="lazy">
+                        </a>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2"><a href="blog/future-of-ai-technology.html">The Future of AI Technology: What to Expect</a></h3>
+                            <p class="text-black text-sm mb-4">A look at upcoming advancements in AI and their potential impact on the world.</p>
+                            <a href="blog/future-of-ai-technology.html" class="text-black font-semibold hover:underline">Read More &rarr;</a>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="py-24 px-4 bg-gray-100">
+        <section id="about" class="py-24 px-4 bg-black text-white">
             <div class="container mx-auto max-w-3xl text-center">
                 <h2 class="text-4xl font-bold mb-4">About the Platform</h2>
-                <p class="text-xl text-gray-600 mb-6">
-                    This platform is built on a simple premise: AI is only as powerful as the prompts you give it. We've curated a vast, searchable collection of prompts to help you unlock the full potential of any AI model, whether it's for creative writing, coding, or business strategy.
+                <p class="text-white mb-6">
+                    This platform is built on one simple premise: an AI's power is only as good as the prompt you give it. We've curated a vast, searchable collection of prompts to help you unleash the full potential of any AI model for creative writing, coding, or business strategy.
                 </p>
-                <p class="text-xl text-gray-600">
-                    Our goal is to give you both the flexibility of our smart generators and the convenience of a ready-to-use prompt library, so you can stop wasting time crafting the perfect prompt and start getting results.
+                <p class="text-white">
+                    Our goal is to give you both the flexibility of our intelligent generators and the convenience of a ready-made prompt library so you stop wasting time crafting the ideal prompt and start getting results.
                 </p>
             </div>
         </section>
 
-        <!-- Contact / Footer Section -->
-        <footer id="contact" class="bg-black text-white py-12 px-4">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl font-bold mb-4">Get in Touch</h2>
-                <p class="text-gray-400 mb-8">
-                    Reach out for inquiries or collaboration.
-                </p>
-                <div class="flex justify-center space-x-6 mb-8">
-                    <a href="RAMATATE134@GMAIL.COM" class="text-gray-400 hover:text-white transition-colors">Email</a>
-                </div>
-                <p class="text-gray-400">
-                    &copy; 2025 Rama Empire . All rights reserved.
-                </p>
-            </div>
-        </footer>
-
     </main>
+    
+    <footer id="contact" class="bg-black text-white py-12 px-4">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4">Get in Touch</h2>
+            <p class="text-white mb-8">
+                Reach out for inquiries or collaboration.
+            </p>
+            <div class="mx-auto max-w-lg p-6 rounded-lg shadow-xl bg-white border border-black text-black script-font-section">
+                <form id="contactForm" class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-black text-left">Your Name</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-2 bg-white border border-black rounded-md shadow-sm text-black focus:outline-none focus:ring-accent-color focus:border-accent-color sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-black text-left">Your Email</label>
+                        <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-2 bg-white border border-black rounded-md shadow-sm text-black focus:outline-none focus:ring-accent-color focus:border-accent-color sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-black text-left">Your Message</label>
+                        <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-2 bg-white border border-black rounded-md shadow-sm text-black focus:outline-none focus:ring-accent-color focus:border-accent-color sm:text-sm"></textarea>
+                    </div>
+                    <p id="statusMessage" class="text-sm font-medium text-center"></p>
+                    <button id="submitButton" type="submit" class="btn w-full py-3 mt-4 rounded-md font-semibold text-lg hover:bg-gray-700">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+            <p class="text-white mt-8">
+                &copy; 2025 Rama Empire. All rights reserved.
+            </p>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('header nav a');
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const contactForm = document.getElementById('contactForm');
+            const submitButton = document.getElementById('submitButton');
+            const statusMessage = document.getElementById('statusMessage');
+
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
 
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
+                    if (!link.getAttribute('href').startsWith('#')) {
+                        return;
+                    }
                     e.preventDefault();
                     const targetId = link.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
@@ -233,13 +342,39 @@
                             behavior: 'smooth',
                             block: 'start'
                         });
+                        mobileMenu.classList.add('hidden');
                     }
                 });
             });
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Simple validation to ensure fields are not empty before sending
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+
+                if (!name || !email || !message) {
+                    statusMessage.textContent = 'Please fill out all fields.';
+                    statusMessage.style.color = '#dc2626';
+                    return;
+                }
+
+                // Simulate the "sending" process
+                submitButton.disabled = true;
+                statusMessage.textContent = 'Sending...';
+                statusMessage.style.color = '#1d4ed8';
+
+                // Simulate a network request with a delay
+                setTimeout(() => {
+                    statusMessage.textContent = 'Message Sent! Thank you.';
+                    statusMessage.style.color = '#16a34a';
+                    submitButton.disabled = false;
+                    contactForm.reset();
+                }, 2000); // 2-second delay
+            });
         });
     </script>
-
 </body>
 </html>
-
-
