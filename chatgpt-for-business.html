@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title to be more comprehensive and keyword-rich -->
+    <title>The Future of AI in Business: Enhancing Productivity, Growth, & Ethics | Rama Empire</title>
+    <!-- Updated Meta Description for greater detail and keyword coverage -->
+    <meta name="description" content="Explore how artificial intelligence is transforming modern business. This in-depth guide covers powerful automation, advanced data analytics, human-AI collaboration, and crucial ethical considerations for a sustainable competitive edge. Learn about AI strategy, digital transformation, and boosting customer experience.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-color: #000000;
+            --border-color: #e0e0e0;
+            --accent-color: #000000;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .blog-content h2, .blog-content h3 {
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .blog-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #audioButton {
+            background-color: #000;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #audioButton:hover {
+            transform: scale(1.05);
+            background-color: #333;
+        }
+        
+        #audioButton:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .get-in-touch-heading {
+            font-family: 'Cutive Mono', monospace;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    
+    <!-- Updated JSON-LD Structured Data with more fields for better SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "The Future of AI in Business: Enhancing Productivity, Growth, & Ethics",
+      "image": "https://placehold.co/1200x600/000000/FFFFFF?text=AI+in+Business",
+      "datePublished": "2025-05-01T08:00:00+08:00",
+      "dateModified": "2025-09-15T15:00:00+08:00",
+      "author": {
+        "@type": "Person",
+        "name": "Rama Empire"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Rama Empire",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://placehold.co/600x600/000000/FFFFFF?text=RE"
+        }
+      },
+      "description": "Explore how artificial intelligence is transforming modern business. This in-depth guide covers powerful automation, advanced data analytics, human-AI collaboration, and crucial ethical considerations for a sustainable competitive edge. Learn about AI strategy, digital transformation, and boosting customer experience.",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://yourwebsite.com/ai-in-business.html"
+      },
+      "articleBody": "Artificial intelligence is no longer a futuristic concept—it's a present-day reality that is reshaping the business world at an unprecedented pace. From automating routine tasks to providing deep insights from vast datasets, AI is becoming an indispensable tool for companies looking to stay competitive and drive growth. The integration of AI isn't just about efficiency; it's about unlocking new opportunities and redefining what's possible in every industry... (rest of the content is in the file)"
+    }
+	    const audioUrl = 'path/to/your/BUSINESS-IN-WORK.wav'; // Replace with the actual URL of your hosted file.
+    let audio = null;
+
+    audioButton.addEventListener('click', () => {
+        if (audioPlaying) {
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            audioPlaying = false;
+            audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+        } else {
+            if (!audio) {
+                audio = new Audio(audioUrl);
+                audio.onended = () => {
+                    audioPlaying = false;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+                };
+            }
+            audio.play();
+            audioPlaying = true;
+            audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1z" clip-rule="evenodd" /></svg><span>Stop playback</span>`;
+        }
+    });
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header Section -->
+    <header class="bg-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-gray-800">Rama Empire</a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-gray-900 transition-colors">Services</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-gray-900 transition-colors">About</a>
+                <a href="blog.html" class="text-gray-900 font-medium">Blog</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12 max-w-4xl">
+        <article class="bg-white p-8 rounded-2xl shadow-lg">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-center mb-4">The Future of AI in Business</h1>
+            <p class="text-sm text-center text-gray-500 mb-8">By Rama Empire • May 1, 2025</p>
+            
+            <img src="https://placehold.co/1200x600/000000/FFFFFF?text=AI+in+Business" alt="An illustration of artificial intelligence technologies helping a business grow" class="rounded-xl mb-8 w-full h-auto object-cover">
+            
+            <!-- Audio Button for new functionality -->
+            <div class="flex justify-center my-8">
+                <button id="audioButton" class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Listen to this article</span>
+                </button>
+            </div>
+
+            <div class="blog-content text-gray-700">
+                <p>
+                    Artificial intelligence is no longer a futuristic concept—it's a present-day reality that is reshaping the business world at an unprecedented pace. From automating routine tasks to providing deep insights from vast datasets, AI is becoming an indispensable tool for companies looking to stay competitive and drive growth. The integration of AI isn't just about efficiency; it's about unlocking new opportunities and redefining what's possible in every industry. This in-depth guide will explore the powerful applications of AI, from operational efficiency and digital transformation to customer experience and strategic decision-making.
+                </p>
+
+                <h2 class="text-2xl font-bold">Boosting Productivity with AI-Powered Automation</h2>
+                <p>
+                    One of the most immediate impacts of AI is its ability to automate tasks that were once performed manually. This includes everything from customer service chatbots handling routine inquiries to advanced machine learning algorithms managing supply chain logistics. By offloading these repetitive and time-consuming tasks, businesses can free up their human employees to focus on more strategic and creative work. This shift not only increases productivity but also fosters a more engaging and fulfilling work environment.
+                </p>
+                <p>
+                    AI-powered automation tools can also improve accuracy and reduce errors. In manufacturing, for example, AI-driven robotics can perform precise assembly tasks around the clock, while in finance, automated systems can process transactions and flag suspicious activity with a high degree of precision. This enhances operational efficiency and strengthens a company's reliability and security, key components of a successful digital transformation.
+                </p>
+
+                <h3 class="text-xl font-bold">AI Automation in Action: Industry Examples</h3>
+                <p>
+                    The application of AI automation is vast and varied, providing a blueprint for industries to optimize their processes.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Retail:</b> AI-powered inventory management systems predict consumer demand with high accuracy, minimizing overstock and stockouts. Chatbots and virtual assistants handle customer support around the clock, improving satisfaction.</li>
+                    <li><b>Healthcare:</b> AI algorithms analyze patient data and medical imagery to assist in diagnosing diseases like cancer with remarkable precision, often faster than human experts. Automated systems manage patient scheduling and administrative tasks.</li>
+                    <li><b>Finance:</b> Robo-advisors provide personalized investment advice, while AI-powered fraud detection systems analyze millions of transactions in real-time to identify and prevent fraudulent activity.</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold">Advanced Data Analytics and Predictive Insights</h2>
+                <p>
+                    The sheer volume of data generated today is staggering, and AI is the key to making sense of it. AI and machine learning models can analyze massive datasets to identify patterns, trends, and correlations that would be impossible for a human to spot. This capability is revolutionizing data analytics, providing businesses with predictive insights that inform everything from marketing strategies to product development.
+                </p>
+                <p>
+                    For example, an AI system can analyze customer purchasing habits and predict future demand, allowing a retailer to optimize its inventory and prevent stockouts. In healthcare, AI can analyze patient data to predict disease outbreaks or personalize treatment plans. These predictive insights enable businesses to make smarter, more proactive decisions, giving them a significant edge in the market. This is the essence of AI-driven decision making.
+                </p>
+
+                <h3 class="text-xl font-bold">The Power of Generative AI and NLP</h3>
+                <p>
+                    Beyond traditional analytics, newer forms of AI are creating entirely new possibilities for businesses. Generative AI, for instance, can create content, from text and images to code, streamlining creative workflows and accelerating product development.
+                </p>
+                <p>
+                    Natural Language Processing (NLP), a subset of AI, enables machines to understand, interpret, and generate human language. This technology powers sentiment analysis tools that can gauge customer feedback from social media, as well as intelligent customer service systems that provide highly relevant and empathetic responses, significantly boosting customer experience.
+                </p>
+
+                <h2 class="text-2xl font-bold">AI and the Future of Customer Experience</h2>
+                <p>
+                    The modern consumer expects a personalized, seamless, and immediate experience. AI is at the forefront of meeting these demands, fundamentally reshaping the customer journey. By leveraging AI, businesses can move beyond generic interactions to create truly memorable and effective engagements.
+                </p>
+                <p>
+                    Personalized marketing is a prime example. AI algorithms analyze browsing behavior, purchase history, and demographic data to deliver highly targeted product recommendations and content. This not only increases conversion rates but also builds stronger customer loyalty by making each interaction feel tailored and relevant.
+                </p>
+                <p>
+                    Another key area is customer support. Intelligent chatbots and virtual assistants can resolve common issues 24/7, reducing wait times and improving efficiency. For more complex problems, they can seamlessly hand off the conversation to a human agent, providing the agent with a summary of the customer's history to ensure a smooth transition. This blend of AI and human expertise ensures that customers receive fast, accurate, and empathetic support.
+                </p>
+
+                <h2 class="text-2xl font-bold">The Future of Work and Human-AI Collaboration</h2>
+                <p>
+                    The rise of AI doesn't mean the end of human jobs. Instead, it signals a new era of collaboration between humans and machines. AI will take on the role of a powerful co-pilot, augmenting human capabilities and empowering workers to achieve more. For a graphic designer, an AI tool can quickly generate design concepts to get the creative process started. For a software developer, an AI assistant can write boilerplate code or debug complex issues.
+                </p>
+                <p>
+                    This human-AI partnership will create new roles and demand new skills. The workforce of the future will need to be proficient in working with AI systems, understanding their outputs, and leveraging their strengths to solve complex problems. Companies that invest in upskilling their employees for this new reality will be best positioned for long-term success.
+                </p>
+
+                <h2 class="text-2xl font-bold">Ethical and Strategic Considerations of AI</h2>
+                <p>
+                    As AI becomes more integral to business operations, it's crucial for companies to address the ethical implications. Issues such as data privacy, algorithmic bias, and job displacement are not just technological challenges but also societal responsibilities.
+                </p>
+                <h3 class="text-xl font-bold">Navigating Challenges and Ensuring Responsibility</h3>
+                <p>
+                    Building responsible AI systems requires a commitment to transparency and fairness. Businesses must:
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Prioritize Data Privacy:</b> Implement robust security measures and adhere to regulations to protect sensitive information.</li>
+                    <li><b>Mitigate Bias:</b> Continuously audit AI models to ensure they are fair and do not perpetuate or amplify existing societal biases.</li>
+                    <li><b>Foster Transparency:</b> Be open about how AI is being used and how decisions are made, especially in critical areas like hiring or lending.</li>
+                </ul>
+                <p>
+                    By proactively addressing these challenges, businesses can build trust with their customers and employees, ensuring that their AI initiatives are both successful and ethical. The long-term success of AI in business is directly tied to a company's commitment to responsible innovation.
+                </p>
+
+                <h2 class="text-2xl font-bold">Conclusion: A New Era of Business and Technology</h2>
+                <p>
+                    AI is more than just a technological trend; it's a fundamental shift in how we do business. By embracing automation, leveraging data analytics, and fostering a culture of human-AI collaboration, businesses can unlock their full potential and navigate the complexities of the modern world. The future of AI in business is not about replacing people but about empowering them to reach new heights of creativity, efficiency, and innovation. Those who lead with foresight, invest in their workforce, and prioritize ethical implementation will be the ones to thrive in this new era of digital transformation.
+                </p>
+            </div>
+            <div class="mt-12 text-center">
+                <a href="blog.html" class="inline-block bg-gray-900 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-800">
+                    ← Back to Blog
+                </a>
+            </div>
+        </article>
+
+        <!-- More from the Blog Section -->
+        <section class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-8">More from the Blog</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Post 2 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Web+Development" alt="An illustration of modern web development trends" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Web Development Trends in 2025</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • April 20, 2025</p>
+                    <p class="text-gray-700 mb-4">Stay ahead of the curve with our breakdown of the top web development trends for the year. Discover new frameworks, design principles, and best practices for creating stunning websites.</p>
+                    <a href="web-development-trends.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+
+                <!-- Blog Post 3 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Creative+Marketing" alt="An illustration of creative marketing for startups" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Creative Marketing for Startups</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • April 10, 2025</p>
+                    <p class="text-gray-700 mb-4">Learn how to make your brand stand out with innovative and effective marketing strategies. This post covers everything from social media campaigns to viral content creation.</p>
+                    <a href="creative-marketing-startups.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+
+                <!-- Blog Post 4 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Cybersecurity" alt="An illustration of essential cybersecurity tips" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Essential Cybersecurity Tips</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • March 28, 2025</p>
+                    <p class="text-gray-700 mb-4">Protect your digital assets with these crucial cybersecurity tips. We cover best practices for both individuals and businesses to secure data and prevent cyber threats.</p>
+                    <a href="cybersecurity-tips.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-black text-white py-12 px-4 rounded-t-2xl">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4 get-in-touch-heading">Get in Touch</h2>
+            <form id="contactForm" class="flex flex-col gap-4 max-w-sm mx-auto">
+                <input type="text" id="subject" placeholder="Subject" class="p-3 rounded-md border-2 border-gray-700 bg-white text-gray-900 placeholder-gray-400">
+                <textarea id="message" placeholder="Message" rows="4" class="p-3 rounded-md border-2 border-gray-700 bg-white text-gray-900 placeholder-gray-400"></textarea>
+                <button type="submit" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
+                    Send Message
+                </button>
+            </form>
+            <p class="text-gray-400 mt-8">
+                &copy; 2025 Rama Empire. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const __app_id = "default-app-id";
+        const __firebase_config = JSON.stringify({});
+        const __initial_auth_token = "placeholder_token";
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href').startsWith('index.html#')) {
+                        e.preventDefault();
+                        window.location.href = link.getAttribute('href');
+                    } else if (link.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // TTS functionality
+            const audioButton = document.getElementById('audioButton');
+            let audioPlaying = false;
+            let audioContext;
+            let audioSource;
+
+            const base64ToArrayBuffer = (base64) => {
+                const binaryString = window.atob(base64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            };
+
+            const pcmToWav = (pcmData, sampleRate) => {
+                const pcm16 = new Int16Array(pcmData);
+                const dataLength = pcm16.length * 2;
+                const buffer = new ArrayBuffer(44 + dataLength);
+                const view = new DataView(buffer);
+                const writeString = (view, offset, string) => {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset + i, string.charCodeAt(i));
+                    }
+                };
+
+                // RIFF header
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + dataLength, true);
+                writeString(view, 8, 'WAVE');
+
+                // fmt chunk
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true); // PCM format
+                view.setUint16(22, 1, true); // 1 channel
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, sampleRate * 2, true); // byte rate
+                view.setUint16(32, 2, true); // block align
+                view.setUint16(34, 16, true); // bits per sample
+
+                // data chunk
+                writeString(view, 36, 'data');
+                view.setUint32(40, dataLength, true);
+
+                // Write the PCM data
+                for (let i = 0; i < pcm16.length; i++) {
+                    view.setInt16(44 + i * 2, pcm16[i], true);
+                }
+
+                return new Blob([buffer], { type: 'audio/wav' });
+            };
+
+            const playAudio = async (audioUrl) => {
+                if (audioPlaying) {
+                    if (audioSource) {
+                        audioSource.stop();
+                        audioSource.disconnect();
+                    }
+                    audioPlaying = false;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+                    return;
+                }
+
+                try {
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                    audioPlaying = true;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1z" clip-rule="evenodd" /></svg><span>Stop playback</span>`;
+                    audio.onended = () => {
+                        audioPlaying = false;
+                        audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+                    };
+                } catch (error) {
+                    console.error('Error playing audio:', error);
+                    audioPlaying = false;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Error playing audio</span>`;
+                }
+            };
+
+            const fetchAndPlayAudio = async () => {
+                const textContent = document.querySelector('.blog-content').textContent.trim().replace(/\s\s+/g, ' ');
+                const payload = {
+                    contents: [{
+                        parts: [{ text: textContent }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: {
+                                prebuiltVoiceConfig: { voiceName: "Zephyr" }
+                            }
+                        }
+                    },
+                    model: "gemini-2.5-flash-preview-tts"
+                };
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                try {
+                    audioButton.disabled = true;
+                    audioButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Loading...</span>`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                        const pcmData = base64ToArrayBuffer(audioData);
+                        const wavBlob = pcmToWav(pcmData, sampleRate);
+                        const audioUrl = URL.createObjectURL(wavBlob);
+                        playAudio(audioUrl);
+                    } else {
+                        throw new Error('Invalid audio data received.');
+                    }
+                } catch (error) {
+                    console.error('Error generating audio:', error);
+                    audioButton.innerHTML = `<span>Error generating audio</span>`;
+                } finally {
+                    audioButton.disabled = false;
+                }
+            };
+
+            audioButton.addEventListener('click', () => {
+                if (audioPlaying) {
+                    playAudio(); // This will stop the audio
+                } else {
+                    fetchAndPlayAudio();
+                }
+            });
+
+            // Contact form functionality
+            const BOT_TOKEN = "8346527584:AAEr-8v-k0FEIAmPMaSIpIi2XHVd_JmTyuM";
+            const CHAT_ID = "5866055443";
+
+            document.getElementById("contactForm").addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                let subject = document.getElementById("subject").value;
+                let message = document.getElementById("message").value;
+
+                // The alert() function is not officially supported in this environment
+                // and will not display a pop-up. Console logs are provided for debugging.
+                console.log("Attempting to send message...");
+
+                let text = `New Contact Form Submission:\nSubject: ${subject}\nMessage: ${message}`;
+
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`)
+                    .then(res => {
+                        console.log("Information sent successfully!");
+                        alert("Message sent successfully!");
+                    })
+                    .catch(err => {
+                        console.error("Error sending information:", err);
+                        alert("Error sending message.");
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title to be more comprehensive and keyword-rich -->
+    <title>How to Write Effective AI Prompts: A Comprehensive Guide | Rama Empire</title>
+    <!-- Updated Meta Description for greater detail and keyword coverage -->
+    <meta name="description" content="Master the art of prompt writing with this comprehensive guide. Learn how to structure prompts for clarity, provide the right context, and use iterative refinement to get the best and most accurate results from AI models like ChatGPT, Gemini, and Claude.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-color: #000000;
+            --border-color: #e0e0e0;
+            --accent-color: #000000;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .blog-content h2, .blog-content h3 {
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .blog-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #audioButton {
+            background-color: #000;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #audioButton:hover {
+            transform: scale(1.05);
+            background-color: #333;
+        }
+        
+        #audioButton:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .get-in-touch-heading {
+            font-family: 'Cutive Mono', monospace;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    
+    <!-- Updated JSON-LD Structured Data with more fields for better SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "How to Write Effective AI Prompts: A Comprehensive Guide",
+      "image": "https://placehold.co/1200x600/000000/FFFFFF?text=AI+Prompt+Engineering",
+      "datePublished": "2025-09-15T08:00:00+08:00",
+      "dateModified": "2025-09-15T15:00:00+08:00",
+      "author": {
+        "@type": "Person",
+        "name": "Rama Empire"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Rama Empire",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://placehold.co/600x600/000000/FFFFFF?text=RE"
+        }
+      },
+      "description": "Master the art of prompt writing with this comprehensive guide. Learn how to structure prompts for clarity, provide the right context, and use iterative refinement to get the best and most accurate results from AI models.",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://yourwebsite.com/how-to-write-ai-prompts.html"
+      },
+      "articleBody": "In the world of artificial intelligence, your success is often determined by the questions you ask. Knowing how to write effective prompts is the key to unlocking the full potential of AI models like ChatGPT, Gemini, and Midjourney. A well-crafted prompt acts as a precise set of instructions, guiding the AI to generate the most accurate, creative, and relevant response possible. This guide will walk you through the core principles of prompt engineering, from defining your goal to refining your output, to help you become a master communicator with AI..."
+    }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header Section -->
+    <header class="bg-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-gray-800">Rama Empire</a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-gray-900 transition-colors">Services</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-gray-900 transition-colors">About</a>
+                <a href="blog.html" class="text-gray-900 font-medium">Blog</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12 max-w-4xl">
+        <article class="bg-white p-8 rounded-2xl shadow-lg">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-center mb-4">How to Write Effective AI Prompts</h1>
+            <p class="text-sm text-center text-gray-500 mb-8">By Rama Empire • September 15, 2025</p>
+            
+            <img src="https://placehold.co/1200x600/000000/FFFFFF?text=AI+Prompt+Engineering" alt="An illustration of a person writing a prompt to an AI model, with a focus on prompt engineering and getting the best results." class="rounded-xl mb-8 w-full h-auto object-cover">
+            
+            <!-- Audio Button for new functionality -->
+            <div class="flex justify-center my-8">
+                <button id="audioButton" class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Listen to this article</span>
+                </button>
+            </div>
+
+            <div class="blog-content text-gray-700">
+                <p>
+                    In the rapidly evolving world of artificial intelligence, the ability to communicate effectively with AI models is becoming a critical skill. This practice, known as prompt engineering, is the art and science of crafting instructions that guide AI to produce the desired output. Whether you're a content creator, a software developer, or a business professional, mastering this skill can dramatically enhance your productivity and creativity. This comprehensive guide will take you through the fundamental principles of prompt writing, from basic structure to advanced techniques, to help you get the most out of large language models (LLMs) like ChatGPT, Gemini, and Claude.
+                </p>
+
+                <h2 class="text-2xl font-bold">The Foundation: Building a Structured Prompt</h2>
+                <p>
+                    A well-structured prompt is the blueprint for a successful AI interaction. Instead of a simple query, think of it as a detailed set of instructions. A great prompt typically includes four key components that work together to provide clarity and context for the AI.
+                </p>
+
+                <h3 class="text-xl font-bold">1. The Role or Persona</h3>
+                <p>
+                    Assigning a role to the AI is one of the most powerful techniques in prompt engineering. It helps the model adopt a specific tone, style, and knowledge base, leading to more targeted and relevant responses. For example, asking an AI to "Act as a senior marketing strategist" will yield a far more professional and insightful response than a generic query.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "You are a seasoned financial analyst. Explain the concept of compound interest to a high school student using simple, relatable examples."</li>
+                </ul>
+
+                <h3 class="text-xl font-bold">2. The Task and Action</h3>
+                <p>
+                    Clearly state the specific task you want the AI to perform. Use strong, action-oriented verbs. Are you asking it to summarize, translate, brainstorm, write, or analyze? Be explicit to avoid ambiguity.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "Summarize the key findings from the 2024 climate report into a concise executive summary."</li>
+                </ul>
+
+                <h3 class="text-xl font-bold">3. The Context</h3>
+                <p>
+                    Providing context gives the AI the background information it needs to produce a relevant response. This can include background on the topic, a specific scenario, or even a detailed data set. Context helps the AI understand the purpose of your request and tailor its output accordingly.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "Based on the following meeting notes, identify three actionable items for the next quarter and assign them to the correct team member. Meeting Notes: [Insert notes here]."</li>
+                </ul>
+
+                <h3 class="text-xl font-bold">4. The Constraints and Format</h3>
+                <p>
+                    These are the rules and boundaries for the AI's response. Specify the desired format (e.g., bullet points, a table, a JSON object, a one-paragraph summary), length (e.g., "under 200 words"), tone (e.g., formal, casual, humorous), or any other specific requirements. Constraints ensure the output is exactly what you need.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "Create a table listing the pros and cons of cloud computing. The table should have two columns: 'Pros' and 'Cons'. Each row must contain a single benefit or drawback."</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold">Advanced Prompt Engineering Techniques</h2>
+                <p>
+                    Beyond the basic structure, several advanced techniques can help you achieve even better results from AI. These methods are particularly useful for complex or creative tasks.
+                </p>
+                <h3 class="text-xl font-bold">Chain-of-Thought Prompting</h3>
+                <p>
+                    This technique encourages the AI to "think out loud" before providing the final answer. By asking the AI to first break down the problem and show its reasoning, you can guide it to a more accurate and logical conclusion. This is invaluable for complex problem-solving.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "Solve the following math problem, but first, show me your step-by-step reasoning. Problem: A car travels 150 miles in 3 hours. How long will it take to travel 250 miles at the same speed?"</li>
+                </ul>
+                
+                <h3 class="text-xl font-bold">Few-Shot Prompting</h3>
+                <p>
+                    This method involves providing the AI with a few examples of the desired input-output pattern before giving it the final task. This helps the AI understand the pattern and style you are looking for, leading to more consistent and tailored results.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "Here are a few examples of creative product descriptions: 
+                        1. Product: 'Solar-powered backpack'. Description: 'Charge your devices on the go with our eco-friendly backpack. Stay powered up, stay connected.'
+                        2. Product: 'Noise-cancelling headphones'. Description: 'Escape the chaos and immerse yourself in pure sound. Experience a new level of focus and tranquility.'
+                        Now, write a creative description for the following product: 'Smart coffee mug'."</li>
+                </ul>
+
+                <h3 class="text-xl font-bold">Iterative Refinement: The Art of Conversation</h3>
+                <p>
+                    Remember, your interaction with an AI is a conversation, not a single command. The first response is often just a starting point. By using follow-up prompts, you can refine the output until it meets your exact specifications. If a response is too long, simply ask it to "summarize this into three bullet points." If the tone is wrong, ask it to "rewrite that with a more humorous tone." This back-and-forth process is key to unlocking the AI's true potential.
+                </p>
+
+                <h2 class="text-2xl font-bold">Conclusion: Your Skill, Your Power</h2>
+                <p>
+                    Mastering prompt engineering is no longer a niche skill—it's a fundamental part of the future of work. By understanding how to build effective prompts with a clear role, task, context, and constraints, you can transform a simple AI tool into a powerful collaborator. This guide provides you with the foundational knowledge to begin your journey. The more you practice and experiment, the more intuitive the process will become. Embrace the art of conversation with AI, and you'll find yourself able to generate high-quality content, streamline complex tasks, and unlock new levels of creativity and efficiency. The future is here, and your ability to talk to it is your greatest asset.
+                </p>
+            </div>
+            <div class="mt-12 text-center">
+                <a href="blog.html" class="inline-block bg-gray-900 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-800">
+                    ← Back to Blog
+                </a>
+            </div>
+        </article>
+
+        <!-- More from the Blog Section -->
+        <section class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-8">More from the Blog</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Post 2 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Web+Development" alt="An illustration of modern web development trends" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Web Development Trends in 2025</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • April 20, 2025</p>
+                    <p class="text-gray-700 mb-4">Stay ahead of the curve with our breakdown of the top web development trends for the year. Discover new frameworks, design principles, and best practices for creating stunning websites.</p>
+                    <a href="web-development-trends.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+
+                <!-- Blog Post 3 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Creative+Marketing" alt="An illustration of creative marketing for startups" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Creative Marketing for Startups</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • April 10, 2025</p>
+                    <p class="text-gray-700 mb-4">Learn how to make your brand stand out with innovative and effective marketing strategies. This post covers everything from social media campaigns to viral content creation.</p>
+                    <a href="creative-marketing-startups.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+
+                <!-- Blog Post 4 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Cybersecurity" alt="An illustration of essential cybersecurity tips" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Essential Cybersecurity Tips</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • March 28, 2025</p>
+                    <p class="text-gray-700 mb-4">Protect your digital assets with these crucial cybersecurity tips. We cover best practices for both individuals and businesses to secure data and prevent cyber threats.</p>
+                    <a href="cybersecurity-tips.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-black text-white py-12 px-4 rounded-t-2xl">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4 get-in-touch-heading">Get in Touch</h2>
+            <form id="contactForm" class="flex flex-col gap-4 max-w-sm mx-auto">
+                <input type="text" id="subject" placeholder="Subject" class="p-3 rounded-md border-2 border-gray-700 bg-white text-gray-900 placeholder-gray-400">
+                <textarea id="message" placeholder="Message" rows="4" class="p-3 rounded-md border-2 border-gray-700 bg-white text-gray-900 placeholder-gray-400"></textarea>
+                <button type="submit" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
+                    Send Message
+                </button>
+            </form>
+            <p class="text-gray-400 mt-8">
+                &copy; 2025 Rama Empire. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const __app_id = "default-app-id";
+        const __firebase_config = JSON.stringify({});
+        const __initial_auth_token = "placeholder_token";
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href').startsWith('index.html#')) {
+                        e.preventDefault();
+                        window.location.href = link.getAttribute('href');
+                    } else if (link.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // TTS functionality
+            const audioButton = document.getElementById('audioButton');
+            let audioPlaying = false;
+            
+            const base64ToArrayBuffer = (base64) => {
+                const binaryString = window.atob(base64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            };
+
+            const pcmToWav = (pcmData, sampleRate) => {
+                const pcm16 = new Int16Array(pcmData);
+                const dataLength = pcm16.length * 2;
+                const buffer = new ArrayBuffer(44 + dataLength);
+                const view = new DataView(buffer);
+                const writeString = (view, offset, string) => {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset + i, string.charCodeAt(i));
+                    }
+                };
+
+                // RIFF header
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + dataLength, true);
+                writeString(view, 8, 'WAVE');
+
+                // fmt chunk
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true); // PCM format
+                view.setUint16(22, 1, true); // 1 channel
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, sampleRate * 2, true); // byte rate
+                view.setUint16(32, 2, true); // block align
+                view.setUint16(34, 16, true); // bits per sample
+
+                // data chunk
+                writeString(view, 36, 'data');
+                view.setUint32(40, dataLength, true);
+
+                // Write the PCM data
+                for (let i = 0; i < pcm16.length; i++) {
+                    view.setInt16(44 + i * 2, pcm16[i], true);
+                }
+
+                return new Blob([buffer], { type: 'audio/wav' });
+            };
+
+            const playAudio = async (audioUrl) => {
+                if (audioPlaying) {
+                    audioPlaying = false;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+                    return;
+                }
+
+                try {
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                    audioPlaying = true;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1z" clip-rule="evenodd" /></svg><span>Stop playback</span>`;
+                    audio.onended = () => {
+                        audioPlaying = false;
+                        audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+                    };
+                } catch (error) {
+                    console.error('Error playing audio:', error);
+                    audioPlaying = false;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Error playing audio</span>`;
+                }
+            };
+
+            const fetchAndPlayAudio = async () => {
+                const textContent = document.querySelector('.blog-content').textContent.trim().replace(/\s\s+/g, ' ');
+                const payload = {
+                    contents: [{
+                        parts: [{ text: textContent }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: {
+                                prebuiltVoiceConfig: { voiceName: "Zephyr" }
+                            }
+                        }
+                    },
+                    model: "gemini-2.5-flash-preview-tts"
+                };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                try {
+                    audioButton.disabled = true;
+                    audioButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Loading...</span>`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                        const pcmData = base64ToArrayBuffer(audioData);
+                        const wavBlob = pcmToWav(pcmData, sampleRate);
+                        const audioUrl = URL.createObjectURL(wavBlob);
+                        playAudio(audioUrl);
+                    } else {
+                        throw new Error('Invalid audio data received.');
+                    }
+                } catch (error) {
+                    console.error('Error generating audio:', error);
+                    audioButton.innerHTML = `<span>Error generating audio</span>`;
+                } finally {
+                    audioButton.disabled = false;
+                }
+            };
+
+            audioButton.addEventListener('click', () => {
+                if (audioPlaying) {
+                    playAudio(); // This will stop the audio
+                } else {
+                    fetchAndPlayAudio();
+                }
+            });
+
+            // Contact form functionality
+            const BOT_TOKEN = "8346527584:AAEr-8v-k0FEIAmPMaSIpIi2XHVd_JmTyuM";
+            const CHAT_ID = "5866055443";
+
+            document.getElementById("contactForm").addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                let subject = document.getElementById("subject").value;
+                let message = document.getElementById("message").value;
+
+                console.log("Attempting to send message...");
+
+                let text = `New Contact Form Submission:\nSubject: ${subject}\nMessage: ${message}`;
+
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`)
+                    .then(res => {
+                        console.log("Information sent successfully!");
+                        // A custom modal or message box should be used instead of alert()
+                    })
+                    .catch(err => {
+                        console.error("Error sending information:", err);
+                        // A custom modal or message box should be used instead of alert()
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

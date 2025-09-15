@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated Title to be more comprehensive and keyword-rich -->
+    <title>Midjourney Master Guide: Beginner to Pro | Rama Empire</title>
+    <!-- Updated Meta Description for greater detail and keyword coverage -->
+    <meta name="description" content="Unlock the full potential of Midjourney. This guide covers everything from crafting your first simple prompt to using advanced parameters and techniques to create breathtaking, professional-grade images.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-color: #000000;
+            --border-color: #e0e0e0;
+            --accent-color: #000000;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .blog-content h2, .blog-content h3 {
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.75;
+        }
+
+        .blog-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #audioButton {
+            background-color: #000;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #audioButton:hover {
+            transform: scale(1.05);
+            background-color: #333;
+        }
+        
+        #audioButton:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .get-in-touch-heading {
+            font-family: 'Cutive Mono', monospace;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    
+    <!-- Updated JSON-LD Structured Data with more fields for better SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Midjourney Master Guide: Beginner to Pro",
+      "image": "https://placehold.co/1200x600/000000/FFFFFF?text=Midjourney+Guide",
+      "datePublished": "2025-09-16T08:00:00+08:00",
+      "dateModified": "2025-09-16T15:00:00+08:00",
+      "author": {
+        "@type": "Person",
+        "name": "Rama Empire"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Rama Empire",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://placehold.co/600x600/000000/FFFFFF?text=RE"
+        }
+      },
+      "description": "Unlock the full potential of Midjourney with this complete guide. Learn how to craft prompts, use parameters, and refine your work to create breathtaking, professional-grade images.",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://yourwebsite.com/midjourney-guide.html"
+      },
+      "articleBody": "Midjourney is a powerful tool that allows anyone to generate stunning images from text. While getting started is easy, mastering the art of prompt writing can transform your work from simple creations to breathtaking masterpieces. This guide will take you on a journey from a complete beginner to a seasoned pro, teaching you the essential techniques and hidden tricks to get the most out of this incredible platform..."
+    }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header Section -->
+    <header class="bg-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-gray-800">Rama Empire</a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 transition-colors">Home</a>
+                <a href="index.html#services" class="text-gray-600 hover:text-gray-900 transition-colors">Services</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-gray-900 transition-colors">About</a>
+                <a href="blog.html" class="text-gray-900 font-medium">Blog</a>
+                <a href="index.html#contact" class="text-gray-600 hover:text-gray-900 transition-colors">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12 max-w-4xl">
+        <article class="bg-white p-8 rounded-2xl shadow-lg">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-center mb-4">Midjourney Master Guide: Beginner to Pro</h1>
+            <p class="text-sm text-center text-gray-500 mb-8">By Rama Empire • September 16, 2025</p>
+            
+            <img src="https://placehold.co/1200x600/000000/FFFFFF?text=Midjourney+Guide" alt="An illustration of a person creating stunning images using an AI platform like Midjourney." class="rounded-xl mb-8 w-full h-auto object-cover">
+            
+            <!-- Audio Button for new functionality -->
+            <div class="flex justify-center my-8">
+                <button id="audioButton" class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Listen to this article</span>
+                </button>
+            </div>
+
+            <div class="blog-content text-gray-700">
+                <p>
+                    Midjourney has emerged as one of the most powerful and accessible tools for generating stunning images from text. What was once a niche skill reserved for digital artists is now a creative superpower available to everyone. While getting started is as simple as a single command, unlocking the full potential of Midjourney requires an understanding of its underlying principles. This guide will walk you through the journey from a complete beginner, creating your first image, to a seasoned professional, crafting breathtaking masterpieces with precision and control.
+                </p>
+
+                <h2 class="text-2xl font-bold">The Basics: Your First Prompt</h2>
+                <p>
+                    A prompt in Midjourney is the text you provide to describe the image you want to create. Think of it as a conversation with an incredibly talented but literal artist. The more descriptive you are, the better the result will be.
+                </p>
+
+                <h3 class="text-xl font-bold">1. Start with the Core Subject</h3>
+                <p>
+                    Begin by describing the main subject of your image. This is the most important part of your prompt and sets the stage for everything else.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "A majestic dragon"</li>
+                </ul>
+
+                <h3 class="text-xl font-bold">2. Add Style and Context</h3>
+                <p>
+                    Next, add descriptive words to give the AI more to work with. Think about the style, the setting, the lighting, and the mood.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "A majestic dragon, in the style of fantasy art, flying over a volcano at sunset."</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold">Advanced Parameters: Fine-Tuning Your Vision</h2>
+                <p>
+                    Parameters are commands you add to the end of your prompt to control specific aspects of the image generation process. They are powerful tools for fine-tuning your results.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Aspect Ratio (<code>--ar</code>):</b> Use this to control the width and height of the image. <code>--ar 16:9</code> creates a wide cinematic image, while <code>--ar 9:16</code> is perfect for a mobile-friendly vertical shot.</li>
+                    <li><b>Stylize (<code>--s</code>):</b> This parameter controls how much artistic flair Midjourney adds to your image. A lower value (<code>--s 50</code>) produces a more literal result, while a higher value (<code>--s 750</code>) gives the AI more creative freedom.</li>
+                    <li><b>Chaos (<code>--c</code>):</b> Use this to control the level of variation in the initial image grid. A low value (<code>--c 0</code>) gives you very similar images, while a high value (<code>--c 100</code>) results in wild, unpredictable variations.</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold">Next-Level Techniques: Going Pro</h2>
+                <p>
+                    Once you're comfortable with basic prompts and parameters, you can start experimenting with more advanced techniques to create truly unique and complex images.
+                </p>
+                <h3 class="text-xl font-bold">Multi-Prompting</h3>
+                <p>
+                    This technique allows you to specify the relative importance of different elements in your prompt. By using double colons (<code>::</code>), you can separate ideas and assign them a weight.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "A futuristic cityscape::5 with a serene cherry blossom tree::1"</li>
+                </ul>
+                <p>
+                    In this example, the AI will prioritize the "futuristic cityscape" five times more than the "serene cherry blossom tree."
+                </p>
+
+                <h3 class="text-xl font-bold">Image Prompts and Blending</h3>
+                <p>
+                    Midjourney can use images as part of its prompt. By uploading an image and including it in your prompt, you can use its style, composition, or subject matter to influence your final result. You can also use the <code>/blend</code> command to combine two to five images into a single new image.
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li><b>Example:</b> "<code>[Image URL]</code> A photorealistic portrait, intricate details"</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold">Conclusion: Your Skill, Your Power</h2>
+                <p>
+                    Midjourney is a canvas for your imagination, and the prompt is your brush. By mastering these foundational and advanced techniques, you can move beyond simple generations and begin to truly shape the AI's output to match your artistic vision. The key is to experiment, iterate, and refine. Start with a simple idea, add layers of detail and control with parameters, and don't be afraid to try new combinations. With this guide, you have the knowledge to create anything you can imagine. Now, it's time to create.
+                </p>
+            </div>
+            <div class="mt-12 text-center">
+                <a href="blog.html" class="inline-block bg-gray-900 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 hover:bg-gray-800">
+                    ← Back to Blog
+                </a>
+            </div>
+        </article>
+
+        <!-- More from the Blog Section -->
+        <section class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-8">More from the Blog</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Post 2 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Web+Development" alt="An illustration of modern web development trends" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Web Development Trends in 2025</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • April 20, 2025</p>
+                    <p class="text-gray-700 mb-4">Stay ahead of the curve with our breakdown of the top web development trends for the year. Discover new frameworks, design principles, and best practices for creating stunning websites.</p>
+                    <a href="web-development-trends.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+
+                <!-- Blog Post 3 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Creative+Marketing" alt="An illustration of creative marketing for startups" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Creative Marketing for Startups</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • April 10, 2025</p>
+                    <p class="text-gray-700 mb-4">Learn how to make your brand stand out with innovative and effective marketing strategies. This post covers everything from social media campaigns to viral content creation.</p>
+                    <a href="creative-marketing-startups.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+
+                <!-- Blog Post 4 - Internal link updated for better SEO -->
+                <article class="card p-6 rounded-2xl transition-transform transform hover:scale-105">
+                    <img src="https://placehold.co/600x400/000000/FFFFFF?text=Cybersecurity" alt="An illustration of essential cybersecurity tips" class="rounded-xl mb-4 w-full h-48 object-cover">
+                    <h3 class="text-2xl font-bold mb-2">Essential Cybersecurity Tips</h3>
+                    <p class="text-sm text-gray-500 mb-4">By Rama Empire • March 28, 2025</p>
+                    <p class="text-gray-700 mb-4">Protect your digital assets with these crucial cybersecurity tips. We cover best practices for both individuals and businesses to secure data and prevent cyber threats.</p>
+                    <a href="cybersecurity-tips.html" class="text-gray-900 font-semibold hover:underline">Read More →</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-black text-white py-12 px-4 rounded-t-2xl">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4 get-in-touch-heading">Get in Touch</h2>
+            <form id="contactForm" class="flex flex-col gap-4 max-w-sm mx-auto">
+                <input type="text" id="subject" placeholder="Subject" class="p-3 rounded-md border-2 border-gray-700 bg-white text-gray-900 placeholder-gray-400">
+                <textarea id="message" placeholder="Message" rows="4" class="p-3 rounded-md border-2 border-gray-700 bg-white text-gray-900 placeholder-gray-400"></textarea>
+                <button type="submit" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-md hover:bg-gray-200 transition-colors">
+                    Send Message
+                </button>
+            </form>
+            <p class="text-gray-400 mt-8">
+                &copy; 2025 Rama Empire. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const __app_id = "default-app-id";
+        const __firebase_config = JSON.stringify({});
+        const __initial_auth_token = "placeholder_token";
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href').startsWith('index.html#')) {
+                        e.preventDefault();
+                        window.location.href = link.getAttribute('href');
+                    } else if (link.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // TTS functionality
+            const audioButton = document.getElementById('audioButton');
+            let audioPlaying = false;
+            
+            const base64ToArrayBuffer = (base64) => {
+                const binaryString = window.atob(base64);
+                const len = binaryString.length;
+                const bytes = new Uint8Array(len);
+                for (let i = 0; i < len; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return bytes.buffer;
+            };
+
+            const pcmToWav = (pcmData, sampleRate) => {
+                const pcm16 = new Int16Array(pcmData);
+                const dataLength = pcm16.length * 2;
+                const buffer = new ArrayBuffer(44 + dataLength);
+                const view = new DataView(buffer);
+                const writeString = (view, offset, string) => {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset + i, string.charCodeAt(i));
+                    }
+                };
+
+                // RIFF header
+                writeString(view, 0, 'RIFF');
+                view.setUint32(4, 36 + dataLength, true);
+                writeString(view, 8, 'WAVE');
+
+                // fmt chunk
+                writeString(view, 12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true); // PCM format
+                view.setUint16(22, 1, true); // 1 channel
+                view.setUint32(24, sampleRate, true);
+                view.setUint32(28, sampleRate * 2, true); // byte rate
+                view.setUint16(32, 2, true); // block align
+                view.setUint16(34, 16, true); // bits per sample
+
+                // data chunk
+                writeString(view, 36, 'data');
+                view.setUint32(40, dataLength, true);
+
+                // Write the PCM data
+                for (let i = 0; i < pcm16.length; i++) {
+                    view.setInt16(44 + i * 2, pcm16[i], true);
+                }
+
+                return new Blob([buffer], { type: 'audio/wav' });
+            };
+
+            const playAudio = async (audioUrl) => {
+                if (audioPlaying) {
+                    audioPlaying = false;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+                    return;
+                }
+
+                try {
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                    audioPlaying = true;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1z" clip-rule="evenodd" /></svg><span>Stop playback</span>`;
+                    audio.onended = () => {
+                        audioPlaying = false;
+                        audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Listen to this article</span>`;
+                    };
+                } catch (error) {
+                    console.error('Error playing audio:', error);
+                    audioPlaying = false;
+                    audioButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg><span>Error playing audio</span>`;
+                }
+            };
+
+            const fetchAndPlayAudio = async () => {
+                const textContent = document.querySelector('.blog-content').textContent.trim().replace(/\s\s+/g, ' ');
+                const payload = {
+                    contents: [{
+                        parts: [{ text: textContent }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: {
+                                prebuiltVoiceConfig: { voiceName: "Zephyr" }
+                            }
+                        }
+                    },
+                    model: "gemini-2.5-flash-preview-tts"
+                };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                try {
+                    audioButton.disabled = true;
+                    audioButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Loading...</span>`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                        const pcmData = base64ToArrayBuffer(audioData);
+                        const wavBlob = pcmToWav(pcmData, sampleRate);
+                        const audioUrl = URL.createObjectURL(wavBlob);
+                        playAudio(audioUrl);
+                    } else {
+                        throw new Error('Invalid audio data received.');
+                    }
+                } catch (error) {
+                    console.error('Error generating audio:', error);
+                    audioButton.innerHTML = `<span>Error generating audio</span>`;
+                } finally {
+                    audioButton.disabled = false;
+                }
+            };
+
+            audioButton.addEventListener('click', () => {
+                if (audioPlaying) {
+                    playAudio(); // This will stop the audio
+                } else {
+                    fetchAndPlayAudio();
+                }
+            });
+
+            // Contact form functionality
+            const BOT_TOKEN = "8346527584:AAEr-8v-k0FEIAmPMaSIpIi2XHVd_JmTyuM";
+            const CHAT_ID = "5866055443";
+
+            document.getElementById("contactForm").addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                let subject = document.getElementById("subject").value;
+                let message = document.getElementById("message").value;
+
+                console.log("Attempting to send message...");
+
+                let text = `New Contact Form Submission:\nSubject: ${subject}\nMessage: ${message}`;
+
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`)
+                    .then(res => {
+                        console.log("Information sent successfully!");
+                        // A custom modal or message box should be used instead of alert()
+                    })
+                    .catch(err => {
+                        console.error("Error sending information:", err);
+                        // A custom modal or message box should be used instead of alert()
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
