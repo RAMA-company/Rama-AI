@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="iE44gpBpd8bgIKMDG2n6LktGpzmO9r5ZtyMQuNOzFjI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rama AI | Login & Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #202124;
+            --subtle-text-color: #5f6368;
+            --border-color: #dadce0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --primary-blue: #4285f4;
+            --primary-green: #34a853;
+            --primary-yellow: #fbbc05;
+            --primary-red: #ea4335;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #171717;
+            --surface-color: #212121;
+            --text-color: #e8eaed;
+            --subtle-text-color: #bdc1c6;
+            --border-color: #3c4043;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --primary-blue: #8ab4f8;
+            --primary-green: #81c995;
+            --primary-yellow: #fdd663;
+            --primary-red: #f28b82;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Particle Background */
+        .particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .login-container {
+            background-color: var(--surface-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            width: 100%;
+            max-width: 450px;
+            padding: 2.5rem;
+            z-index: 1;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            margin-bottom: 2rem;
+        }
+        
+        .logo span {
+            color: var(--primary-blue);
+        }
+
+        .form-toggle {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: rgba(66, 133, 244, 0.1);
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .form-container {
+            position: relative;
+            min-height: 350px;
+        }
+
+        .auth-form {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .auth-form.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .submit-btn:hover {
+            background-color: #3b7ad8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .submit-btn:disabled {
+            background-color: var(--subtle-text-color);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--subtle-text-color);
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .error {
+            background-color: rgba(234, 67, 53, 0.1);
+            color: var(--primary-red);
+            border: 1px solid var(--primary-red);
+        }
+
+        .success {
+            background-color: rgba(52, 168, 83, 0.1);
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas class="particles-canvas"></canvas>
+
+    <button class="theme-toggle" aria-label="Toggle dark mode">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
+
+    <div class="login-container">
+        <a href="index.html" class="logo">
+            Rama<span>AI</span>
+        </a>
+
+        <div class="form-toggle">
+            <button class="toggle-btn active" id="loginToggle">Login</button>
+            <button class="toggle-btn" id="registerToggle">Register</button>
+        </div>
+
+        <div class="form-container">
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="submit-btn" id="loginBtn">
+                    <span class="loading-spinner" id="loginSpinner" style="display: none;"></span>
+                    <span id="loginText">Login to Account</span>
+                </button>
+            </form>
+
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" placeholder="Choose a password (min. 6 characters)" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="Repeat your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerFullName">Full Name</label>
+                    <input type="text" id="registerFullName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Phone</label>
+                    <input type="tel" id="registerPhone" placeholder="Enter your phone number">
+                </div>
+                <button type="submit" class="submit-btn" id="registerBtn">
+                    <span class="loading-spinner" id="registerSpinner" style="display: none;"></span>
+                    <span id="registerText">Create Account</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        // Initialize Supabase client with your credentials
+        const supabaseUrl = 'https://lbvesyhvxegzjxmmsign.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxidmVzeWh2eGVnemp4bW1zaWduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzUwMTksImV4cCI6MjA3MzI1MTAxOX0.Bw4STD_2LtI9rLfk_nHVLYa2g_G1MK3kHeGJwOoQEq4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Theme management
+        const themeToggleBtn = document.querySelector('.theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            let newTheme = 'dark';
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                newTheme = 'light';
+            }
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Toggle between login and register forms
+        const loginToggle = document.getElementById('loginToggle');
+        const registerToggle = document.getElementById('registerToggle');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        loginToggle.addEventListener('click', () => {
+            loginToggle.classList.add('active');
+            registerToggle.classList.remove('active');
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+            hideMessage();
+        });
+
+        registerToggle.addEventListener('click', () => {
+            registerToggle.classList.add('active');
+            loginToggle.classList.remove('active');
+            registerForm.classList.add('active');
+            loginForm.classList.remove('active');
+            hideMessage();
+        });
+
+        // Show message
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+        }
+
+        function hideMessage() {
+            const messageEl = document.getElementById('message');
+            messageEl.style.display = 'none';
+        }
+
+        // Set button loading state
+        function setLoading(button, spinner, text, isLoading) {
+            if (isLoading) {
+                button.disabled = true;
+                spinner.style.display = 'inline-block';
+                text.style.opacity = '0.7';
+            } else {
+                button.disabled = false;
+                spinner.style.display = 'none';
+                text.style.opacity = '1';
+            }
+        }
+
+        // Login form handling
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const loginSpinner = document.getElementById('loginSpinner');
+            const loginText = document.getElementById('loginText');
+            
+            setLoading(loginBtn, loginSpinner, loginText, true);
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) {
+                    showMessage(error.message, 'error');
+                } else {
+                    showMessage('Login successful! Redirecting...', 'success');
+                    
+                    // Check if user exists in public.users table
+                    const { data: userData, error: userError } = await supabase
+                        .from('users')
+                        .select('*')
+                        .eq('id', data.user.id)
+                        .single();
+                    
+                    if (userError) {
+                        console.error('Error fetching user data:', userError);
+                    } else {
+                        console.log('User data from public.users:', userData);
+                    }
+                    
+                    setTimeout(() => {
+                        window.location.href = 'collection.html';
+                    }, 1500);
+                }
+            } catch (error) {
+                showMessage('An error occurred during login', 'error');
+            } finally {
+                setLoading(loginBtn, loginSpinner, loginText, false);
+            }
+        });
+
+        // Register form handling
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const fullName = document.getElementById('registerFullName').value;
+            const phone = document.getElementById('registerPhone').value;
+            const registerBtn = document.getElementById('registerBtn');
+            const registerSpinner = document.getElementById('registerSpinner');
+            const registerText = document.getElementById('registerText');
+            
+            if (password !== confirmPassword) {
+                showMessage('Password and confirmation do not match', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters long', 'error');
+                return;
+            }
+            
+            if (!username) {
+                showMessage('Username is required', 'error');
+                return;
+            }
+            
+            setLoading(registerBtn, registerSpinner, registerText, true);
+            
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            username: username,
+                            full_name: fullName,
+                            phone: phone
+                        }
+                    }
+                });
+                
+                if (error) {
+                    showMessage(error.message, 'error');
+                } else {
+                    showMessage('Account created successfully! Please check your email for confirmation.', 'success');
+                    
+                    // The trigger should automatically create a record in public.users
+                    console.log('User created in auth.users:', data.user);
+                    
+                    // Switch to login form after successful registration
+                    setTimeout(() => {
+                        loginToggle.click();
+                    }, 3000);
+                }
+            } catch (error) {
+                showMessage('An error occurred during registration', 'error');
+            } finally {
+                setLoading(registerBtn, registerSpinner, registerText, false);
+            }
+        });
+
+        // Check if user is already logged in
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                window.location.href = 'collection.html';
+            }
+        });
+
+        // Simple particle effect for background
+        const canvas = document.querySelector('.particles-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        const particles = [];
+        const particleCount = 100;
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                speed: Math.random() * 0.5 + 0.5,
+                opacity: Math.random() * 0.5 + 0.3
+            });
+        }
+        
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const color = getComputedStyle(document.documentElement).getPropertyValue('--primary-blue').trim();
+            
+            particles.forEach(particle => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                ctx.fillStyle = color.replace(')', `, ${particle.opacity})`).replace('rgb', 'rgba');
+                ctx.fill();
+                
+                particle.y -= particle.speed;
+                
+                if (particle.y < -particle.radius) {
+                    particle.y = canvas.height + particle.radius;
+                    particle.x = Math.random() * canvas.width;
+                }
+            });
+            
+            requestAnimationFrame(drawParticles);
+        }
+        
+        drawParticles();
+    </script>
+</body>
+</html>
