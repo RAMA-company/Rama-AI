@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rama AI | Premium Subscription Plans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'black-primary': '#000000',
+                        'white-primary': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        'roboto': ['Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+    color-scheme: light dark;
+}
+
+[data-theme="dark"] {
+    --bg-color: #000000;
+    --card-color: #000000;
+    --text-color: #FFFFFF;
+    --muted-text-color: #888888;
+    --border-color: #FFFFFF;
+    --button-bg: #FFFFFF;
+    --button-text: #000000;
+    --inactive-button-bg: rgba(255, 255, 255, 0.1);
+    --inactive-button-text: #FFFFFF;
+    --spinner-border: rgba(255, 255, 255, 0.1);
+    --spinner-border-top: #FFFFFF;
+}
+
+[data-theme="light"] {
+    --bg-color: #FFFFFF;
+    --card-color: #FFFFFF;
+    --text-color: #000000;
+    --muted-text-color: #555555;
+    --border-color: #000000;
+    --button-bg: #000000;
+    --button-text: #FFFFFF;
+    --inactive-button-bg: rgba(0, 0, 0, 0.1);
+    --inactive-button-text: #000000;
+    --spinner-border: rgba(0, 0, 0, 0.1);
+    --spinner-border-top: #000000;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+    background-color: var(--card-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.card.active {
+    border: 2px solid var(--border-color);
+}
+
+.muted {
+    color: var(--muted-text-color);
+}
+
+/* Header border */
+header {
+    border-bottom-color: color-mix(in srgb, var(--border-color) 50%, transparent);
+}
+
+/* Footer border */
+footer {
+    border-top-color: color-mix(in srgb, var(--border-color) 50%, transparent);
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+.btn-secondary {
+    background-color: var(--inactive-button-bg);
+    color: var(--inactive-button-text);
+}
+
+/* Plan toggle buttons */
+.plan-toggle {
+    background-color: var(--inactive-button-bg);
+    color: var(--inactive-button-text);
+}
+
+.plan-toggle.active {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+/* Status badges */
+.status-badge {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+/* Custom alert/modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: var(--card-color);
+    color: var(--text-color);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+    border: 1px solid var(--border-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 4px solid var(--spinner-border);
+    border-top: 4px solid var(--spinner-border-top);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+   0% { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
+}
+
+/* List items in cards */
+li {
+    color: var(--text-color);
+}
+
+/* Links */
+a {
+    color: var(--text-color);
+}
+
+/* Credit Payment Styles */
+.credit-payment {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.credit-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.credit-amount {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.credit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.credit-button:hover {
+    opacity: 0.9;
+}
+
+.credit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Add Credit Section */
+.add-credit-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--card-color);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.telegram-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #0088cc;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.telegram-button:hover {
+    background-color: #006a9e;
+    transform: translateY(-2px);
+}
+
+.telegram-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Credit display styles */
+.credit-balance {
+    background-color: var(--card-color);
+    padding: 16px 24px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.credit-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.credit-label {
+    font-size: 0.9rem;
+    color: var(--muted-text-color);
+}
+
+/* Mini login form styles */
+.mini-login-container {
+    background-color: var(--card-color);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+}
+
+.mini-login-title {
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.mini-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mini-login-input {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.mini-login-button {
+    padding: 12px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.mini-login-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 0.9rem;
+}
+
+.mini-login-link {
+    color: var(--primary);
+    text-decoration: underline;
+    cursor: pointer;
+}
+    </style>
+</head>
+<body class="font-roboto flex flex-col min-h-screen">
+
+    <!-- Modal for messages -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="text-xl font-bold mb-2"></h3>
+            <p id="modalMessage" class="muted mb-6"></p>
+            <button onclick="hideModal()" class="w-full bg-black text-white dark:bg-white dark:text-black font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-300">OK</button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="p-4 sm:p-6 flex justify-between items-center sticky top-0 bg-[var(--bg-color)] z-50 shadow-sm rounded-b-lg border-b border-black/50 dark:border-white/50">
+        <div class="flex items-center space-x-2">
+            <h1 class="text-2xl font-bold">Rama AI</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button id="theme-toggle" class="p-2 rounded-full transition-colors">
+                <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-9.8 12.5A6 6 0 0 1 12 18a6 6 0 0 1 9.8-3.5A10 10 0 0 0 12 2zm0 16a8 8 0 0 1-5.7-2.3 8 8 0 0 1 11.4 0A8 8 0 0 1 12 18z" fill="currentColor"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Mini Login Form (shown when user is not logged in) -->
+        <div id="mini-login-container" class="mini-login-container hidden">
+            <div class="mini-login-title">Login to Manage Your Subscription</div>
+            <div class="mini-login-form">
+                <input type="email" id="mini-login-email" class="mini-login-input" placeholder="Email" required>
+                <input type="password" id="mini-login-password" class="mini-login-input" placeholder="Password" required>
+                <button id="mini-login-button" class="mini-login-button">Login</button>
+                <div class="mini-login-links">
+                    <span>Don't have an account?</span>
+                    <a href="login.html" class="mini-login-link">Register here</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Credit Balance Display -->
+        <div id="credit-balance" class="credit-balance">
+            <div class="credit-label">Your Current Credit Balance</div>
+            <div class="credit-value">$<span id="userCredit">0.00</span></div>
+        </div>
+
+        <section id="user-info" class="text-center mb-8">
+            <h2 class="text-xl font-bold">Your Account</h2>
+            <p id="userIdDisplay" class="text-sm muted break-all mb-2"></p>
+            <p id="userStatus" class="text-sm muted"></p>
+        </section>
+
+        <!-- Loading state -->
+        <div id="loading-state" class="flex flex-col items-center justify-center p-8 text-center" style="display: none;">
+            <div class="spinner border-black dark:border-white border-t-black dark:border-t-white"></div>
+            <p class="mt-4">Loading...</p>
+        </div>
+
+        <section id="subscription-plans" class="mb-12" style="display: none;">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-4">Choose Your Plan</h2>
+                <p class="muted max-w-2xl mx-auto">Get more from Rama AI with our premium plans. Unlock advanced features and limitless potential.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+                <!-- Free Plan Card -->
+                <div id="free-plan-card" class="card p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col justify-between transition-transform transform hover:-translate-y-2 hover:shadow-xl">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2 flex items-center">
+                            Free
+                            <span id="free-status" class="ml-2 bg-black text-white dark:bg-white dark:text-black text-xs font-semibold px-2.5 py-0.5 rounded-full"></span>
+                        </h3>
+                        <p class="text-3xl font-bold mt-4 mb-2">$0<span class="text-base font-normal muted">/month</span></p>
+                        <p class="muted mb-6">Explore the basics of Rama AI.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">5 basic categories</li>
+                            <li class="flex items-center">Less than 500 prompts</li>
+                            <li class="flex items-center">5 super prompt creator</li>
+                            <li class="flex items-center line-through">Priority support</li>
+                            <li class="flex items-center line-through">Access to premium features</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Premium Plan Card -->
+                <div id="premium-plan-card" class="card p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col justify-between relative transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2 flex items-center">
+                            Premium
+                            <span id="premium-status" class="ml-2 bg-black text-white dark:bg-white dark:text-black text-xs font-semibold px-2.5 py-0.5 rounded-full"></span>
+                        </h3>
+                        <div class="flex items-center justify-center my-4 space-x-2">
+                            <button id="monthly-toggle" class="px-4 py-2 rounded-lg font-bold bg-black text-white dark:bg-white dark:text-black transition-colors duration-300">1 Month</button>
+                            <button id="3month-toggle" class="px-4 py-2 rounded-lg font-bold bg-black/10 text-black dark:bg-white/10 dark:text-white transition-colors duration-300">3 Month</button>
+                            <button id="12month-toggle" class="px-4 py-2 rounded-lg font-bold bg-black/10 text-black dark:bg-white/10 dark:text-white transition-colors duration-300">12 Month</button>
+                        </div>
+                        <p id="plan-price" class="text-3xl font-bold mt-4 mb-2">$9.99<span class="text-base font-normal muted">/month</span></p>
+                        <p class="muted mb-6">For power users and professionals.</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">18,109 prompts</li>
+                            <li class="flex items-center">261 categories</li>
+                            <li class="flex items-center">5 super prompt generators</li>
+                            <li class="flex items-center">Priority customer support</li>
+                            <li class="flex items-center">Early access to new features</li>
+                        </ul>
+
+                        <!-- Credit Payment Option -->
+                        <div class="credit-payment">
+                            <div class="credit-info">
+                                <span>Pay with credit:</span>
+                                <span class="credit-amount">$<span id="credit-price">9.99</span></span>
+                            </div>
+                            <button id="pay-with-credit" class="credit-button" disabled>
+                                Pay with Credit
+                            </button>
+                        </div>
+                    </div>
+                    <a id="premium-link" href="#" target="_blank" class="mt-8 w-full text-center bg-black text-white dark:bg-white dark:text-black font-bold py-3 rounded-lg shadow-md transition-colors duration-300">
+                        Pay with External Payment
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Credit Section -->
+        <section class="add-credit-section max-w-4xl mx-auto">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold mb-2">Need More Credit?</h3>
+                <p class="muted">Contact us on Telegram to add credit to your account</p>
+            </div>
+            <div class="flex justify-center">
+                <a href="https://t.me/MOON_light_RE" target="_blank" class="telegram-button">
+                    <svg class="telegram-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.140.141-.259.259-.374.261l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                    </svg>
+                    Contact @MOON_light_RE on Telegram
+                </a>
+            </div>
+        </section>
+
+        <!-- Subscription Management Section -->
+        <section id="subscription-management" class="hidden card p-6 sm:p-8 rounded-2xl shadow-lg max-w-xl mx-auto mt-12">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold mb-2">Manage Subscription</h3>
+                <p class="muted">You are a premium subscriber. Manage your plan below.</p>
+            </div>
+            <button id="cancel-subscription-btn" class="w-full text-center bg-black/10 text-black dark:bg-white/10 dark:text-white font-bold py-3 rounded-lg hover:bg-black/20 dark:hover:bg-white/20 transition-colors duration-300">
+                Cancel Subscription
+            </button>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact-info" class="card p-6 sm:p-8 rounded-2xl shadow-lg max-w-xl mx-auto mt-12">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold mb-2">Need Support?</h3>
+                <p class="muted">Contact us via email or Telegram for assistance.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="mailto:ramatate134@gmail.com" class="w-full sm:w-1/2 text-center bg-black text-white dark:bg-white dark:text-black font-bold py-3 rounded-lg shadow-md transition-colors duration-300 flex items-center justify-center">
+                    Email Us
+                </a>
+                <a href="https://t.me/MOON_light_RE" target="_blank" class="w-full sm:w-1/2 text-center bg-black text-white dark:bg-white dark:text-black font-bold py-3 rounded-lg shadow-md transition-colors duration-300 flex items-center justify-center">
+                    Telegram
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 sm:p-6 text-center text-sm muted mt-12 border-t border-black/50 dark:border-white/50">
+        &copy; 2025 Rama AI. All rights reserved.
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://lbvesyhvxegzjxmmsign.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxidmVzeWh2eGVnemp4bW1zaWduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc2NzUwMTksImV4cCI6MjA3MzI1MTAxOX0.Bw4STD_2LtI9rLfk_nHVLYa2g_G1MK3kHeGJwOoQEq4';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+        const freeStatusEl = document.getElementById('free-status');
+        const premiumStatusEl = document.getElementById('premium-status');
+        const freePlanCard = document.getElementById('free-plan-card');
+        const premiumPlanCard = document.getElementById('premium-plan-card');
+        const subscriptionManagement = document.getElementById('subscription-management');
+        const userIdDisplay = document.getElementById('userIdDisplay');
+        const userStatusDisplay = document.getElementById('userStatus');
+        const userCreditDisplay = document.getElementById('userCredit');
+        const cancelBtn = document.getElementById('cancel-subscription-btn');
+        const loadingState = document.getElementById('loading-state');
+        const subscriptionPlansSection = document.getElementById('subscription-plans');
+        const payWithCreditBtn = document.getElementById('pay-with-credit');
+        const creditPriceDisplay = document.getElementById('credit-price');
+        const creditBalanceDisplay = document.getElementById('credit-balance');
+        const miniLoginContainer = document.getElementById('mini-login-container');
+        const miniLoginEmail = document.getElementById('mini-login-email');
+        const miniLoginPassword = document.getElementById('mini-login-password');
+        const miniLoginButton = document.getElementById('mini-login-button');
+
+        const planData = {
+            'monthly': { price: 9.99, duration: 'month', link: 'https://nowpayments.io/payment/?iid=4491664720' },
+            '3month': { price: 29.00, duration: '3 months', link: 'https://nowpayments.io/payment/?iid=4616169927' },
+            '12month': { price: 49.00, duration: 'year', link: 'https://nowpayments.io/payment/?iid=5757934557' }
+        };
+
+        let selectedPlan = 'monthly';
+        let currentUserId;
+        let userCredit = 0;
+        let userSubscriptionPlan = 'free';
+
+        // Custom modal functions
+        function showModal(title, message) {
+            const modal = document.getElementById('messageModal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            modal.style.display = 'flex';
+        }
+
+        function hideModal() {
+            const modal = document.getElementById('messageModal');
+            modal.style.display = 'none';
+        }
+
+        // Initialize Supabase and handle auth
+        async function initSupabase() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    currentUserId = user.id;
+                    userIdDisplay.textContent = currentUserId;
+                    userStatusDisplay.textContent = "Logged in";
+                    await loadUserData();
+                    subscribeToPlanChanges();
+                    
+                    // Hide mini login form for logged in users
+                    miniLoginContainer.classList.add('hidden');
+                } else {
+                    // If user is not logged in, show mini login form
+                    miniLoginContainer.classList.remove('hidden');
+                    userStatusDisplay.textContent = "Please login to manage your subscription";
+                    
+                    // For unauthenticated users, we'll assign a random ID.
+                    currentUserId = crypto.randomUUID();
+                    userIdDisplay.textContent = currentUserId;
+                    checkSubscriptionStatus('free');
+                    
+                    // Show credit display for all users (like in collection.html)
+                    creditBalanceDisplay.style.display = 'block';
+                    userCreditDisplay.textContent = '0.00';
+                    updateCreditPaymentButton();
+                }
+            } catch (error) {
+                console.error("Supabase Initialization Error:", error);
+                showModal('Connection Error', 'Failed to connect to the database. Please try again.');
+            } finally {
+                loadingState.style.display = 'none';
+                subscriptionPlansSection.style.display = 'block';
+            }
+        }
+
+        // Load user data including credit and subscription status
+        async function loadUserData() {
+            try {
+                const { data, error } = await supabase
+                    .from('users')
+                    .select('credit, subscription_type, is_subscription_active')
+                    .eq('id', currentUserId)
+                    .single();
+                
+                if (data) {
+                    userCredit = parseFloat(data.credit) || 0;
+                    userCreditDisplay.textContent = userCredit.toFixed(2);
+                    
+                    // Show credit display for authenticated users
+                    creditBalanceDisplay.style.display = 'block';
+                    
+                    // Determine subscription status
+                    if (data.is_subscription_active) {
+                        userSubscriptionPlan = 'premium';
+                    } else {
+                        userSubscriptionPlan = 'free';
+                    }
+                    
+                    checkSubscriptionStatus(userSubscriptionPlan);
+                    updateCreditPaymentButton();
+                } else if (error && error.code === 'PGRST116') {
+                    // User not found in users table, create a new record
+                    const { error: insertError } = await supabase
+                        .from('users')
+                        .insert({ 
+                            id: currentUserId, 
+                            credit: 0,
+                            subscription_type: 'free',
+                            is_subscription_active: false
+                        });
+
+                    if (insertError) {
+                        console.error('Error inserting new user:', insertError);
+                    }
+                    
+                    userCredit = 0;
+                    userCreditDisplay.textContent = '0.00';
+                    // Show credit display for authenticated users
+                    creditBalanceDisplay.style.display = 'block';
+                    checkSubscriptionStatus('free');
+                    updateCreditPaymentButton();
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showModal('Error', 'Failed to load user data.');
+            }
+        }
+        
+        function subscribeToPlanChanges() {
+            const channel = supabase.channel('user_status_changes').on(
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${currentUserId}` },
+                (payload) => {
+                    userCredit = parseFloat(payload.new.credit) || 0;
+                    userCreditDisplay.textContent = userCredit.toFixed(2);
+                    
+                    if (payload.new.is_subscription_active) {
+                        checkSubscriptionStatus('premium');
+                    } else {
+                        checkSubscriptionStatus('free');
+                    }
+                    
+                    updateCreditPaymentButton();
+                }
+            ).subscribe((status, err) => {
+                if (err) {
+                    console.error('Subscription error:', err);
+                }
+            });
+        }
+
+        // Function to check and update UI based on subscription status
+        function checkSubscriptionStatus(plan) {
+            const isPremium = plan === 'premium';
+            
+            // Update plan status badges
+            freeStatusEl.textContent = isPremium ? '' : 'Current Plan';
+            premiumStatusEl.textContent = isPremium ? 'Current Plan' : '';
+            
+            // Toggle visibility of subscription management section and card borders
+            if (isPremium) {
+                subscriptionManagement.classList.remove('hidden');
+                freePlanCard.classList.remove('active');
+                premiumPlanCard.classList.add('active');
+            } else {
+                subscriptionManagement.classList.add('hidden');
+                freePlanCard.classList.add('active');
+                premiumPlanCard.classList.remove('active');
+            }
+        }
+
+        // Update credit payment button state based on user credit
+        function updateCreditPaymentButton() {
+            const planPrice = planData[selectedPlan].price;
+            creditPriceDisplay.textContent = planPrice.toFixed(2);
+            
+            if (userCredit >= planPrice && userSubscriptionPlan !== 'premium') {
+                payWithCreditBtn.disabled = false;
+                payWithCreditBtn.textContent = 'Pay with Credit';
+            } else if (userSubscriptionPlan === 'premium') {
+                payWithCreditBtn.disabled = true;
+                payWithCreditBtn.textContent = 'Already Premium';
+            } else {
+                payWithCreditBtn.disabled = true;
+                payWithCreditBtn.textContent = `Insufficient Credit (Need $${planPrice.toFixed(2)})`;
+            }
+        }
+
+        // Process payment with credit
+        async function payWithCredit() {
+            const planPrice = planData[selectedPlan].price;
+            
+            if (userCredit < planPrice) {
+                showModal('Insufficient Credit', `You need $${planPrice.toFixed(2)} but only have $${userCredit.toFixed(2)} credit.`);
+                return;
+            }
+            
+            try {
+                // Update user credit and subscription status
+                const { error } = await supabase
+                    .from('users')
+                    .update({ 
+                        credit: userCredit - planPrice,
+                        subscription_type: 'premium',
+                        is_subscription_active: true,
+                        subscription_end_date: calculateEndDate(selectedPlan)
+                    })
+                    .eq('id', currentUserId);
+                
+                if (error) {
+                    throw error;
+                }
+                
+                showModal('Success', 'Your subscription has been activated using your credit!');
+                userCredit -= planPrice;
+                userCreditDisplay.textContent = userCredit.toFixed(2);
+                userSubscriptionPlan = 'premium';
+                checkSubscriptionStatus('premium');
+                updateCreditPaymentButton();
+            } catch (error) {
+                console.error('Error processing credit payment:', error);
+                showModal('Error', 'Failed to process payment. Please try again.');
+            }
+        }
+
+        // Calculate subscription end date based on plan
+        function calculateEndDate(plan) {
+            const today = new Date();
+            const endDate = new Date();
+            
+            switch(plan) {
+                case 'monthly':
+                    endDate.setMonth(today.getMonth() + 1);
+                    break;
+                case '3month':
+                    endDate.setMonth(today.getMonth() + 3);
+                    break;
+                case '12month':
+                    endDate.setFullYear(today.getFullYear() + 1);
+                    break;
+            }
+            
+            return endDate.toISOString().split('T')[0];
+        }
+
+        // Mini login form handler
+        async function handleMiniLogin() {
+            const email = miniLoginEmail.value;
+            const password = miniLoginPassword.value;
+            
+            if (!email || !password) {
+                showModal('Error', 'Please enter both email and password.');
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) {
+                    showModal('Login Failed', error.message);
+                } else {
+                    showModal('Success', 'Login successful! Page will reload.');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                }
+            } catch (error) {
+                showModal('Error', 'An error occurred during login.');
+            }
+        }
+
+        // Cancel subscription
+        async function cancelSubscription() {
+            try {
+                const { error } = await supabase
+                    .from('users')
+                    .update({ 
+                        subscription_type: 'free',
+                        is_subscription_active: false,
+                        subscription_end_date: null
+                    })
+                    .eq('id', currentUserId);
+
+                if (error) {
+                    throw error;
+                }
+                
+                showModal('Subscription Canceled', 'Your subscription has been canceled successfully.');
+                userSubscriptionPlan = 'free';
+                checkSubscriptionStatus('free');
+                updateCreditPaymentButton();
+            } catch (error) {
+                console.error('Error canceling subscription:', error);
+                showModal('Error', 'Failed to cancel subscription. Please try again.');
+            }
+        }
+
+        function updatePlanSelection(plan) {
+            selectedPlan = plan;
+            const priceEl = document.getElementById('plan-price');
+            const premiumLink = document.getElementById('premium-link');
+            const monthlyBtn = document.getElementById('monthly-toggle');
+            const threeMonthBtn = document.getElementById('3month-toggle');
+            const twelveMonthBtn = document.getElementById('12month-toggle');
+            
+            monthlyBtn.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+            monthlyBtn.classList.add('bg-black/10', 'text-black', 'dark:bg-white/10', 'dark:text-white');
+            threeMonthBtn.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+            threeMonthBtn.classList.add('bg-black/10', 'text-black', 'dark:bg-white/10', 'dark:text-white');
+            twelveMonthBtn.classList.remove('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+            twelveMonthBtn.classList.add('bg-black/10', 'text-black', 'dark:bg-white/10', 'dark:text-white');
+
+            if (plan === 'monthly') {
+                monthlyBtn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+                monthlyBtn.classList.remove('bg-black/10', 'text-black', 'dark:bg-white/10', 'dark:text-white');
+            } else if (plan === '3month') {
+                threeMonthBtn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+                threeMonthBtn.classList.remove('bg-black/10', 'text-black', 'dark:bg-white/10', 'dark:text-white');
+            } else if (plan === '12month') {
+                twelveMonthBtn.classList.add('bg-black', 'text-white', 'dark:bg-white', 'dark:text-black');
+                twelveMonthBtn.classList.remove('bg-black/10', 'text-black', 'dark:bg-white/10', 'dark:text-white');
+            }
+
+            priceEl.innerHTML = `$${planData[selectedPlan].price.toFixed(2)}<span class="text-base font-normal muted">/${planData[selectedPlan].duration}</span>`;
+            premiumLink.href = planData[selectedPlan].link;
+            
+            // Update credit payment option
+            updateCreditPaymentButton();
+        }
+
+        // Theme functionality
+        function initTheme() {
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const themeIcon = document.getElementById('theme-icon');
+            if (theme === 'dark') {
+                themeIcon.innerHTML = `<path d="M12 2a10 10 0 0 0 9.8 12.5A6 6 0 0 1 12 18a6 6 0 0 1-9.8-3.5A10 10 0 0 0 12 2zM3.2 12A8 8 0 0 0 12 20a8 8 0 0 0 8.8-8A8 8 0 0 1 12 4a8 8 0 0 1-8.8 8z" fill="currentColor"></path>`;
+            } else {
+                themeIcon.innerHTML = `<path d="M12 2a10 10 0 0 0-9.8 12.5A6 6 0 0 1 12 18a6 6 0 0 1 9.8-3.5A10 10 0 0 0 12 2zm0 16a8 8 0 0 1-5.7-2.3 8 8 0 0 1 11.4 0A8 8 0 0 1 12 18z" fill="currentColor"></path>`;
+            }
+        }
+        
+        // Initialize the page when loaded
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            updatePlanSelection(selectedPlan);
+            loadingState.style.display = 'flex';
+            subscriptionPlansSection.style.display = 'none';
+            initSupabase();
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            document.getElementById('monthly-toggle').addEventListener('click', () => updatePlanSelection('monthly'));
+            document.getElementById('3month-toggle').addEventListener('click', () => updatePlanSelection('3month'));
+            document.getElementById('12month-toggle').addEventListener('click', () => updatePlanSelection('12month'));
+            cancelBtn.addEventListener('click', cancelSubscription);
+            payWithCreditBtn.addEventListener('click', payWithCredit);
+            miniLoginButton.addEventListener('click', handleMiniLogin);
+            
+            // Add enter key support for mini login form
+            miniLoginPassword.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleMiniLogin();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
